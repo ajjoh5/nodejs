@@ -1,0 +1,17 @@
+{
+  "name": "HapiViews",
+  "version": "1.0.0",
+  "description": "Hapi Views Test App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^3.0.3",
+    "handlebars-layouts": "^3.0.0",
+    "hapi": "^8.6.1",
+    "jade": "^1.11.0"
+  }
+}

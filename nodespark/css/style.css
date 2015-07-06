@@ -1,0 +1,31 @@
+.navbar-pomegranate
+{
+    background-color: #CF000F;
+    min-height: 80px;
+    padding-top: 10px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.navbar-pomegranate .navbar-nav > li > a
+{
+    color: white;
+    font-size: 1.2em;
+}
+
+.navbar-pomegranate .navbar-nav > li > a:hover
+{
+    color: #F5D76E;
+}
+
+.navbar-pomegranate a.navbar-brand
+{
+    color: white;
+    letter-spacing: 1px;
+    font-size: 2em;
+    margin-top: -2px;
+}
+
+.navbar-pomegranate a.navbar-brand:hover
+{
+    color: #F5D76E;
+}

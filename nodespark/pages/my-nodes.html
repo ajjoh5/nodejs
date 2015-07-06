@@ -1,0 +1,39 @@
+<span ng-cloak>My Nodez: {{ message }}</span><br/>
+<p>Home stuff</p>
+
+<p>
+    Tree: {{ jsonTreeS }}
+</p>
+
+<style>
+
+ul.jsontree li
+{
+    list-style: none;
+}
+
+</style>
+
+<ul id="simpleTreeContainer" class="jsontree">
+    <li ng-repeat="t in jsonTree">
+        {{ t.title }}
+        <ul ng-if="t.items">
+            <li ng-repeat="t in t.items">
+                {{ t.title }}
+                <ul ng-if="t.items">
+                    <li ng-repeat="t in t.items">
+                        {{ t.title }}
+                        <ul ng-if="t.items">
+                            <li ng-repeat="t in t.items">
+                                {{ t.title }}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<!-- JsonTree Object Setup -->
+<script></script>
