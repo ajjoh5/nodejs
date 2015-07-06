@@ -1,0 +1,114 @@
+.navbar-firenode
+{
+    background-color: #2C3E50;
+    min-height: 100px;
+    padding-top: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    border-bottom: 1px solid #324457;
+    margin-left: -1px;
+}
+
+.navbar-firenode-left
+{
+    background-color: #2C3E50;
+    /*min-height: 100px;*/
+    padding-top: 10px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.navbar-firenode-left .nav-logo
+{
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 60px;
+}
+
+
+body
+{
+    /*background-color: #1A2732;*/
+    /*background-color: #0C2032;*/
+    background: url('images/pixelart-1.png') no-repeat scroll 0px 0px;
+    background-color: #0D1F31;
+}
+
+#main
+{
+    padding: 5px;
+    margin-top: 10px;
+    color: #d8d8d8;
+}
+
+h1, h2, h3, h4, p
+{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+
+.navbar-firenode-left .navmenu-nav > li > a
+{
+    color: #D8D8D8;
+    font-size: 1.2em;
+    min-height: 70px;
+    padding-top: 21px;
+    padding-left: 50px;
+    margin-bottom: 10px;
+}
+
+.navbar-firenode-left .navmenu-nav > li.active
+{
+    background-color: #0C2032;
+    border-right: 15px solid #C0392A;
+}
+
+.navmenu-nav i
+{
+    margin-right: 20px;
+}
+
+.navbar-firenode-left .navmenu-nav > li > a:hover
+{
+    color: white;
+    text-decoration: none;
+    background-color: #0C2032;
+}
+
+.navbar-firenode a.navbar-brand
+{
+    color: white;
+    letter-spacing: 1px;
+    font-size: 2em;
+    margin-top: 2px;
+    margin-left: 15px;
+}
+
+.navbar-firenode a.navbar-brand:hover
+{
+    color: #F5D76E;
+}
+
+.navbar-firenode .navbar-menu
+{
+    margin-left: 30px;
+    margin-top: 25px;
+    float: left;
+}
+
+.navbar-right
+{
+    margin-top: -8px;
+    margin-bottom: 0px;
+    margin-right: 7px;
+}
+
+.navbar-right > li > a
+{
+    color: #D8D8D8;
+    font-size: 1.2em;
+}
+
+.navbar-right > li > a:hover
+{
+    color: white;
+    background-color: transparent;
+}

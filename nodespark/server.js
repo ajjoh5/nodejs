@@ -19,12 +19,36 @@ server.views({
         html: handlebars
     },
     path: Path.join(__dirname, 'views'),
-    partialsPath: Path.join(__dirname, 'views/partials')
+    partialsPath: Path.join(__dirname, 'templates/partials')
 });
 
 server.route({
     method: 'GET',
-    path: '/my-nodes/',
+    path: '/{route*}',
+    handler: function (request, reply)
+    {
+        var appName = 'home';
+
+        if(request.params.route)
+        {
+            var routeList = request.params.route.split('/');
+            appName = routeList[0];
+        }
+
+        console.log('Serving AppName: ' + appName);
+
+
+        reply.view(appName,
+        {
+            title: 'NodeFire.io',
+            appTitle : 'NodeFire.io | My Nodes'
+        });
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/my-nodes',
     handler: function (request, reply)
     {
         reply.view('mynodes',
