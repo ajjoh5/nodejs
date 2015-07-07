@@ -41,7 +41,7 @@ server.route({
         reply.view(appName,
         {
             title: 'NodeFire.io',
-            appTitle : 'NodeFire.io | My Nodes'
+            appTitle : 'NodeFire.io | Home'
         });
     }
 });

@@ -26,9 +26,7 @@
 
 body
 {
-    /*background-color: #1A2732;*/
-    /*background-color: #0C2032;*/
-    background: url('images/pixelart-1.png') no-repeat scroll 0px 0px;
+    background: url('../images/pixelart-1.png') no-repeat scroll 0px 0px;
     background-color: #0D1F31;
 }
 
