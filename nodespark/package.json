@@ -12,6 +12,7 @@
     "handlebars": "^3.0.3",
     "handlebars-layouts": "^3.0.0",
     "hapi": "^8.6.1",
-    "jade": "^1.11.0"
+    "jade": "^1.11.0",
+    "underscore": "^1.8.3"
   }
 }
