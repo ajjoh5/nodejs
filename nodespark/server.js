@@ -9,8 +9,7 @@ var handlebars = require('handlebars');
 var layouts = require('handlebars-layouts');
 layouts.register(handlebars);
 
-var config =
-{
+var config = {
     routes : [
         {
             url : 'henleyjobs',
@@ -47,12 +46,10 @@ server.views({
 server.route({
     method: 'GET',
     path: '/{route*}',
-    handler: function (request, reply)
-    {
+    handler: function (request, reply) {
         var appName = 'home';
 
-        if(request.params.route)
-        {
+        if (request.params.route) {
             var routeList = request.params.route.split('/');
             appName = routeList[0];
         }
@@ -60,10 +57,8 @@ server.route({
         console.log('Serving AppName: ' + appName);
 
 
-        reply.view(appName,
-        {
-            title: 'NodeFire.io',
-            appTitle : 'NodeFire.io | Home'
+        reply.view(appName, {
+            title: 'NodeFire.io', appTitle : 'NodeFire.io | Home'
         });
     }
 });

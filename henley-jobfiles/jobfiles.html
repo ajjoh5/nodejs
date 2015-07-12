@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <title>Document Retrieval</title>
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" />
+	<style>
+    .formContainer {
+        background: none repeat scroll 0 0 #F2F4F7;
+        border-color: #545454;
+        border-left: 1px solid #545454;
+        border-right: 1px solid #545454;
+        border-style: solid;
+        border-width: 1px;
+        padding: 6px 4px 5px 5px;
+        width: 500px;
+    }
+    
+    .header {
+        background-color: #7288AC;
+        color: White;
+        font-size: 16pt;
+        font-weight: bold;
+        height: 35px;
+        padding: 10px;
+        text-align: center;
+    }
+    
+    table {
+        font-family: Arial,Helvetica,sans-serif;
+        font-size: 10pt;
+    }
+    
+    .footer {
+        background-color: #7288AC;
+        color: White;
+        font-size: 8pt;
+        height: 20px;
+        text-align: center;
+    }
+    
+    .mainCell
+    {
+        padding: 20px 50px 20px 50px;
+    }
+    </style>
+</head>
+<body>
+<form id="frmSearchCategories" method="post">
+<input id="doctype_1" type="hidden" name="OBKey_DocType_1" value="" />
+<input id="doctype_2" type="hidden" name="OBKey_DocType2_1" value="" />
+<input id="doctype_3" type="hidden" name="OBKey_DocType3_1" value="" />
+<table cellspacing="0" cellpadding="0" class="formContainer" id="container">
+	<tbody>
+		<tr>
+			<td style="color: White; font-size: 16pt; font-weight: bold;" class="header" id="header">
+				Document Search
+			</td>
+		</tr>
+		<tr>
+			<td class="mainCell">
+				Please start typing in the job address and select from the list or enter the Job # directly...<br/>
+				<br/>	
+                Address<br/>
+                <input id="txtAddress" name="txtAddress" disabled="disabled" placeholder="Loading..." style="height: 45px;width: 374px;padding: 10px;border: 2px solid #ccc;color: #333;font-family: Verdana;font-size: 1.2em;"/>
+				<br/>Job #<br/>		
+				<input id="txtJobNumber" name="OBKey_Job_#_1" style="height: 45px;width: 374px;padding: 10px;border: 2px solid #ccc;color: #333;font-family: Verdana;font-size: 1.2em;"/>
+				<br/><br/>
+				<select id="ddlCategory_1" disabled="disabled" style="height: 55px;width: 374px;padding: 10px;border: 2px solid #ccc;color: #333;font-family: Verdana;font-size: 1.3em;">
+					<option>
+					loading...
+					</option>
+				</select>
+				<br/><br/>
+				<select id="ddlCategory_2" disabled="disabled" style="height: 55px;width: 374px;padding: 10px;border: 2px solid #ccc;color: #333;font-family: Verdana;font-size: 1.3em;"></select>
+				<br/><br/>
+				<select id="ddlCategory_3" disabled="disabled" style="height: 55px;width: 374px;padding: 10px;border: 2px solid #ccc;color: #333;font-family: Verdana;font-size: 1.3em;"></select>
+
+				<div id="output"></div>
+                <div id="jsonresults"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="mainCell" id="buttons">
+				<input type="submit" value="Search" name="OBBtn_Yes" class="button">
+				<input type="submit" value="Cancel" name="OBBtn_No" class="button">&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td class="footer" id="footer">
+				Henley
+			
+				Arch Pty Ltd</td>
+		</tr>
+	</tbody>
+</table>
+</form>
+<script type="text/javascript">
+
+	$(document).ready(function()
+	{
+		GetAJAX(0, $('#ddlCategory_1'));
+	
+		$('#ddlCategory_1').change(function()
+		{
+			var parentCategoryID = $(this).find('option:selected').val();
+			var selectedValue = $(this).find('option:selected').text();
+			if(selectedValue == "-- Please Select --")
+			{
+				selectedValue = "";
+			}
+			
+			$('#doctype_1').val(selectedValue);
+			$('#doctype_2').val('');
+			$('#doctype_3').val('');
+			
+			$('#ddlCategory_2').html('').attr('disabled', 'disabled');
+			$('#ddlCategory_3').html('').attr('disabled', 'disabled');
+				
+			if(parentCategoryID != "")
+			{
+				$('#ddlCategory_2').append('<option>loading...</option>');
+				GetAJAX(parentCategoryID, $('#ddlCategory_2'));
+			}
+		});
+		
+		$('#ddlCategory_2').change(function()
+		{
+			var parentCategoryID = $(this).find('option:selected').val();
+			var selectedValue = $(this).find('option:selected').text();
+			if(selectedValue == "-- Please Select --")
+			{
+				selectedValue = "";
+			}
+			
+			$('#doctype_2').val(selectedValue);
+			$('#doctype_3').val('');
+			
+			$('#ddlCategory_3').html('').attr('disabled', 'disabled');
+			
+			if(parentCategoryID != "")
+			{
+				$('#ddlCategory_3').append('<option>loading...</option>');
+				GetAJAX(parentCategoryID, $('#ddlCategory_3'));
+			}
+		});
+		
+		$('#ddlCategory_3').change(function()
+		{
+			var selectedValue = $(this).find('option:selected').text();
+			if(selectedValue == "-- Please Select --")
+			{
+				selectedValue = "";
+			}
+			
+			$('#doctype_3').val(selectedValue);
+		});
+		
+		function GetAJAX(parentCategoryID, ddlCategoryControl)
+		{
+			jQuery.support.cors = true;
+			
+			$.ajax({
+				type: 'GET',
+				url: 'http://webapi.henley.com.au/OnbaseDocuments/GetDocumentCategories?parentCategory=' + parentCategoryID,
+				dataType: 'json',
+				success: function (data) {
+					//alert("Success");
+					var length = data.length;
+					var element = null;
+					ddlCategoryControl.html(''); 
+					
+					for (var i = 0; i < length; i++) 
+					{
+						var element = data[i];
+						var newOption = ddlCategoryControl.append('<option value="' + element.Key + '">' + element.Value + '</option>');
+					}
+					
+					if(length > 0)
+					{ 
+						ddlCategoryControl.removeAttr('disabled'); 
+						ddlCategoryControl.prepend('<option value="">-- Please Select --</option>');
+						ddlCategoryControl.prop('selectedIndex', 0);
+					}
+					else
+					{ ddlCategoryControl.attr('disabled', 'disabled'); }
+					
+					$('#output').html(data);
+				},
+				error: function (xhr, ajaxOptions, error) {
+					//alert("Fail");
+					alert(xhr.status);
+					alert('Error: ' + xhr.responseText);
+				}
+			});
+		}
+		
+		// get jobs
+//		var addresses = [{label: 'Lot 429 Street', value: '309182'}, {label: 'Lot 428 Street', value: '309182'}];
+//		$('#txtAddress').html('').attr('disabled', false);
+//		$('#txtAddress').html('').attr('placeholder', '');
+
+		var addresses = [];
+
+		jQuery.support.cors = true;
+		$.ajax({
+			type: 'GET',
+			url: 'http://uatwebapi.henley.com.au/picasso/GetJobAddresses?keytoken=68656e6c65792061646d696e20636f6d70616e792064617461&Company=vhe',
+			dataType: 'json',
+			success: function (data) {
+				// alert('success');
+				var jobs = data.ResponseJSON;
+				var length = jobs.length;
+				//console.log('number of jobs: ' + length);
+				for (var i = 0; i < length; i++) {
+					addresses.push({
+	            		label: jobs[i].JobAddress,
+	            		value: jobs[i].JobNumber
+	        		});
+				}
+				$('#txtAddress').html('').attr('disabled', false);
+				$('#txtAddress').html('').attr('placeholder', '');
+			},
+			error: function (xhr, ajaxOptions, error) {
+				alert(xhr.status);
+				alert('Error: ' + xhr.responseText);
+			}
+		});
+		
+		$("#txtAddress").autocomplete({
+			minLength: 4,
+			source: addresses,
+			search: function(event, ui) {
+				var address = $("#txtAddress").val().toLowerCase();
+				if (address.indexOf("lot") !=-1) {
+					if(address.length >= 6) {
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+				else
+				{ return true; }
+			},
+			select: function (event, ui) {
+				this.value = ui.item.label;
+				$('#txtJobNumber').val(ui.item.value);
+				return false;
+			}
+		});
+	});
+</script>
+
+</body>
+
+</html>
