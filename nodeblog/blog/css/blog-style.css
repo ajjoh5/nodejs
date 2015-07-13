@@ -143,6 +143,11 @@ h1
     color: #428bca;
 }
 
+.blog-article img.featuredImage
+{
+    border-radius: 2px;
+}
+
 
 .content h1
 {

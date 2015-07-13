@@ -67,6 +67,14 @@ server.route({
 
 server.route({
     method: 'GET',
+    path: '/shop',
+    handler: function (request, reply) {
+        reply.redirect('/shop/');
+    }
+});
+
+server.route({
+    method: 'GET',
     path: '/{app}/{route*}',
     handler: function (request, reply) {
 
@@ -143,6 +151,16 @@ server.route({
 
 
 /* ALL FILE ROUTES */
+
+server.route({
+    method: 'GET',
+    path: '/favicon.ico',
+    handler: {
+        file: function (request) {
+            return '/favicon.ico';
+        }
+    }
+});
 
 server.route({
     method: 'GET',

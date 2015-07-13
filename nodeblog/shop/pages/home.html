@@ -1,7 +1,24 @@
 <div>
-    <h1 ng-cloak>{{ title }}</h1>
+    <h1 ng-cloak class="text-center">{{ title }}</h1>
     <hr class="hr--small">
     <div class="content">
+        <div class="product" ng-repeat="p in products">
+            <div class="row">
 
+                <div class="col-md-8">
+                    <h1><a href="/product/{{ o.slug }}">{{ p.title }}</a></h1>
+                    <p class="author">by <a target="_self" href="/pages/about-me">{{ p.author }}</a>&nbsp;&nbsp;&nbsp;&nbsp;{{ publishDate }}</p>
+                    <p class="readMore">{{ p.readMore }}... <a href="/product/{{ b.slug }}">Read More</a></p>
+                </div>
+
+                <div class="col-md-4">
+                    <a href="/product/{{ p.slug }}">
+                        <img class="featuredImage" ng-cloak ng-src="{{ p.featuredImage }}" width="100%" />
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
     </div>
 </div>

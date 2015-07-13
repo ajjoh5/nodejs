@@ -65,7 +65,7 @@ body
 
 .container-sml
 {
-    max-width: 700px;
+    max-width: 900px;
     margin-top: 150px;
 }
 
@@ -96,7 +96,6 @@ h1, h2, h3, h4
     font-family: "Old Standard TT",sans-serif;
     color: #1c1d1d;
     -webkit-font-smoothing: antialiased;
-    text-align: center;
 }
 
 h1
@@ -111,9 +110,44 @@ h1
     text-transform: uppercase;
     color: #1c1d1d;
     -webkit-font-smoothing: antialiased;
-    text-align: center;
-    line-height: 5em;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
+
+.blog-article .author
+{
+    color: #888;
+}
+
+.blog-article
+{
+    margin-bottom: 50px;
+}
+
+.blog-article a{
+    text-decoration: none;
+    color: #1c1d1d;
+}
+
+.blog-article a:hover{
+    text-decoration: none;
+    color: #428bca;
+}
+
+.blog-article .readMore > a {
+    color: #428bca;
+}
+
+.blog-article .readMore > a:hover {
+    text-decoration: none;
+    color: #428bca;
+}
+
+.blog-article img.featuredImage
+{
+    border-radius: 2px;
+}
+
 
 .content h1
 {

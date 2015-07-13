@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- load bootstrap and fontawesome via CDN -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- Load jQuery -->
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <!-- load angular and angular route via CDN -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-animate.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400|Old Standard TT:400|Arapey:300' rel='stylesheet' type='text/css'>
+
+    <!-- LOAD - Custom Scripts -->
+    {{#block "header-scripts"}}
+    {{/block}}
+    <!-- END - Custom Scripts -->
+
+    <title>{{ pageTitle }}</title>
+</head>
+<body ng-app="app">
+
+    <header>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-minimal">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">{{brand}}</a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                {{#embed "shop-navbar-right"}}{{/embed}}
+            </ul>
+        </div>
+    </nav>
+    </header>
+
+    <!-- MAIN CONTENT AND INJECTED VIEWS -->
+    <div id="main" class="container container-sml">
+
+        <div class="view-slide-in" ng-view></div>
+
+    </div>
+
+    <!-- LOAD - Custom Scripts -->
+    {{#block "footer-scripts"}}
+    {{/block}}
+    <!-- END - Custom Scripts -->
+</body>
+</html>
