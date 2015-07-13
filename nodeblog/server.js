@@ -59,6 +59,14 @@ server.route({
 
 server.route({
     method: 'GET',
+    path: '/blog',
+    handler: function (request, reply) {
+        reply.redirect('/blog/');
+    }
+});
+
+server.route({
+    method: 'GET',
     path: '/{app}/{route*}',
     handler: function (request, reply) {
 
@@ -69,19 +77,20 @@ server.route({
             route : 'home'
         };
 
-        if (request.params['route']) {
+        if (request.params['app']) {
             //var routeList = request.params['route'].split('/');
             //console.log(routeList);
             //routeVars.route = routeList[1];
             routeVars.app = request.params['app'];
-            routeVars.route = request.params['route'];
+            if(request.params['route']) {
+                routeVars.route = request.params['route'];
+            }
         }
 
         console.log('Serving Route with Vars: ' + JSON.stringify(routeVars));
 
 
         reply.view(routeVars.app, {
-            app : 'pages',
             brand : 'Adam Johnstone',
             pageTitle : 'Adam Johnstone | A disruptive tech innovator, entrepreneur and business owner located in Melbourne, Australia. Coder age 13, and disruptive by nature.'
         });
