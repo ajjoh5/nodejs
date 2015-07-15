@@ -1,0 +1,61 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- load bootstrap and fontawesome via CDN -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- Load jQuery -->
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <!-- load angular and angular route via CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Palanquin:300|Ubuntu:300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
+
+    <!-- Angular JS / Spreadsheets -->
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="css/nodefire-style.css">
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>-->
+
+    <!-- Add in Left Menu Snap Component -->
+    <!--<script src="/js/snap/angular-snap.min.js"></script>
+    <script src="/js/snap/snap.min.js"></script>
+    <link rel="stylesheet" href="/js/snap/angular-snap.min.css">-->
+
+    <!-- add jasny bootstrap -->
+    <link rel="stylesheet" href="/js/jasnybs/jasny-bootstrap.min.css">
+    <script src="/js/jasnybs/jasny-bootstrap.min.js"></script>
+
+    <title>{{ appTitle }}</title>
+</head>
+<body ng-app="app">
+
+<!-- HEADER AND NAVBAR -->
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-pomegranate">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">
+                    <img src="http://icons.iconarchive.com/icons/ph03nyx/super-mario/256/Retro-Fire-Ball-icon.png"
+                         style="width: 32px; height: 32px; margin-top: -5px; margin-right: 3px;" />
+                    <!-- <span>emblaze.io</span> -->
+                    <!-- <span>nori.io</span> -->
+                    <span>{{title}}</span>
+                </a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <!-- navbar right partial -->
+
+            </ul>
+        </div>
+    </nav>
+</header>
+
+{{{ body }}}
+
+</body>
+</html>

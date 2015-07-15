@@ -1,0 +1,56 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- load bootstrap and fontawesome via CDN -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- Load jQuery -->
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <!-- add jasny bootstrap -->
+    <link rel="stylesheet" href="/js/jasnybs/jasny-bootstrap.min.css">
+    <script src="/js/jasnybs/jasny-bootstrap.min.js"></script>
+
+    <!-- load angular and angular route via CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Palanquin:300|Ubuntu:300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
+
+    <!-- Angular JS / Spreadsheets -->
+    <script src="{{spa.id}}/app.js"></script>
+    <link rel="stylesheet" href="{{spa.id}}/css/cronjobs-style.css">
+    <title>{{ appTitle }}</title>
+
+    {{{block "header-scripts"}}}
+
+</head>
+<body ng-app="app">
+
+<!-- HEADER AND NAVBAR -->
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">
+                    <img src="http://2.bp.blogspot.com/-4RH6yfq_BVc/UXEIhkQcAtI/AAAAAAAAGOA/1FjtsdagIv0/s400/minecraft-pixel-art-batman.png"
+                         style="width: 32px; height: 32px; margin-top: -5px; margin-right: 3px;" />
+                    <span>{{title}}</span>
+                </a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                 <li><a href="/logout">Maddie Sellers&nbsp;&nbsp;<img src="{{spa.id}}/images/circle_profile_sml.png" height="65" /></a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+{{{ body }}}
+
+{{{block "footer-scripts"}}}
+
+</body>
+</html>

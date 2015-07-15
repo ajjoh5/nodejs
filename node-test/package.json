@@ -9,10 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cron": "^1.0.9",
-    "hapi": "^8.8.0",
-    "hotswap": "^1.1.0",
-    "liveswap": "^0.4.3",
-    "schedule": "^0.1.0"
+    "express": "^4.13.1",
+    "express-handlebars": "^2.0.1"
   }
 }
