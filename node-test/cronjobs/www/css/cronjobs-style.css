@@ -1,13 +1,18 @@
+*
+{
+    -webkit-font-smoothing: antialiased;
+}
+
 body
 {
-    background-color: #0D1F31;
+    background-color: #eee;
 }
 
 #main
 {
     padding: 5px;
     margin-top: 10px;
-    color: #d8d8d8;
+    /*color: #d8d8d8;*/
 }
 
 h1, h2, h3, h4, p
@@ -19,18 +24,18 @@ h1, h2, h3, h4, p
     background-color: #eee;
 }
 
-a.navbar-brand
+.navbar-default a.navbar-brand
 {
-    color: white;
+    color: #5cb85c;
     letter-spacing: 1px;
     font-size: 2em;
     margin-top: 15px;
     margin-left: 15px;
 }
 
-a.navbar-brand:hover
+.navbar-default a.navbar-brand:hover
 {
-    color: #F5D76E;
+    color: #4cae4c;
 }
 
 .navbar-right

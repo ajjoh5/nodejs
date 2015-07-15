@@ -27,7 +27,7 @@ angular.module('app.controllers', [])
 
     .controller('homeController', function($scope) {
 
-        $scope.message = 'NodeFire.io';
+        $scope.message = 'NodeJobs.UI';
 
     })
 
