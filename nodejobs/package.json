@@ -13,6 +13,9 @@
     "hapi": "^8.8.0",
     "hotswap": "^1.1.0",
     "liveswap": "^0.4.3",
-    "schedule": "^0.1.0"
+    "q": "^1.4.1",
+    "schedule": "^0.1.0",
+    "shortid": "^2.2.2",
+    "underscore": "^1.8.3"
   }
 }
