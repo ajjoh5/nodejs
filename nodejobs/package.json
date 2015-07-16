@@ -14,8 +14,10 @@
     "hotswap": "^1.1.0",
     "liveswap": "^0.4.3",
     "q": "^1.4.1",
+    "request": "^2.58.0",
     "schedule": "^0.1.0",
     "shortid": "^2.2.2",
+    "tough-cookie": "^2.0.0",
     "underscore": "^1.8.3"
   }
 }
