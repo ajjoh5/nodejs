@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var exphbs = require('express-handlebars');
+var Pages = require('./pages/pages.js');
 
 //Create & Configure express app
 var app = express();
@@ -40,10 +41,16 @@ function removeLastSlash (myUrl)
     return myUrl;
 }
 
-var spa = {
-    id : 'blog',
-    filepath : __dirname + '/blog'
-}
+//var spa = {
+//    id : 'pages',
+//    filepath : __dirname + '/pages',
+//    params : []
+//};
+
+//Static Routes for Files
+app.use('/css', express.static('www/css'));
+app.use('/js', express.static('www/js'));
+
 
 //app.get('/api/?*', function (req, res) {
 //    //console.log(req.path);
@@ -55,21 +62,30 @@ var spa = {
 //});
 
 app.get('/', function(req, res) {
-    //var params = removeLastSlash(req.params[0]).split('/');
 
-    console.log('yep home');
+    var p = new Pages();
 
-    res.render(spa.filepath + '/home', {
-        layout : spa.filepath + '/layouts/blog',
-        spa: spa,
-        title: 'NodeJobs.UI',
-        brand: 'NodeBlog'
-    });
+    res.render(p.viewFile, p.viewParams);
 });
 
-//Static Routes for Files
-app.use('/blog', express.static('blog/www'));
-app.use('/js', express.static('www/js'));
+//app.get('/?*', function(req, res) {
+//    var params = removeLastSlash(req.params[0]).split('/');
+//    console.log(params);
+//
+//    spa.id = params[0];
+//    spa.filepath = __dirname + "/" + params[0];
+//
+//    var viewParams = {
+//        layout : spa.filepath + '/layouts/default',
+//        spa: spa,
+//        title: 'About Me',
+//        brand: 'Adam Johnstone'
+//    };
+//
+//    var view = spa.filepath + '/' + params[1];
+//
+//    res.render(view, viewParams);
+//});
 
 app.listen(3001, function() {
     console.log('Server running at: 3001');
