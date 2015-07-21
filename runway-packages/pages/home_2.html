@@ -1,0 +1,190 @@
+<style>
+    body{
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.6em;
+        font-size: 75%;
+    }
+
+    .tablePackages th:nth-child(1) {
+        width: 80px;
+    }
+    .tablePackages th:nth-child(2) {
+        width: 130px;
+    }
+    .tablePackages th:nth-child(3) {
+         width: 160px;
+     }
+    .tablePackages th:nth-child(5) {
+        width: 70px;
+    }
+    .tablePackages th:nth-child(4), .tablePackages th:nth-child(6) {
+        width: 95px;
+    }
+
+    .rowRegion {
+        background-color: #3d4b56;
+        color: #fff;
+        padding: 7px 5px;
+        font-size: 1.1em;
+    }
+
+    .rowCity {
+        background-color: #3D6280;
+        color: #fff;
+        padding: 7px 5px;
+        font-size: 1.1em;
+        margin: 1px 0px;
+    }
+
+    .rowCity:hover {
+        background-color: #337CB8;
+        cursor:pointer;
+    }
+
+    .tablePackages {
+        width: 100%;
+    }
+
+    .tablePackages tr th {
+        background-color: #ece4db;
+        border-color: #dbd4cc;
+        border-style: solid;
+        border-width: 0 0 1px;
+        color: #343434;
+        padding: 5px 5px;
+        text-transform: uppercase;
+        text-align: left;
+        font-weight: normal;
+    }
+
+    .tablePackages tr td {
+        background-color: #fcf7f2;
+        padding: 5px 5px;
+    }
+
+    .tablePackages tr:hover td {
+        /*cursor:pointer;*/
+        background-color: #dad2cb;
+    }
+
+    .icon-bed {
+        background: url('http://www.mainvuehomes.com.au/MainVue/media/MainVue/CSSImages/icon-sprite.png') no-repeat scroll transparent right 5px;
+        width: 18px;
+        height: 14px;
+        display: inline-block;
+    }
+
+    .icon-bath {
+        background: url('http://www.mainvuehomes.com.au/MainVue/media/MainVue/CSSImages/icon-sprite.png') no-repeat scroll transparent right -15px;
+        width: 18px;
+        height: 14px;
+        display: inline-block;
+    }
+
+    .icon-garage {
+        background: url('http://www.mainvuehomes.com.au/MainVue/media/MainVue/CSSImages/icon-sprite.png') no-repeat scroll transparent right -34px;
+        width: 18px;
+        height: 14px;
+        display: inline-block;
+    }
+
+</style>
+
+<div>
+
+    <h1>Regions Table</h1>
+    <div ng-repeat="r in mpRegionList">
+        <div class="rowRegion">{{ r.Region }}</div>
+        <div ng-repeat="c in r.CityList">
+            <div class="rowCity" ng-click="showPackages = !showPackages">{{ c.City }} ({{ c.Counter }}) - from {{ (c.LowestPrice | currency).slice(0, -3) }}</div>
+            <table class="tablePackages tbl-{{c.City}}" ng-show="showPackages" cellspacing="0" cellpadding="0">
+                <tr>
+                    <!--<th>PackageID</th>-->
+                    <!--<th>City</th>-->
+                    <!--<th>Region</th>-->
+                    <!--<th>Estate</th>-->
+                    <th>Lot</th>
+                    <th>House Name</th>
+                    <th style="text-align: center;">Home Details</th>
+                    <th>Home Size</th>
+                    <th>Lot Width</th>
+                    <!--<th>Land Size</th>-->
+                    <th style="text-align: center;">Price</th>
+                    <!--<th>Home Area</th>-->
+                    <!--<th>Storeys</th>-->
+                    <!--<th>Bedrooms</th>-->
+                    <!--<th>Bathrooms</th>-->
+                    <!--<th>Car Parks</th>-->
+                    <th style="text-align: center;">PDF</th>
+                </tr>
+                <tr ng-cloak ng-repeat="p in c.Packages">
+                    <!--<td> {{ p.PackageID }} </td>-->
+                    <!--<td> {{ p.City }} </td>-->
+                    <!--<td> {{ p.Region }} </td>-->
+                    <!--<td> {{ p.Estate }} </td>-->
+                    <td> Lot {{ p.Lot }} </td>
+                    <td> {{ p.Home }} </td>
+                    <td style="text-align: center;"><i class="icon-bed"></i>&nbsp;{{ p.Bedrooms }}&nbsp;&nbsp;&nbsp;<i class="icon-bath"></i>&nbsp;{{ p.Bathrooms }}&nbsp;&nbsp;&nbsp;<i class="icon-garage"></i>&nbsp;{{ p.CarParks }}</td>
+                    <td> {{ p.HomeSize }} sq </td>
+                    <td> {{ p.LotWidth }} </td>
+                    <!--<td> {{ p.LotArea }}m2 </td>-->
+                    <td style="text-align: center;"> {{ (p.HomePrice | currency).slice(0, -3) }} </td>
+                    <!--<td> {{ p.HomeArea }} </td>-->
+                    <!--<td> {{ p.Storeys }} </td>-->
+                    <!--<td> {{ p.Bedrooms }} </td>-->
+                    <!--<td> {{ p.Bathrooms }} </td>-->
+                    <!--<td> {{ p.CarParks }} </td>-->
+                    <td style="text-align: center;"><a ng-href="{{ p.PDFFile }}">Download</a></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <br/><br/>
+    <h1>Packages Table</h1>
+    <table>
+        <tr>
+            <th>PackageID</th>
+            <th>City</th>
+            <th>Region</th>
+            <th>Estate</th>
+            <th>Home</th>
+            <th>Lot</th>
+            <th>Lot Width</th>
+            <th>Lot Area</th>
+            <th>Home Price</th>
+            <th>Home Area</th>
+            <th>Home Size</th>
+            <th>Storeys</th>
+            <th>Bedrooms</th>
+            <th>Bathrooms</th>
+            <th>Car Parks</th>
+            <th>PDF File</th>
+        </tr>
+        <tr ng-cloak ng-repeat="p in mpData">
+            <td> {{ p.PackageID }} </td>
+            <td> {{ p.City }} </td>
+            <td> {{ p.Region }} </td>
+            <td> {{ p.Estate }} </td>
+            <td> {{ p.Home }} </td>
+            <td> {{ p.Lot }} </td>
+            <td> {{ p.LotWidth }} </td>
+            <td> {{ p.LotArea }} </td>
+            <td> {{ (p.HomePrice | currency).slice(0, -3) }} </td>
+            <td> {{ p.HomeArea }} </td>
+            <td> {{ p.HomeSize }} </td>
+            <td> {{ p.Storeys }} </td>
+            <td> {{ p.Bedrooms }} </td>
+            <td> {{ p.Bathrooms }} </td>
+            <td> {{ p.CarParks }} </td>
+            <td><a ng-href="{{ p.PDFFile }}">Download PDF</a></td>
+        </tr>
+    </table>
+
+    <pre>
+        {{ mpData }}
+    </pre>
+
+</div>
+

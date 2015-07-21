@@ -10,7 +10,7 @@ angular.module('app', ['ngRoute', 'underscore', 'app.controllers'])
 
             // route for the home page
             .when('/', {
-                templateUrl : 'pages/home.html',
+                templateUrl : 'pages/home_2.html',
                 controller  : 'homeController'
             });
 
@@ -26,6 +26,7 @@ angular.module('app.controllers', [])
 
         $scope.mpData = [];
         $scope.mpCityList = [];
+        $scope.mpRegionList = [];
         $scope.firstRow = {};
         $scope.title = 'Browse House and Land Packages';
 
@@ -35,25 +36,77 @@ angular.module('app.controllers', [])
                 success(function (cPackages) {
                     _.each(cPackages, function(item) {
 
-                        var cityItem = _.find($scope.mpCityList, function(cItem) {
+                        //Find if city is currently not in the list
+                        //var cityItem = _.find($scope.mpCityList, function(cItem) {
+                        //    return cItem.City === item.City;
+                        //});
+
+                        //Find if region is currently not in the list
+                        var regionItem = _.find($scope.mpRegionList, function(rItem) {
+                            return rItem.Region === item.Region;
+                        });
+
+                        //If city is not in list - add it!
+                        //if(!cityItem) {
+                        //    cityItem = {
+                        //        Region: item.City,
+                        //        Packages: []
+                        //    };
+                        //
+                        //    $scope.mpCityList.push(cityItem);
+                        //}
+
+                        //If region is not in list - add it!
+                        if(!regionItem) {
+                            regionItem = {
+                                Region: item.Region,
+                                CityList : []
+                            };
+
+                            $scope.mpRegionList.push(regionItem);
+                        }
+
+                        var cityItem = _.find(regionItem.CityList, function(cItem) {
                             return cItem.City === item.City;
                         });
 
-                        if(!cityItem) {
+                        if(!cityItem)
+                        {
                             cityItem = {
-                                City: item.City,
-                                Packages: []
+                                City : item.City,
+                                Counter : 0,
+                                LowestPrice : 10000000,
+                                Packages : []
                             };
 
-                            $scope.mpCityList.push(cityItem);
+                            regionItem.CityList.push(cityItem);
                         }
 
                         //Push the package into the cityItem
+                        //cityItem.Packages.push(item);
+
+                        //Push the package into the cityItem
+                        //regionItem.Packages.push(item);
                         cityItem.Packages.push(item);
+                        cityItem.Counter++;
 
-
+                        console.log(item.HomePrice);
+                        console.log(cityItem.LowestPrice);
+                        if(cityItem.LowestPrice > item.HomePrice)
+                        {
+                            console.log('Not lower');
+                            cityItem.LowestPrice = item.HomePrice;
+                        }
                     })
-                    $scope.mpData = cPackages;
+
+                    _.each($scope.mpRegionList, function(region) {
+                        _.each(region.CityList, function(city) {
+                            city.Packages = _.sortBy(city.Packages, 'Estate');
+                        });
+                    });
+
+                    //$scope.mpData = cPackages;
+                    $scope.mpData = JSON.stringify($scope.mpRegionList);
                 }).
                 error(function (sPackages, status, headers, config) {
                     alert('Error occurred retrieving "Search" Runway Packages cache');
@@ -102,6 +155,8 @@ angular.module('app.controllers', [])
                                         CarParks : sHomePackage.CarParks ? sHomePackage.CarParks : '',
                                         PDFFile : item.PropertyPDFURL
                                     };
+
+                                    console.log('jsonfiles/' + item.PackageID + '.json');
 
                                     //Get Extended package information on package
                                     $http.get('jsonfiles/' + item.PackageID + '.json').
