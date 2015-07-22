@@ -173,3 +173,8 @@ hr
     clear: both;
     border-top: solid #1c1d1d;
 }
+
+.view-slide-in {
+    opacity: 0.2;
+    position: relative;
+}
