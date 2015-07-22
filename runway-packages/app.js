@@ -30,82 +30,76 @@ angular.module('app.controllers', [])
         $scope.firstRow = {};
         $scope.title = 'Browse House and Land Packages';
 
+        $scope.getGUID = function()
+        {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                s4() + '-' + s4() + s4() + s4();
+        };
+
         $scope.getCompiledPackages = function()
         {
             $http.get('jsonfiles/CompiledPackages.json').
                 success(function (cPackages) {
                     _.each(cPackages, function(item) {
 
-                        //Find if city is currently not in the list
-                        //var cityItem = _.find($scope.mpCityList, function(cItem) {
-                        //    return cItem.City === item.City;
-                        //});
-
                         //Find if region is currently not in the list
                         var regionItem = _.find($scope.mpRegionList, function(rItem) {
                             return rItem.Region === item.Region;
                         });
 
-                        //If city is not in list - add it!
-                        //if(!cityItem) {
-                        //    cityItem = {
-                        //        Region: item.City,
-                        //        Packages: []
-                        //    };
-                        //
-                        //    $scope.mpCityList.push(cityItem);
-                        //}
-
                         //If region is not in list - add it!
                         if(!regionItem) {
                             regionItem = {
+                                id : $scope.getGUID(),
                                 Region: item.Region,
-                                CityList : []
+                                EstateList : []
                             };
 
                             $scope.mpRegionList.push(regionItem);
                         }
 
-                        var cityItem = _.find(regionItem.CityList, function(cItem) {
-                            return cItem.City === item.City;
+                        var estateItem = _.find(regionItem.EstateList, function(eItem) {
+                            return eItem.Estate === item.Estate;
                         });
 
-                        if(!cityItem)
+                        if(!estateItem)
                         {
-                            cityItem = {
+                            estateItem = {
+                                id : $scope.getGUID(),
+                                Estate: item.Estate,
                                 City : item.City,
                                 Counter : 0,
                                 LowestPrice : 10000000,
                                 Packages : []
                             };
 
-                            regionItem.CityList.push(cityItem);
+                            regionItem.EstateList.push(estateItem);
                         }
 
-                        //Push the package into the cityItem
-                        //cityItem.Packages.push(item);
+                        estateItem.Packages.push(item);
+                        estateItem.Counter++;
 
-                        //Push the package into the cityItem
-                        //regionItem.Packages.push(item);
-                        cityItem.Packages.push(item);
-                        cityItem.Counter++;
-
-                        console.log(item.HomePrice);
-                        console.log(cityItem.LowestPrice);
-                        if(cityItem.LowestPrice > item.HomePrice)
+                        if(estateItem.LowestPrice > item.HomePrice)
                         {
-                            console.log('Not lower');
-                            cityItem.LowestPrice = item.HomePrice;
+                            estateItem.LowestPrice = item.HomePrice;
                         }
-                    })
-
-                    _.each($scope.mpRegionList, function(region) {
-                        _.each(region.CityList, function(city) {
-                            city.Packages = _.sortBy(city.Packages, 'Estate');
-                        });
                     });
 
-                    //$scope.mpData = cPackages;
+                    _.each($scope.mpRegionList, function(region) {
+
+                        region.EstateList = _.sortBy(region.EstateList, 'City');
+
+                        //_.each(region.EstateList, function(eItem) {
+                        //    //console.log(eItem.Estate);
+                        //    eItem.Packages = _.sortBy(eItem.Packages, 'Estate');
+                        //});
+                    });
+
                     $scope.mpData = JSON.stringify($scope.mpRegionList);
                 }).
                 error(function (sPackages, status, headers, config) {
