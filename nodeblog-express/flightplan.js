@@ -56,7 +56,7 @@ plan.remote(function(remote) {
     //remote.log('Restart PM2 Process');
     //remote.exec('pm2 reload ' + appName, {failsafe: true});
 
-    remote.log('Restart Forever');
+    remote.log('Restart PM2 Process');
     remote.exec('pm2 stop ' + appName, {failsafe: true});
     remote.exec('pm2 start ~/ ' + appName + '/' + startFile);
 });
