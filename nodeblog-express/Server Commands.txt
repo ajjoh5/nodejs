@@ -1,0 +1,5 @@
+Edit nGinx Hosts File
+nano /etc/nginx/sites-available/default
+
+Restart nGinx
+sudo service nginx restart
