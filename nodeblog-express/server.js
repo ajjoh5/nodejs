@@ -1,15 +1,24 @@
+//NodeJS Plugins
 var fs = require('fs');
 var path = require('path');
+
+//Express Plugins
 var express = require('express');
+var compress = require('compression');
 var exphbs = require('express-handlebars');
+
+//Other plugins
 var requestify = require('requestify');
 var bodyParser = require('body-parser');
 
+//App Custom Plugins
 var SPA = require('./SPA.js');
 var utilities = require('./utilities.js');
 
 //Create & Configure express app
 var app = express();
+app.use(compress());
+
 hbs = exphbs.create({
     extname:'handlebars',
     defaultLayout: 'layout',

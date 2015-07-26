@@ -1,0 +1,11 @@
+{
+    "apps" : [{
+    "name"        : "nodeblog-express",
+    "script"      : "server.js",
+    "args"        : ["-i", "0"],
+    "watch"       : false,
+    "node_args"   : "",
+    "merge_logs"  : false,
+    "cwd"         : "~/nodeblog-express"
+}]
+}

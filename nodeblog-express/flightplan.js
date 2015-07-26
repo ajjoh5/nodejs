@@ -3,6 +3,7 @@ var plan = require('flightplan');
 var appName = 'nodeblog-express';
 var username = 'root';
 var startFile = 'server.js';
+var pmSettingsFile = 'pm2settings.json';
 
 var tmpDir = appName + '-' + new Date().getTime();
 
@@ -56,7 +57,7 @@ plan.remote(function(remote) {
     //remote.log('Restart PM2 Process');
     //remote.exec('pm2 reload ' + appName, {failsafe: true});
 
-    remote.log('Restart Forever');
-    remote.exec('pm2 stop ' + appName, {failsafe: true});
-    remote.exec('pm2 start ~/ ' + appName + '/' + startFile);
+    remote.log('Restart PM2 Process');
+    remote.exec('pm2 stop ' + appName + '/' + pmSettingsFile, {failsafe: true});
+    remote.exec('pm2 start ' + appName + '/' + pmSettingsFile);
 });
