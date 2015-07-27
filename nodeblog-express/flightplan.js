@@ -1,7 +1,7 @@
 var plan = require('flightplan');
 
 var appName = 'nodeblog-express';
-var username = 'root';
+var username = 'www-node';
 var startFile = 'server.js';
 var pmSettingsFile = 'pm2settings.json';
 
