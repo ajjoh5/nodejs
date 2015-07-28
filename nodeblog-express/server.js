@@ -97,6 +97,10 @@ app.post('/mail/send', function(req, res) {
     });
 });
 
+app.get('/mu-eeb1fd94-84ab7240-46461b0f-c4b91a94', function(req, res) {
+
+    res.send('42');
+});
 
 app.get('/', function(req, res) {
 

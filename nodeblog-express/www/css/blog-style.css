@@ -173,3 +173,75 @@ hr
     clear: both;
     border-top: solid #1c1d1d;
 }
+
+
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .navbar-fixed-bottom, .navbar-fixed-top {
+        border-radius: 0;
+    }
+
+    .navbar-default .navbar-right > li > a {
+        font-size: 0.9em;
+    }
+
+    .navbar-minimal .navbar-brand {
+        font-size: 1.6em;
+    }
+
+    .content p, .content label {
+        font-size: 18px;
+    }
+
+    .content h1
+    {
+        font-size: 1.575em;
+    }
+
+    .content h2
+    {
+        font-size: 1.2625em;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .navbar-fixed-bottom, .navbar-fixed-top {
+        border-radius: 0;
+    }
+
+    .navbar-minimal .navbar-brand {
+        font-size: 1.5em;
+    }
+
+    .content p, .content label {
+        font-size: 18px;
+    }
+
+    .content h1
+    {
+        font-size: 1.475em;
+    }
+
+    .content h2
+    {
+        font-size: 1.1625em;
+    }
+
+    .navbar-right
+    {
+        margin-top: 24px;
+        margin-bottom: 24px;
+        font-size: 1.3em;
+        padding-left: 30px;
+    }
+
+    .navbar-default .navbar-right > li > a {
+        margin: 10px 0px;
+    }
+
+    .navbar-default .navbar-collapse
+    {
+        border: none;
+    }
+}
