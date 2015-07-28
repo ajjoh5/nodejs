@@ -182,7 +182,7 @@ hr
     }
 
     .navbar-default .navbar-right > li > a {
-        font-size: 0.9em;
+        font-size: 0.95em;
     }
 
     .navbar-minimal .navbar-brand {
@@ -204,10 +204,14 @@ hr
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 
     .navbar-fixed-bottom, .navbar-fixed-top {
         border-radius: 0;
+    }
+
+    .navbar-default .navbar-right > li > a {
+        font-size: 0.9em;
     }
 
     .navbar-minimal .navbar-brand {
@@ -226,6 +230,51 @@ hr
     .content h2
     {
         font-size: 1.1625em;
+    }
+
+    .navbar-right
+    {
+        margin-top: 24px;
+        margin-bottom: 24px;
+        font-size: 1.3em;
+        padding-left: 30px;
+    }
+
+    .navbar-default .navbar-right > li > a {
+        margin: 10px 0px;
+    }
+
+    .navbar-default .navbar-collapse
+    {
+        border: none;
+    }
+}
+
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px)
+{
+
+    .navbar-default .navbar-right > li > a {
+        font-size: 0.9em;
+    }
+
+    .navbar-minimal .navbar-brand {
+        font-size: 1.5em;
+    }
+
+    .content p, .content label {
+        font-size: 16px;
+    }
+
+    .content h1
+    {
+        font-size: 1.275em;
+    }
+
+    .content h2
+    {
+        font-size: 0.9625em;
     }
 
     .navbar-right
