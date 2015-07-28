@@ -254,6 +254,9 @@ hr
 and (min-device-width : 320px)
 and (max-device-width : 568px)
 {
+    .navbar-minimal {
+        background-color: #fbfbfb;
+    }
 
     .navbar-default .navbar-right > li > a {
         font-size: 0.9em;
