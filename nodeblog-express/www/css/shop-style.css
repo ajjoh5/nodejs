@@ -114,36 +114,37 @@ h1
     margin-bottom: 5px;
 }
 
-.blog-article .author
+.product h1 a
 {
-    color: #888;
+    border-left: 3px solid #1c1d1d;
+    padding-left: 10px;
 }
 
-.blog-article
+.product
 {
     margin-bottom: 50px;
 }
 
-.blog-article a{
+.product a{
     text-decoration: none;
     color: #1c1d1d;
 }
 
-.blog-article a:hover{
+.product a:hover{
     text-decoration: none;
     color: #428bca;
 }
 
-.blog-article .readMore > a {
+.product .readMore > a {
     color: #428bca;
 }
 
-.blog-article .readMore > a:hover {
+.product .readMore > a:hover {
     text-decoration: none;
     color: #428bca;
 }
 
-.blog-article img.featuredImage
+.product img.featuredImage
 {
     border-radius: 2px;
 }

@@ -237,12 +237,12 @@ and (max-device-width : 568px)
 
     .content h1
     {
-        font-size: 1.275em;
+        font-size: 1.475em;
     }
 
     .content h2
     {
-        font-size: 0.9625em;
+        font-size: 1.1625em;
     }
 
     .navbar-right
