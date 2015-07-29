@@ -74,6 +74,11 @@ body
     margin-top: 70px;
 }
 
+.content a
+{
+    font-weight: bold;
+}
+
 .content p, .content label
 {
     font-family: "Arapey",serif;
@@ -124,22 +129,22 @@ h1
     margin-bottom: 50px;
 }
 
-.blog-article a{
+.blog-article h1 > a{
     text-decoration: none;
+    font-weight: normal;
     color: #1c1d1d;
 }
 
-.blog-article a:hover{
+.blog-article h1 > a:hover{
     text-decoration: none;
     color: #428bca;
 }
 
-.blog-article .readMore > a {
+.blog-article .readMore > a, .blog-article .author > a {
     color: #428bca;
 }
 
-.blog-article .readMore > a:hover {
-    text-decoration: none;
+.blog-article .readMore > a:hover, .blog-article .author > a:hover {
     color: #428bca;
 }
 

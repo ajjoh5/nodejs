@@ -74,6 +74,11 @@ body
     margin-top: 70px;
 }
 
+.content a
+{
+    font-weight: bold;
+}
+
 .content p, .content label
 {
     font-family: "Arapey",serif;
@@ -119,22 +124,22 @@ h1
     margin-bottom: 50px;
 }
 
-.product a{
+.product h1 > a{
     text-decoration: none;
+    font-weight: normal;
     color: #1c1d1d;
 }
 
-.product a:hover{
+.product h1 > a:hover{
     text-decoration: none;
     color: #428bca;
 }
 
-.product .readMore > a {
+.product .readMore > a, .product .author > a {
     color: #428bca;
 }
 
-.product .readMore > a:hover {
-    text-decoration: none;
+.product .readMore > a:hover, .product .author > a:hover {
     color: #428bca;
 }
 

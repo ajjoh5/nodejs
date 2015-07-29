@@ -73,6 +73,11 @@ body
     margin-top: 70px;
 }
 
+.content a
+{
+    font-weight: bold;
+}
+
 .content p, .content label
 {
     font-family: "Arapey",serif;
