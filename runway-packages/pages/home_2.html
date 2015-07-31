@@ -51,11 +51,47 @@
         background-color: #dad2cb;
     }
 
-    .tableEstates th:nth-child(1), .tableEstates td:nth-child(1) {
+    /*.tableEstates th:nth-child(1), .tableEstates td:nth-child(1) {*/
+        /*width: 100px;*/
+    /*}*/
+    /*.tableEstates th:nth-child(2), .tableEstates td:nth-child(2) {*/
+        /*width: 300px;*/
+    /*}*/
+
+    .tableEstates tr th:nth-child(1) {
         width: 100px;
     }
-    .tableEstates th:nth-child(2), .tableEstates td:nth-child(2) {
+    .tableEstates tr th:nth-child(2) {
         width: 300px;
+    }
+    .tableEstates tr th:nth-child(3) {
+        width: 160px;
+    }
+    .tableEstates tr th:nth-child(5) {
+        width: 70px;
+    }
+    .tableEstates tr th:nth-child(4), .tableEstates tr th:nth-child(6), .tableEstates tr th:nth-child(7) {
+        width: 80px;
+    }
+
+    .tableEstates tr th:nth-child(3), .tableEstates tr th:nth-child(6) {
+        text-align: center;
+    }
+
+    .tableEstates tr td:nth-child(1) {
+        width: 100px;
+    }
+    .tableEstates tr td:nth-child(2) {
+        width: 300px;
+    }
+    .tableEstates tr td:nth-child(3) {
+        width: 160px;
+    }
+    .tableEstates tr td:nth-child(5) {
+        width: 70px;
+    }
+    .tableEstates tr td:nth-child(4), .tableEstates tr td:nth-child(6), .tableEstates tr td:nth-child(7) {
+        width: 80px;
     }
 
 
@@ -81,8 +117,8 @@
     }
 
     .tablePackages tr:hover td {
-        /*cursor:pointer;*/
-        /*background-color: #dad2cb;*/
+        cursor:pointer;
+        background-color: #dad2cb;
     }
 
     .tablePackages th:nth-child(1) {
@@ -98,7 +134,7 @@
         width: 70px;
     }
     .tablePackages th:nth-child(4), .tablePackages th:nth-child(6), .tablePackages th:nth-child(7) {
-        width: 95px;
+        width: 80px;
     }
 
     .tablePackages tr td:nth-child(1) {
@@ -113,7 +149,7 @@
     .tablePackages tr td:nth-child(5) {
         width: 70px;
     }
-    .tablePackages tr td:nth-child(4), .tablePackages tr td:nth-child(6) {
+    .tablePackages td:nth-child(4), .tablePackages td:nth-child(6), .tablePackages td:nth-child(7) {
         width: 80px;
     }
 
@@ -148,14 +184,34 @@
 
         <table class="tableEstates" cellspacing="0" cellpadding="0" width="100%">
             <tr>
-                <th>Suburb</th><th>Estate</th><th>&nbsp;</th>
+                <th>Suburb</th>
+                <th>Estate</th>
+                <th>
+                    <div ng-show="regionPackagesOpen[r.Region] > 0">Home Details</div>
+                </th>
+                <th>
+                    <div ng-show="regionPackagesOpen[r.Region] > 0">Home Size</div>
+                </th>
+                <th>
+                    <div ng-show="regionPackagesOpen[r.Region] > 0">Lot Width</div>
+                </th>
+                <th>
+                    <div ng-show="regionPackagesOpen[r.Region] > 0">Fixed Price</div>
+                </th>
+                <th>&nbsp;</th>
             </tr>
         </table>
 
         <div ng-repeat="e in r.EstateList track by $index">
             <table class="tableEstates" cellspacing="0" cellpadding="0" width="100%">
-                <tr ng-click="showPackages = !showPackages">
-                    <td>{{ e.City }}</td><td>{{ e.Estate }} ({{ e.Counter }})&nbsp;&nbsp;&nbsp;&nbsp;from {{ (e.LowestPrice | currency).slice(0, -3) }}</td><td>&nbsp;</td>
+                <tr ng-click='showPackages = !showPackages; openPackage(r.Region, showPackages);'>
+                    <td>{{ e.City }}</td>
+                    <td>{{ e.Estate }} ({{ e.Counter }})&nbsp;&nbsp;&nbsp;&nbsp;from {{ (e.LowestPrice | currency).slice(0, -3) }}</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
                 </tr>
             </table>
             <!--<div class="rowCity" ng-click="showPackages = !showPackages">{{ e.City }} {{ e.Estate }} ({{ e.Counter }}) - from {{ (e.LowestPrice | currency).slice(0, -3) }}</div>-->
@@ -180,7 +236,7 @@
                     <!--&lt;!&ndash;<th>Car Parks</th>&ndash;&gt;-->
                     <!--<th style="text-align: center;">PDF</th>-->
                 <!--</tr>-->
-                <tr ng-cloak ng-repeat="p in e.Packages">
+                <tr ng-cloak ng-repeat="p in e.Packages" ng-click="openPDF(p.PDFFile)">
                     <!--<td> {{ p.PackageID }} </td>-->
                     <!--<td> {{ p.City }} </td>-->
                     <!--<td> {{ p.Region }} </td>-->

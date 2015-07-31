@@ -22,13 +22,30 @@ angular.module('app', ['ngRoute', 'underscore', 'app.controllers'])
 
 angular.module('app.controllers', [])
 
-    .controller('homeController', function($scope, $http, _) {
+    .controller('homeController', function($scope, $http, $window, _) {
 
         $scope.mpData = [];
         $scope.mpCityList = [];
         $scope.mpRegionList = [];
         $scope.firstRow = {};
         $scope.title = 'Browse House and Land Packages';
+        $scope.regionPackagesOpen = {};
+
+        $scope.openPDF = function(url) {
+            $window.open(url);
+        };
+
+        $scope.openPackage = function(region, showPackages) {
+            //If region does not exist yet - create the field.
+            if(!$scope.regionPackagesOpen[region]) { $scope.regionPackagesOpen[region] = 0; }
+
+            if(showPackages) {
+                $scope.regionPackagesOpen[region]++;
+            }
+            else {
+                $scope.regionPackagesOpen[region]--;
+            }
+        };
 
         $scope.getGUID = function()
         {
