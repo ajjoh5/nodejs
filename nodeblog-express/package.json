@@ -13,7 +13,9 @@
     "compression": "^1.5.1",
     "express": "^4.13.1",
     "express-handlebars": "^2.0.1",
-    "requestify": "^0.1.17"
+    "q": "^1.4.1",
+    "requestify": "^0.1.17",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "flightplan": "^0.6.4"

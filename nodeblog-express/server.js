@@ -121,47 +121,47 @@ app.get('/?*', function(req, res) {
 
     //Create new single page app based on params
     var spa = new SPA(params[0], params[1]);
-
+    //console.log(spa.viewParams);
 
     //TODO: Create MongoDB function to get this info from the database
     //TODO: Add in views for the blog article and shop product
-    spa.viewParams.products = [{
-        slug: 'book-multipage-angular-apps-in-nodjs',
-        featuredImage : 'http://www.tcgen.com/wp-content/uploads/2013/03/book-shadow-2.png',
-        title: 'Multi-Page Angular Apps in NodeJS',
-        author: 'Adam Johnstone',
-        publishDate: '11-04-2015',
-        readMore: 'Innovation of products is something that does blah and more blah. Innovation of products is something that does blah and more blah. Innovation of products is something that does blah and more blah. Innovation of products is something that does blah and more blah. Innovation of products is something that does blah and more blah.',
-        blog: 'This is the start of something'
-    },
-    {
-        slug: 'lean-startup',
-        featuredImage : 'http://www.inc.com/uploaded_files/image/feature-57-the-lean-startup-book-pop_10909.jpg',
-        title: 'Choose the Lean Startup as your Architecture',
-        author: 'Adam Johnstone',
-        publishDate: '11-08-2015 5:15pm',
-        readMore: 'What an amazing 6 months its been, moving from single page apps into a multi page tiered architecture. Reading the lean startup really helped me see what I wanted to do more clearly, as it opened up the possibility that we can work on multiple applications all at one time.',
-        blog: 'This is the start of something'
-    }];
-
-    spa.viewParams.blogs = [{
-        slug: 'multiple-single-page-applications-in-nodejs',
-        featuredImage : 'http://greenconcepts.com.au/wp-content/uploads/2012/08/featured-11.jpg',
-        title: 'Multiple Single Page Applications, in one NodeJS application',
-        author: 'Adam Johnstone',
-        publishDate: 'Yesterday 1:00pm',
-        readMore: 'What an amazing 6 months its been',
-        blog: 'This is the start of something'
-    },
-    {
-        slug: 'important-to-choose-right-architecture',
-        featuredImage : 'http://www.visitnsw.com/nsw-tales/wp-content/uploads/2013/10/A-Heavenly-Aura-Cows-in-the-Hawkesbury-Image-Credit-Rhys-Pope2-380x210.jpg',
-        title: 'Why is it important to choose the right Architecture',
-        author: 'Adam Johnstone',
-        publishDate: '11-08-2015 5:15pm',
-        readMore: 'What an amazing 6 months its been',
-        blog: 'This is the start of something'
-    }];
+    //spa.viewParams.products = [{
+    //    slug: 'book-multipage-angular-apps-in-nodjs',
+    //    featuredImage : 'http://www.tcgen.com/wp-content/uploads/2013/03/book-shadow-2.png',
+    //    title: 'Multi-Page Angular Apps in NodeJS',
+    //    author: 'Adam Johnstone',
+    //    publishDate: '11-04-2015',
+    //    readMore: 'Innovation of products is something that does blah and more blah. Innovation of products is something that does blah and more blah. Innovation of products is something that does blah and more blah. Innovation of products is something that does blah and more blah. Innovation of products is something that does blah and more blah.',
+    //    blog: 'This is the start of something'
+    //},
+    //{
+    //    slug: 'lean-startup',
+    //    featuredImage : 'http://www.inc.com/uploaded_files/image/feature-57-the-lean-startup-book-pop_10909.jpg',
+    //    title: 'Choose the Lean Startup as your Architecture',
+    //    author: 'Adam Johnstone',
+    //    publishDate: '11-08-2015 5:15pm',
+    //    readMore: 'What an amazing 6 months its been, moving from single page apps into a multi page tiered architecture. Reading the lean startup really helped me see what I wanted to do more clearly, as it opened up the possibility that we can work on multiple applications all at one time.',
+    //    blog: 'This is the start of something'
+    //}];
+    //
+    //spa.viewParams.blogs = [{
+    //    slug: 'multiple-single-page-applications-in-nodejs',
+    //    featuredImage : 'http://greenconcepts.com.au/wp-content/uploads/2012/08/featured-11.jpg',
+    //    title: 'Multiple Single Page Applications, in one NodeJS application',
+    //    author: 'Adam Johnstone',
+    //    publishDate: 'Yesterday 1:00pm',
+    //    readMore: 'What an amazing 6 months its been',
+    //    blog: 'This is the start of something'
+    //},
+    //{
+    //    slug: 'important-to-choose-right-architecture',
+    //    featuredImage : 'http://www.visitnsw.com/nsw-tales/wp-content/uploads/2013/10/A-Heavenly-Aura-Cows-in-the-Hawkesbury-Image-Credit-Rhys-Pope2-380x210.jpg',
+    //    title: 'Why is it important to choose the right Architecture',
+    //    author: 'Adam Johnstone',
+    //    publishDate: '11-08-2015 5:15pm',
+    //    readMore: 'What an amazing 6 months its been',
+    //    blog: 'This is the start of something'
+    //}];
 
     res.render(spa.viewFile, spa.viewParams);
 });

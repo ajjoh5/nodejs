@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>{{ blog-title }}</title>
+    <meta name="description" content="{{ meta-description }}" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <!-- load bootstrap and fontawesome via CDN -->
@@ -27,7 +30,6 @@
     <!-- HEADER - Custom Scripts -->
     {{{ block "header-scripts" }}}
 
-    <title>{{ pageTitle }}</title>
 </head>
 <body ng-app="app">
 
@@ -41,7 +43,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">{{brand}}</a>
+                <a class="navbar-brand" href="/">Adam Johnstone</a>
             </div>
 
             <ul class="nav navbar-nav navbar-right navbar-collapse collapse">

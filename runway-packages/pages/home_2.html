@@ -26,7 +26,7 @@
     }
 
     .tableEstates {
-        width: 100%;
+        /*width: 100%;*/
     }
 
     .tableEstates tr th {
@@ -96,7 +96,7 @@
 
 
     .tablePackages {
-        width: 100%;
+        /*width: 100%;*/
     }
 
     .tablePackages tr th {
@@ -182,7 +182,7 @@
     <div ng-repeat="r in mpRegionList track by $index">
         <div class="rowRegion">{{ r.Region }}</div>
 
-        <table class="tableEstates" cellspacing="0" cellpadding="0" width="100%">
+        <table class="tableEstates" cellspacing="0" cellpadding="0">
             <tr>
                 <th>Suburb</th>
                 <th>Estate</th>
@@ -203,9 +203,9 @@
         </table>
 
         <div ng-repeat="e in r.EstateList track by $index">
-            <table class="tableEstates" cellspacing="0" cellpadding="0" width="100%">
+            <table class="tableEstates" cellspacing="0" cellpadding="0">
                 <tr ng-click='showPackages = !showPackages; openPackage(r.Region, showPackages);'>
-                    <td>{{ e.City }}</td>
+                    <td>{{ e.City }} </td>
                     <td>{{ e.Estate }} ({{ e.Counter }})&nbsp;&nbsp;&nbsp;&nbsp;from {{ (e.LowestPrice | currency).slice(0, -3) }}</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
