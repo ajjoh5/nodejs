@@ -44,9 +44,11 @@
 
 <header>
     <nav class="navbar navbar-default navbar-fixed-top navbar-minimal">
-        <div class="edit-menu">
-            <a href="javascript:void(0)" onclick="SavePage()">Save Page</a>
-        </div>
+        {{#if isEditModeOn}}
+            <div class="edit-menu">
+                <a href="javascript:void(0)" onclick="SavePage()">Save Page</a>
+            </div>
+        {{/if}}
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
