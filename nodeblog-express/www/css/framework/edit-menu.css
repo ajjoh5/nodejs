@@ -1,0 +1,24 @@
+.edit-menu
+{
+    z-index: 10000;
+    background-color: #444;
+    height: 50px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    padding: 14px 50px;
+    font-family: verdana;
+    color: white;
+}
+
+.edit-menu a
+{
+    color: #eee;
+    font-weight: bold;
+}
+
+.edit-menu a:hover
+{
+    color: #ccc;
+    text-decoration: none;
+}

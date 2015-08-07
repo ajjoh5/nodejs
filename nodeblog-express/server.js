@@ -10,6 +10,7 @@ var exphbs = require('express-handlebars');
 //Other plugins
 var requestify = require('requestify');
 var bodyParser = require('body-parser');
+var _ = require('underscore');
 
 //App Custom Plugins
 var SPA = require('./SPA.js');
@@ -43,7 +44,7 @@ hbs = exphbs.create({
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 //Static Routes for Files
@@ -120,50 +121,53 @@ app.get('/?*', function(req, res) {
     var params = u.removeLastSlash(req.params[0]).split('/');
 
     //Create new single page app based on params
-    var spa = new SPA(params[0], params[1]);
+    var spa = new SPA(params[0], params[1], params);
     //console.log(spa.viewParams);
 
-    //TODO: Create MongoDB function to get this info from the database
-    //TODO: Add in views for the blog article and shop product
-    //spa.viewParams.products = [{
-    //    slug: 'book-multipage-angular-apps-in-nodjs',
-    //    featuredImage : 'http://www.tcgen.com/wp-content/uploads/2013/03/book-shadow-2.png',
-    //    title: 'Multi-Page Angular Apps in NodeJS',
-    //    author: 'Adam Johnstone',
-    //    publishDate: '11-04-2015',
-    //    readMore: 'Innovation of products is something that does blah and more blah. Innovation of products is something that does blah and more blah. Innovation of products is something that does blah and more blah. Innovation of products is something that does blah and more blah. Innovation of products is something that does blah and more blah.',
-    //    blog: 'This is the start of something'
-    //},
-    //{
-    //    slug: 'lean-startup',
-    //    featuredImage : 'http://www.inc.com/uploaded_files/image/feature-57-the-lean-startup-book-pop_10909.jpg',
-    //    title: 'Choose the Lean Startup as your Architecture',
-    //    author: 'Adam Johnstone',
-    //    publishDate: '11-08-2015 5:15pm',
-    //    readMore: 'What an amazing 6 months its been, moving from single page apps into a multi page tiered architecture. Reading the lean startup really helped me see what I wanted to do more clearly, as it opened up the possibility that we can work on multiple applications all at one time.',
-    //    blog: 'This is the start of something'
-    //}];
-    //
-    //spa.viewParams.blogs = [{
-    //    slug: 'multiple-single-page-applications-in-nodejs',
-    //    featuredImage : 'http://greenconcepts.com.au/wp-content/uploads/2012/08/featured-11.jpg',
-    //    title: 'Multiple Single Page Applications, in one NodeJS application',
-    //    author: 'Adam Johnstone',
-    //    publishDate: 'Yesterday 1:00pm',
-    //    readMore: 'What an amazing 6 months its been',
-    //    blog: 'This is the start of something'
-    //},
-    //{
-    //    slug: 'important-to-choose-right-architecture',
-    //    featuredImage : 'http://www.visitnsw.com/nsw-tales/wp-content/uploads/2013/10/A-Heavenly-Aura-Cows-in-the-Hawkesbury-Image-Credit-Rhys-Pope2-380x210.jpg',
-    //    title: 'Why is it important to choose the right Architecture',
-    //    author: 'Adam Johnstone',
-    //    publishDate: '11-08-2015 5:15pm',
-    //    readMore: 'What an amazing 6 months its been',
-    //    blog: 'This is the start of something'
-    //}];
-
     res.render(spa.viewFile, spa.viewParams);
+});
+
+//Mail Sender
+app.post('/?*/save', function(req, res) {
+
+    //init utilities
+    var u = new utilities();
+
+    //get url params
+    var params = u.removeLastSlash(req.params[0]).split('/');
+
+    var contentArray = req.body.content;
+    var outputFileLocation = path.join(__dirname + '/content/' + params[0] + '.json');
+
+    var contentFileLocation = path.join(__dirname + '/content/' + params[0] + '.json');
+    var data = fs.readFileSync(contentFileLocation, 'utf8');
+    var json = JSON.parse(data);
+
+    var node = _.find(json.nodes, function (nItem) {
+        return nItem.name === params[1];
+    });
+
+    var oldNodeContent = _.reject(node.content, function(item) {
+        return item.name.indexOf('content.') > -1
+    });
+
+    node.content = oldNodeContent.concat(contentArray);
+    //console.log(node);
+
+    fs.writeFile(outputFileLocation, JSON.stringify(json), function(err) {
+        if(err) {
+            return console.log(err);
+        }
+
+        res.send('File was successfully saved.')
+    });
+
+    //var sender = req.body.name + ' <' + req.body.email + '>';
+    //var mailedFrom = 'contact@adamjohnstone.co';
+    //var recipients = 'ajjoh5@gmail.com';
+    //var message = 'Contact Details: \n' + sender + '\n\nMessage:' + req.body.message;
+
+    //res.send(body);
 });
 
 app.listen(3001, function() {

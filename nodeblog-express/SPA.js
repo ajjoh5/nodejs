@@ -3,6 +3,20 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 
+function isEditModeInParams(params)
+{
+    var isEditMode = false;
+
+    var param = _.find(params, function (item) {
+        return item.toUpperCase() === 'EDIT';
+    });
+
+    if(param) {
+        isEditMode = true;
+    }
+
+    return isEditMode;
+}
 
 // Constructor
 function SPA(id, view, params) {
@@ -12,6 +26,9 @@ function SPA(id, view, params) {
         filepath : __dirname + '/' + id,
         params : []
     };
+
+    var editModeOn = isEditModeInParams(params);
+    this.isEditModeOn = editModeOn;
 
     //Get the ViewFile (passed in from the params)
     this.view = view ? view : 'default';
@@ -24,11 +41,6 @@ function SPA(id, view, params) {
     //    title: 'About Me',
     //    brand: 'Adam Johnstone',
     //    pageTitle : 'Adam Johnstone | A disruptive tech innovator and entrepreneur in Melbourne'
-    //};
-
-    //this.viewParams = {
-    //    layout : spa.filepath + '/layouts/layout',
-    //    spa: spa
     //};
 
     var vParams = {
@@ -47,7 +59,7 @@ function SPA(id, view, params) {
     if(json)
     {
         //If we are at the root SPA page, then serve all content nodes
-        //eg. if we are at "http://website/blogs", then serve all "blogs"
+        //eg. if we are at "http://website/blogs", then serve all child "blogs"
         if(!view) {
             var rootNodes = [];
             _.each(json.nodes, function (nItem) {
@@ -74,7 +86,16 @@ function SPA(id, view, params) {
             //If the child node exists in the json file, then get all it's content
             if (node) {
                 _.each(node.content, function (cItem) {
-                    vParams[cItem.name] = cItem.content;
+
+                    var contentToDisplay = cItem.content;
+                    var isContentEditable = (cItem.name.indexOf('content.') > -1);
+
+                    //if edit mode is on - then add editor widget
+                    if(editModeOn == true && isContentEditable == true) {
+                        contentToDisplay = '<div class="spa-editor" data-name="' + cItem.name + '">' + contentToDisplay + '</div>';
+                    }
+
+                    vParams[cItem.name] = contentToDisplay;
                 });
             }
         }
