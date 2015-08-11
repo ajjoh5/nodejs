@@ -17,6 +17,7 @@ var async = require('async');
 
 //Libraries
 var runwaydata = require('./lib/runway-data');
+var utilities = require('./lib/utilities');
 
 
 //Create & Configure express app
@@ -24,7 +25,32 @@ var app = express();
 app.use(compress());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/runway/get-packages', function(req, res) {
+app.get('/runway/packages/:range', function(req, res) {
+
+    console.time('total-time');
+
+    var rangeName = req.params.range ? req.params.range : 'MainVue VIC';
+    rangeName = decodeURIComponent(rangeName);
+
+    var file = path.join(__dirname + '/json_files/' + rangeName + '-cache.json');
+
+    fs.readFile(file, function (err, data) {
+        console.log('Read File: ' + file);
+        var json = {};
+
+        if (err) {
+            res.send('Could not find or read file: ' + rangeName + '-cache.json');
+            return console.log(err);
+        }
+
+        json = JSON.parse(data);
+        console.timeEnd('total-time');
+
+        res.send(json);
+    });
+});
+
+app.get('/runway/cache-packages/:range', function(req, res) {
 
     console.time('total-time');
     console.time("get-packages");
@@ -35,9 +61,12 @@ app.get('/runway/get-packages', function(req, res) {
         //Set the session id to new session id returned
         var jsid = data;
 
+        //Set range name to MainVue VIC if no parameter provided
+        //init other variables
+        var rangeName = req.params.range ? req.params.range : 'MainVue VIC';
+        rangeName = decodeURIComponent(rangeName);
         var publishedPackages = [];
         var rangePackages = [];
-        var rangeName = 'MainVue VIC';
 
         //Run runway calls in parallel and once finished, then compile all packages into json file
         async.parallel([
@@ -78,14 +107,27 @@ app.get('/runway/get-packages', function(req, res) {
                         //Add the package items 'City' and 'HomeSize' from the individual runway package calls
                         runwaydata.GetPackageByIDExtendedView(jsid, item.PackageID, function(err, data) {
                             var e_package = data;
+                            var homeSize = '---';
 
-                            var homeSize = _.find(e_package.Plan.Details, function(eItem) {
-                                return eItem.DetailsType === 'House';
-                            });
+                            if(e_package.Plan.Details)
+                            {
+                                homeSize = _.find(e_package.Plan.Details, function(eItem) {
+                                    return eItem.DetailsType === 'House';
+                                });
+                            }
 
+                            //Add on all custom properties ONLY found in 'get package by id' call
+                            item.Name = e_package.Name ? e_package.Name : '---';
+                            item.DisplayPrice = e_package.DisplayPrice ? e_package.DisplayPrice : '---';
                             item.Address = e_package.Address ? e_package.Address : '---';
                             item.City = e_package.Address.City ? e_package.Address.City : '---';
                             item.HomeSize = homeSize.Squares ? homeSize.Squares : '---';
+                            item.LotThumbnail = e_package.Lot.Thumbnail.URL ? e_package.Lot.Thumbnail.URL : '---';
+                            item.Image = e_package.Image.URL ? e_package.Image.URL : '---';
+                            item.PlanImage = e_package.Plan.Image.URL ? e_package.Plan.Image.URL : '---',
+                            item.FacadeName =  e_package.Facade.Name ? e_package.Facade.Name : '---';
+                            item.Publishing = e_package.Publishing ? e_package.Publishing : '---';
+                            item.VisibilityStatus = e_package.VisibilityStatus ? e_package.VisibilityStatus : '---';
 
                             callback(null, 'Completed');
                         });
@@ -99,32 +141,24 @@ app.get('/runway/get-packages', function(req, res) {
                     console.timeEnd("add-extendedinfo-packages");
                     console.timeEnd('total-time');
 
-                    var file = path.join(__dirname + '/json_files/' + rangeName + '_cpackages.json');
+                    var file = path.join(__dirname + '/json_files/' + rangeName + '-cache.json');
 
                     fs.writeFile(file, JSON.stringify(data), function(err) {
                         if(err) {
+                            res.send('Could not save cache file: ' + rangeName + '-cache.json');
                             return console.log(err);
                         }
-                        console.log('Finished saving file...');
+                        console.log('Saved File: ' + file);
                     });
 
+                    //show view of json data
                     res.send(data);
                 });
 
             });
 
-
-            //Compile all packages into 1 json file
-
-            //Wait for the first to runway calls to come back before running each individual package call
-
-            //runwaydata.GetPackageByIDExtendedView(jsid, '091V403X4R3G3J1G9E288V0W210O', function(err, data) {
-            //    e_package = data;
-            //    res.send(data);
-            //});
         });
 
-        //res.send('Finished');
     });
 
 });

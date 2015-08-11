@@ -7,7 +7,7 @@
 
 
 //The Package ID specific Runway API
-//https://henley.runway.com.au/api/2/packages/091V403X4R3G3J1G9E288V0W210O?View=Extended
+//https://henley.runway.com.au/api/2/packages/00104O3A8D3P1Z5L9Q346D061W3S?View=Extended
 
 
 //'use strict';
@@ -165,6 +165,8 @@ function JoinPublishedAndRangePackages(publishedPackages, rangePackages, rangeNa
 
             var jPackage = {
                 PackageID: item.PackageID,
+                Name : '---',
+                DisplayPrice : '---',
                 City: '---',
                 Region: item.Location.Parent.Name,
                 Estate: item.Lot.Stage.Estate.Name,
@@ -181,7 +183,13 @@ function JoinPublishedAndRangePackages(publishedPackages, rangePackages, rangeNa
                 Bedrooms: sHomePackage.Bedrooms ? sHomePackage.Bedrooms : '',
                 Bathrooms: sHomePackage.Bathrooms ? sHomePackage.Bathrooms : '',
                 CarParks: sHomePackage.CarParks ? sHomePackage.CarParks : '',
-                PDFFile: item.PropertyPDFURL
+                PDFFile: item.PropertyPDFURL,
+                LotThumbnail : '---',
+                Image : '---',
+                PlanImage : '---',
+                FacadeName : '---',
+                Publishing : '---',
+                VisibilityStatus : '---'
             };
 
             joinedPackages.push(jPackage);
