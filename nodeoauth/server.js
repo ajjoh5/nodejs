@@ -1,3 +1,7 @@
+//NodeJS Plugins
+var fs = require('fs');
+var path = require('path');
+
 //Express Plugins
 var express = require('express');
 var compress = require('compression');
@@ -79,6 +83,7 @@ app.get('/runway/get-packages', function(req, res) {
                                 return eItem.DetailsType === 'House';
                             });
 
+                            item.Address = e_package.Address ? e_package.Address : '---';
                             item.City = e_package.Address.City ? e_package.Address.City : '---';
                             item.HomeSize = homeSize.Squares ? homeSize.Squares : '---';
 
@@ -93,6 +98,16 @@ app.get('/runway/get-packages', function(req, res) {
                     // Once all package items are updated with 'City' and 'HomeSize' then show the final result
                     console.timeEnd("add-extendedinfo-packages");
                     console.timeEnd('total-time');
+
+                    var file = path.join(__dirname + '/json_files/' + rangeName + '_cpackages.json');
+
+                    fs.writeFile(file, JSON.stringify(data), function(err) {
+                        if(err) {
+                            return console.log(err);
+                        }
+                        console.log('Finished saving file...');
+                    });
+
                     res.send(data);
                 });
 
@@ -336,6 +351,9 @@ app.get('/runway/oauthcallback', function(req, res) {
 
 });
 
-app.listen(3002, function() {
+var server = app.listen(3002, function() {
     console.log('Server running at: 3002');
 });
+
+//Set server request timeout to 5 minutes
+server.timeout = 300000;
