@@ -127,7 +127,7 @@ app.get('/?*', function(req, res) {
     res.render(spa.viewFile, spa.viewParams);
 });
 
-//Mail Sender
+//Save SPA Content
 app.post('/?*/save', function(req, res) {
 
     //init utilities

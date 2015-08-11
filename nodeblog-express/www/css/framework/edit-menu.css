@@ -5,8 +5,7 @@
     height: 50px;
     position: fixed;
     top: 0px;
-    width: 100%;
-    padding: 14px 50px;
+    padding: 10px 11px 10px 10px;
     font-family: verdana;
     color: white;
 }
@@ -21,4 +20,36 @@
 {
     color: #ccc;
     text-decoration: none;
+}
+
+.edit-mode
+{
+    background-color: #c0392b;
+}
+
+#cmsMenu
+{
+    background-color: #444;
+    font-family: verdana;
+    color: white;
+}
+
+#cmsMenu .nav-logo
+{
+    margin: 30px 0 20px 0;
+}
+
+#cmsMenu li
+{
+    margin-top: 10px;
+}
+
+#cmsMenu li a
+{
+    color: white;
+}
+
+#cmsMenu li a:hover
+{
+    color: #1c1d1d;
 }

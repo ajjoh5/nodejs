@@ -37,18 +37,36 @@
     <!-- Page Animations -->
     <!--<script src="/js/anim/page-animations.js"></script>-->
 
+    <!-- add jasny bootstrap -->
+    <link rel="stylesheet" href="/js/jasnybs/jasny-bootstrap.min.css">
+    <script src="/js/jasnybs/jasny-bootstrap.min.js"></script>
+
     <!-- HEADER - Custom Scripts -->
     {{{ block "header-scripts" }}}
 </head>
 <body ng-app="app">
 
 <header>
+    <div class="edit-menu{{#if isEditModeOn}} edit-mode{{/if}}">
+        <a href="javascript:void(0)" data-toggle="offcanvas" data-target="#cmsMenu" data-canvas="body">
+            <img src="/css/images/menu-bars.svg" />
+        </a>
+    </div>
+    <nav id="cmsMenu" class="navmenu navmenu-fixed-left offcanvas" role="navigation">
+        <div class="nav-logo text-center">
+            NodeJS CMS
+        </div>
+        <ul class="nav navmenu-nav">
+            {{#if isEditModeOn}}
+                <li><a href="../{{ view }}"><i class="fa fa-eye fa-lg"></i>&nbsp;View Page</a></li>
+                <li><a href="javascript:void(0)" onclick="SavePage()"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Save Page</a></li>
+            {{/if}}
+            {{#unless isEditModeOn}}
+                <li><a href="{{ view }}/edit"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Edit Page</a></li>
+            {{/unless}}
+        </ul>
+    </nav>
     <nav class="navbar navbar-default navbar-fixed-top navbar-minimal">
-        {{#if isEditModeOn}}
-            <div class="edit-menu">
-                <a href="javascript:void(0)" onclick="SavePage()">Save Page</a>
-            </div>
-        {{/if}}
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -85,7 +103,7 @@
         })
     });
 
-    function SavePage()
+    function SavePage(action)
     {
         var pageContent = {
             content : []
@@ -98,10 +116,23 @@
                 name : contentName,
                 content : contentHTML
             };
+
             pageContent.content.push(contentNode);
         });
 
-        $.post('./save/', pageContent);
+        $.post('./save/', pageContent, function(data, status) {
+            if(status !== 'success')
+            {
+                alert(data);
+            }
+
+            $("#cmsMenu").offcanvas('hide');
+
+            if(action.toUpperCase() === 'VIEW')
+            {
+                window.location = '../{{ view }}';
+            }
+        });
     }
 </script>
 

@@ -46,6 +46,7 @@ function SPA(id, view, params) {
     var vParams = {
         layout : spa.filepath + '/layouts/layout',
         spa: spa,
+        view : this.view,
         isEditModeOn : editModeOn
     };
 
