@@ -1,8 +1,8 @@
 <style>
     body{
         font-family: 'Roboto', sans-serif;
-        line-height: 1.6em;
-        font-size: 75%;
+        line-height: 1.5em;
+        font-size: 1.15em;
     }
 
     .rowRegion {
@@ -174,9 +174,216 @@
         display: inline-block;
     }
 
+
+    .packageFilters {
+        margin: 20px 0px;
+    }
+
+    .packageFilters .row {
+        padding: 10px 0px;
+        border-bottom: 1px solid #E7E7E7;
+    }
+
+    .packageFilters div {
+        padding: 0px;
+    }
+
+    .packageFilters div.lbl {
+        padding-top: 10px;
+    }
+
+    .packageFilters select.form-control {
+        padding-right: 40px;
+    }
+
+    .packageFilters div.field{
+        padding-right: 50px
+    }
+
+    .select2-container .select2-selection--single {
+        background-color: #ECE4DB;
+        border: 1px solid #f0f0f0;
+        border-radius: 4px;
+        height: 35px;
+        cursor: pointer;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #444;
+        line-height: 35px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 35px;
+    }
+
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #5897fb;
+        color: white;
+    }
+
+    .select2-container--default .select2-results__option[aria-selected=true] {
+        background-color: #ABABAB;
+        color: #fff;
+    }
+
+    .select2-results__option[aria-selected] {
+        cursor: pointer;
+    }
+
+    .select2-results__options {
+        background-color: #ECE4DB;
+    }
+
+    .select2-dropdown {
+        background-color: #ece4db;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    *:focus {outline: none; }
+
 </style>
 
-<div>
+    <br/><br/><br/><br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/><br/><br/><br/><br/>
+
+    <div class="packageFilters container-fluid">
+
+        <!-- 1st row of filters -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-3 lbl">Region</div>
+                    <div class="col-md-9 field">
+                        <select class="form-control" id="region">
+                            <option value="">All regions</option>
+                            <option value="west">West</option>
+                            <option value="north">North</option>
+                            <option value="south east">South East</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-3 lbl">Suburb</div>
+                    <div class="col-md-9 field">
+                        <select class="form-control" id="suburb">
+                            <option value="">All suburbs</option>
+                            <option value="Beveridge">Beveridge</option>
+                            <option value="Clyde North">Clyde North</option>
+                            <option value="Craigieburn">Craigieburn</option>
+                            <option value="Cranbourne West">Cranbourne West</option>
+                            <option value="Doreen">Doreen</option>
+                            <option value="Mickleham">Mickleham</option>
+                            <option value="Plumpton">Plumpton</option>
+                            <option value="Point Cook">Point Cook</option>
+                            <option value="Rockbank">Rockbank</option>
+                            <option value="Truganina">Truganina</option>
+                            <option value="Werribee">Werribee</option>
+                            <option value="Wollert">Wollert</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-3 lbl">Estate</div>
+                    <div class="col-md-9 field">
+                        <select class="form-control" id="estate">
+                            <option value="">All estates</option>
+                            <option value="Aspire">Aspire</option>
+                            <option value="Aston">Aston</option>
+                            <option value="Delaray">Delaray</option>
+                            <option value="Elements">Elements</option>
+                            <option value="Harpley">Harpley</option>
+                            <option value="Haven Wollert">Haven Wollert</option>
+                            <option value="Hazelcroft">Hazelcroft</option>
+                            <option value="Highgrove">Highgrove</option>
+                            <option value="Highlands">Highlands</option>
+                            <option value="Mandalay">Mandalay</option>
+                            <option value="Quarters">Quarters</option>
+                            <option value="Ramlegh Springs">Ramlegh Springs</option>
+                            <option value="The Address">The Address</option>
+                            <option value="The Boulevard - Kilora Park">The Boulevard</option>
+                            <option value="Trillium">Trillium</option>
+                            <option value="Upper Point Cook ">Upper Point</option>
+                            <option value="Woodlea">Woodlea</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2nd row of filters -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-3 lbl">Storey</div>
+                    <div class="col-md-9 field">
+                        <select class="form-control" id="storey">
+                            <option value="">All storeys</option>
+                            <option value="Single">Single</option>
+                            <option value="Double">Double</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-3 lbl">Beds</div>
+                    <div class="col-md-9 field">
+                        <select class="form-control" id="beds">
+                            <option value="">Any beds</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-3 lbl">Baths</div>
+                    <div class="col-md-9 field">
+                        <select class="form-control" id="baths">
+                            <option value="">Any baths</option>
+                            <option value="2+">2+</option>
+                            <option value="3+">3+</option>
+                            <option value="4+">4+</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3rd row of filters -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-3 lbl">Lot width</div>
+                    <div class="col-md-9 field">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-3 lbl">Price range</div>
+                    <div class="col-md-9 field">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                &nbsp;
+            </div>
+        </div>
+
+    </div>
+
+    <select2></select2>
 
     <!--<h1>Regions Table</h1>-->
     <div ng-repeat="r in mpRegionList track by $index">

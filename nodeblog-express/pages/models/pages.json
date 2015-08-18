@@ -1,0 +1,23 @@
+{
+  "name": "page name",
+  "url" : "url of page",
+  "properties" : [
+    {
+      "name" : "meta-description",
+      "description" : "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+      "value" : "value"
+    },
+    {
+      "name" : "page-title",
+      "description" : "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+      "value" : "value"
+    }
+  ],
+  "contents" : [
+    {
+      "name" : "main-content",
+      "description" : "the main content for the page",
+      "value" : "value"
+    }
+  ]
+}

@@ -144,6 +144,11 @@ hr
     border-top: solid #1c1d1d;
 }
 
+.spa-editor {
+    /*border: 1px dashed #dedede;*/
+    /*background-color: #fefefe;*/
+}
+
 
 
 @media (min-width: 768px) and (max-width: 991px) {

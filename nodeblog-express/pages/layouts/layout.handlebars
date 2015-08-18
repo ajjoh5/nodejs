@@ -103,22 +103,45 @@
         })
     });
 
+    $('*[data-property-name]').keyup(function() {
+        var len = $(this).val().length;
+        $(this).next().text('Count: ' + len);
+    });
+
     function SavePage(action)
     {
         var pageContent = {
-            content : []
+            properties : [],
+            contents : []
         };
 
-        $('div.spa-editor').each(function() {
-            var contentName = $(this).attr('data-name');
-            var contentHTML = $(this).editable('getHTML', false, false);
-            var contentNode = {
-                name : contentName,
-                content : contentHTML
+        //Get all properties & save
+        $('*[data-property-name]').each(function() {
+            var propertyName = $(this).attr('data-property-name');
+            var propertyDescription = $(this).attr('data-property-description');
+            var propertyValue = $(this).val();
+            var propertyNode = {
+                name : propertyName,
+                description : propertyDescription,
+                value : propertyValue
             };
 
-            pageContent.content.push(contentNode);
+            pageContent.properties.push(propertyNode);
         });
+
+
+        //Get all contents & save
+        $('div.spa-editor').each(function() {
+            var contentName = $(this).attr('data-content-name');
+            var contentValue = $(this).editable('getHTML', false, false);
+            var contentNode = {
+                name : contentName,
+                value : contentValue
+            };
+
+            pageContent.contents.push(contentNode);
+        });
+
 
         $.post('./save/', pageContent, function(data, status) {
             if(status !== 'success')
@@ -127,11 +150,6 @@
             }
 
             $("#cmsMenu").offcanvas('hide');
-
-            if(action.toUpperCase() === 'VIEW')
-            {
-                window.location = '../{{ view }}';
-            }
         });
     }
 </script>

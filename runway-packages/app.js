@@ -60,7 +60,8 @@ angular.module('app.controllers', [])
 
         $scope.getCompiledPackages = function()
         {
-            $http.get('jsonfiles/CompiledPackages.json').
+            //alert('Getting compiled json');
+            $http.get('jsonfiles/MainVue VIC-cache.json').
                 success(function (cPackages) {
                     _.each(cPackages, function(item) {
 
@@ -210,4 +211,29 @@ angular.module('app.controllers', [])
 
         //$scope.getRunwayPackages();
         $scope.getCompiledPackages();
+    })
+
+    .directive('select2', function() {
+        //return {
+        //    restrict: 'E',
+        //    template: 'this is my template'
+        //};
+        function link(scope, element, attrs) {
+            //alert('asdfdsaf');
+
+            var opts = {
+                minimumResultsForSearch: Infinity
+            };
+
+            $('select').select2(opts);
+
+            element.on('load', function() {
+
+            });
+        }
+
+        return {
+            restrict: 'E',
+            link: link
+        };
     });

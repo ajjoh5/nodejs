@@ -136,24 +136,22 @@ app.post('/?*/save', function(req, res) {
     //get url params
     var params = u.removeLastSlash(req.params[0]).split('/');
 
-    var contentArray = req.body.content;
-    var outputFileLocation = path.join(__dirname + '/content/' + params[0] + '.json');
-
+    //Get existing data file
     var contentFileLocation = path.join(__dirname + '/content/' + params[0] + '.json');
     var data = fs.readFileSync(contentFileLocation, 'utf8');
     var json = JSON.parse(data);
 
+    //Get the node we are interested in
     var node = _.find(json.nodes, function (nItem) {
         return nItem.name === params[1];
     });
 
-    var oldNodeContent = _.reject(node.content, function(item) {
-        return item.name.indexOf('content.') > -1
-    });
+    //Replace only the node's contents array values
+    node.contents = req.body.contents;
+    node.properties = req.body.properties;
 
-    node.content = oldNodeContent.concat(contentArray);
-    //console.log(node);
-
+    //Write new content + properties to existing file
+    var outputFileLocation = path.join(__dirname + '/content/' + params[0] + '.json');
     fs.writeFile(outputFileLocation, JSON.stringify(json), function(err) {
         if(err) {
             return console.log(err);

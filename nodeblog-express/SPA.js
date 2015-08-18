@@ -34,15 +34,6 @@ function SPA(id, view, params) {
     this.view = view ? view : 'default';
     this.viewFile = spa.filepath + '/' + this.view;
 
-    //Set the View's Initial Params
-    //this.viewParams = {
-    //    layout : spa.filepath + '/layouts/layout',
-    //    spa: spa,
-    //    title: 'About Me',
-    //    brand: 'Adam Johnstone',
-    //    pageTitle : 'Adam Johnstone | A disruptive tech innovator and entrepreneur in Melbourne'
-    //};
-
     var vParams = {
         layout : spa.filepath + '/layouts/layout',
         spa: spa,
@@ -50,6 +41,8 @@ function SPA(id, view, params) {
         isEditModeOn : editModeOn
     };
 
+    //setup the vParams properties edit box
+    vParams.properties = '<div class="row"><div class="col-md-12" style="background-color: #fafafa; border: 1px dashed #dedede;">{{properties}}</div></div>';
     this.viewParams = vParams;
 
     //Read Content File specific to this SPA
@@ -70,8 +63,8 @@ function SPA(id, view, params) {
                     url : nItem.url
                 };
 
-                _.each(nItem.content, function (cItem) {
-                    nodeItem[cItem.name] = cItem.content;
+                _.each(nItem.contents, function (cItem) {
+                    nodeItem[cItem.name] = cItem.value;
                 });
 
                 rootNodes.push(nodeItem);
@@ -87,18 +80,37 @@ function SPA(id, view, params) {
 
             //If the child node exists in the json file, then get all it's content
             if (node) {
-                _.each(node.content, function (cItem) {
+                _.each(node.contents, function (cItem) {
 
-                    var contentToDisplay = cItem.content;
-                    var isContentEditable = (cItem.name.indexOf('content.') > -1);
+                    var contentToDisplay = cItem.value;
 
                     //if edit mode is on - then add editor widget
-                    if(editModeOn == true && isContentEditable == true) {
-                        contentToDisplay = '<div class="spa-editor" data-name="' + cItem.name + '">' + contentToDisplay + '</div>';
+                    if(editModeOn == true) {
+                        contentToDisplay = '<div class="spa-editor" data-content-name="' + cItem.name + '">' + contentToDisplay + '</div>';
                     }
 
                     vParams[cItem.name] = contentToDisplay;
                 });
+
+                //Cycle through the properties & 'if edit mode' create edit boxes, else just add to vparams
+                var propertiesHTML = '';
+                _.each(node.properties, function (pItem) {
+
+                    var propertyToDisplay = pItem.value;
+                    if(editModeOn == true) {
+                        propertiesHTML += '<div class="form-group" style="margin: 40px 0;"><label for="' + pItem.name + '">' + pItem.name + ':</label><textarea data-property-name="' + pItem.name + '" data-property-description="' + pItem.description + '" rows="3" class="form-control">' + pItem.value + '</textarea><div id="helpCounter"></div> <span id="helpBlock" class="help-block">' + pItem.description + '</span></div>'
+                    }
+
+                    vParams[pItem.name] = propertyToDisplay;
+                });
+
+                //if edit mode is on - then add properties editor widget
+                if(editModeOn == true) {
+                    vParams['properties'] = vParams['properties'].replace(/{{properties}}/g, propertiesHTML);
+                }
+                else {
+                    vParams['properties'] = '';
+                }
             }
         }
     }
