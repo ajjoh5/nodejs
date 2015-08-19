@@ -52,8 +52,15 @@ function SPA(id, sView, params) {
     this.viewParams = vParams;
 
     //Read Content File specific to this SPA
-    var data = fs.readFileSync(spa.contentFile, 'utf8');
-    var json = JSON.parse(data);
+    var json = {};
+
+    try {
+        var data = fs.readFileSync(spa.contentFile, 'utf8');
+        json = JSON.parse(data);
+    }
+    catch(ex) {
+        console.log(ex);
+    }
 
     //If json file exists
     if (json) {

@@ -1,0 +1,28 @@
+{{#contentFor "header-scripts"}}
+
+    <link rel="stylesheet" href="/css/framework/nodeblog-express.css">
+
+{{/contentFor}}
+
+<!-- MAIN CONTENT AND INJECTED VIEWS -->
+<div id="main" class="container container-login">
+    <div>
+        <div class="logo">
+            <img src="/css/images/nodefire-logo.png" />
+            <h1>Nodeblog Express</h1>
+        </div>
+        <form action="/login" method="post">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" name="email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" name="password">
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg" style="width: 200px;">Login</button>
+        </form>
+
+    </div>
+</div>
