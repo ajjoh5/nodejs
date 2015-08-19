@@ -214,11 +214,8 @@ angular.module('app.controllers', [])
     })
 
     .directive('select2', function() {
-        //return {
-        //    restrict: 'E',
-        //    template: 'this is my template'
-        //};
-        function link(scope, element, attrs) {
+
+        function link(scope, element, attr) {
             //alert('asdfdsaf');
 
             var opts = {
@@ -234,6 +231,77 @@ angular.module('app.controllers', [])
 
         return {
             restrict: 'E',
+            link: link
+        };
+    })
+
+    .directive('nouislider', function () {
+
+        function link(scope, element, attr) {
+
+            var opts = {
+                max : parseInt(element[0].attributes.max.value),
+                min : parseInt(element[0].attributes.min.value),
+                step : parseInt(element[0].attributes.step.value),
+                id : element[0].attributes.id.value,
+                formatBefore : element[0].attributes['format-before'].value,
+                formatAfter : element[0].attributes['format-after'].value
+            };
+
+            console.log(opts);
+            var handlesSlider = document.getElementById(opts.id);
+
+            noUiSlider.create(handlesSlider, {
+                start: [ opts.min, opts.max ],
+                step: opts.step,
+                connect: true,
+                range: {
+                    'min': opts.min,
+                    'max': opts.max
+                },
+                format: {
+                    to: function ( value ) {
+
+                        value = "" + value;
+
+                        var isThousand = 0;
+                        var newValue = '';
+
+                        for (var i=value.length; i >= 0; i--) {
+                            if(isThousand == 4)
+                            {
+                                isThousand = 0;
+                                newValue = ',' + newValue;
+                            }
+                            newValue = value.charAt(i) + newValue;
+                            isThousand++
+                        }
+
+                        return opts.formatBefore + newValue + opts.formatAfter;
+                    },
+                    from: function ( value ) {
+
+                        return value;
+                    }
+                }
+            });
+
+            var snapValues = [
+                document.getElementById(opts.id + '-lower'),
+                document.getElementById(opts.id + '-upper')
+            ];
+
+            handlesSlider.noUiSlider.on('update', function( values, handle ) {
+                snapValues[handle].innerHTML = values[handle];
+            });
+
+            //element.on('load', function() {
+            //    alert('slider loaded');
+            //});
+        }
+
+        return {
+            restrict: 'A',
             link: link
         };
     });

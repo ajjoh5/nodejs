@@ -47,7 +47,7 @@
 <body ng-app="app">
 
 <header>
-    <div class="edit-menu{{#if isEditModeOn}} edit-mode{{/if}}">
+    <div class="edit-menu{{#if spa.editModeOn}} edit-mode{{/if}}">
         <a href="javascript:void(0)" data-toggle="offcanvas" data-target="#cmsMenu" data-canvas="body">
             <img src="/css/images/menu-bars.svg" />
         </a>
@@ -57,12 +57,12 @@
             NodeJS CMS
         </div>
         <ul class="nav navmenu-nav">
-            {{#if isEditModeOn}}
-                <li><a href="../{{ view }}"><i class="fa fa-eye fa-lg"></i>&nbsp;View Page</a></li>
+            {{#if spa.editModeOn}}
+                <li><a href="../{{ spa.view }}"><i class="fa fa-eye fa-lg"></i>&nbsp;View Page</a></li>
                 <li><a href="javascript:void(0)" onclick="SavePage()"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Save Page</a></li>
             {{/if}}
-            {{#unless isEditModeOn}}
-                <li><a href="{{ view }}/edit"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Edit Page</a></li>
+            {{#unless spa.editModeOn}}
+                <li><a href="{{ spa.view }}/edit"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Edit Page</a></li>
             {{/unless}}
         </ul>
     </nav>

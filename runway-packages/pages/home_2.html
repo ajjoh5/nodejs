@@ -3,6 +3,7 @@
         font-family: 'Roboto', sans-serif;
         line-height: 1.5em;
         font-size: 1.15em;
+        background: #FCF7F2;
     }
 
     .rowRegion {
@@ -184,12 +185,12 @@
         border-bottom: 1px solid #E7E7E7;
     }
 
-    .packageFilters div {
+    .packageFilters .row > div {
         padding: 0px;
     }
 
     .packageFilters div.lbl {
-        padding-top: 10px;
+        padding: 10px 0 0 0;
     }
 
     .packageFilters select.form-control {
@@ -197,7 +198,11 @@
     }
 
     .packageFilters div.field{
-        padding-right: 50px
+        padding: 0px 50px 0 0;
+    }
+
+    .packageFilters div.field2{
+        padding: 8px 80px 0 0;
     }
 
     .select2-container .select2-selection--single {
@@ -243,9 +248,90 @@
 
     *:focus {outline: none; }
 
+    .noUi-background {
+        background: #FCF7F2;
+        box-shadow: inset 0 1px 1px #f0f0f0;
+    }
+
+    .noUi-horizontal .noUi-handle {
+        width: 30px;
+        height: 24px;
+        left: 0px;
+        top: -4px;
+    }
+
+    .noUi-horizontal .noUi-connect {
+        background-color: #ECE4DB;
+        box-shadow: none;
+    }
+
+    .noUi-handle {
+        position: relative;
+        z-index: 1;
+        border: 1px solid #36414a;
+        border-radius: 3px;
+        background: #3d4b56;
+        cursor: default;
+    }
+
+    .noUi-handle:before {
+        left: 12px;
+        top: 5px;
+        height: 12px;
+    }
+
+    .noUi-handle:after {
+        left: 15px;
+        top: 5px;
+        height: 12px;
+    }
+
+    .slider-lower {
+        margin: 10px 0px;
+        float: left;
+    }
+
+    .slider-upper {
+        margin: 10px -30px;
+        float: right;
+    }
+
+    a.btn-filter {
+        display: inline-block;
+        padding: 10px 20px 10px 30px;
+        width: 110px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        border: 2px solid #e5e0dc;
+        background: url("http://www.mainvuehomes.com.au/MainVue/media/MainVue/CSSImages/Btn_Arrow.png") no-repeat scroll 80px -123px rgba(0, 0, 0, 0);
+        text-decoration: none;
+    }
+
+    a.btn-filter:hover {
+        background: url("http://www.mainvuehomes.com.au/MainVue/media/MainVue/CSSImages/Btn_Arrow.png") no-repeat scroll 80px 10px rgba(0, 0, 0, 0);
+        cursor: pointer;
+    }
+
+    a.btn-filter span, a.btn-filter:hover span{
+        color: #585450;
+        font-weight: bold;
+    }
+
+    a.btn-search {
+        background-color: #3d4b56;
+        border: 2px solid #36414a;
+    }
+
+    a.btn-search:hover {
+        border: 2px solid #e5e0dc;
+    }
+
+    a.btn-search span {
+        color: #fff;
+    }
+
 </style>
 
-    <br/><br/><br/><br/><br/><br/><br/><br/>
     <br/><br/><br/><br/><br/><br/><br/><br/>
 
     <div class="packageFilters container-fluid">
@@ -363,16 +449,22 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <div class="col-md-3 lbl">Lot width</div>
-                    <div class="col-md-9 field">
-                        &nbsp;
+                    <div class="col-md-9 field2">
+                        <div nouislider step="1" min="10" max="18" id="lot" format-before="" format-after="m"></div>
+                        <div id="lot-lower" class="slider-lower"></div>
+                        <div id="lot-upper" class="slider-upper"></div>
+                        <div style="clear: both;"></div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <div class="col-md-3 lbl">Price range</div>
-                    <div class="col-md-9 field">
-                        &nbsp;
+                    <div class="col-md-9 field2">
+                        <div nouislider step="25000" min="350000" max="600000" id="price" format-before="$" format-after=""></div>
+                        <div id="price-lower" class="slider-lower"></div>
+                        <div id="price-upper" class="slider-upper"></div>
+                        <div style="clear: both;"></div>
                     </div>
                 </div>
             </div>
@@ -383,7 +475,16 @@
 
     </div>
 
+    <!-- Run Select 2 jQuery inits -->
     <select2></select2>
+
+    <!-- add search buttons -->
+    <div class="pull-right">
+        <a id="btnReset" class="btn-filter btn-reset"><span>Reset</span></a>
+        <a id="btnSearch" class="btn-filter btn-search"><span>Search</span></a>
+    </div>
+    <div class="clearfix"></div>
+
 
     <!--<h1>Regions Table</h1>-->
     <div ng-repeat="r in mpRegionList track by $index">
