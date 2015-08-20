@@ -1,0 +1,25 @@
+{
+  "id": "lPy97yYz",
+  "nodes": [
+    {
+      "properties": [
+        {
+          "name": "login-name",
+          "description": "",
+          "value": "adamj101"
+        },
+        {
+          "name": "login-password",
+          "description": "",
+          "value": ""
+        }
+      ],
+      "contents": [
+        {
+          "name": "",
+          "value": ""
+        }
+      ]
+    }
+  ]
+}

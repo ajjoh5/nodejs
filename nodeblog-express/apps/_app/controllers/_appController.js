@@ -67,19 +67,6 @@ function _appController(app) {
         res.render(spa.viewFile, spa.viewParams);
     });
 
-    //Login to Nodeblog
-    app.get('/login', function(req, res) {
-
-        //get url params
-        //var params = utilities.removeLastSlash(req.params[0]).split('/');
-
-        //Create new single page app based on params
-        var spa = new SPA('_app', 'login', null);
-        console.log(spa.viewParams.spa);
-
-        res.render(spa.viewFile, spa.viewParams);
-    });
-
     // Generic Catch All SPA Views (put in last)
     app.get('/?*', function(req, res) {
 
