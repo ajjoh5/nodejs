@@ -14,6 +14,7 @@ var _ = require('underscore');
 var proxy = require('express-http-proxy');
 var proxy2  = require('proxy-express');
 var async = require('async');
+var jsondiffpatch = require('json-diff-patch');
 
 //Libraries
 var runwaydata = require('./lib/runway-data');
@@ -32,7 +33,7 @@ app.get('/runway/packages/:range', function(req, res) {
     var rangeName = req.params.range ? req.params.range : 'MainVue VIC';
     rangeName = decodeURIComponent(rangeName);
 
-    var file = path.join(__dirname + '/json_files/' + rangeName + '-cache.json');
+    var file = path.join(__dirname + '/json-files/live/' + rangeName + '-cache.json');
 
     fs.readFile(file, function (err, data) {
         console.log('Read File: ' + file);
@@ -109,7 +110,7 @@ app.get('/runway/cache-packages/:range', function(req, res) {
                             var e_package = data;
                             var homeSize = '---';
 
-                            if(e_package.Plan.Details)
+                            if(e_package.Plan && e_package.Plan.Details)
                             {
                                 homeSize = _.find(e_package.Plan.Details, function(eItem) {
                                     return eItem.DetailsType === 'House';
@@ -141,15 +142,69 @@ app.get('/runway/cache-packages/:range', function(req, res) {
                     console.timeEnd("add-extendedinfo-packages");
                     console.timeEnd('total-time');
 
-                    var file = path.join(__dirname + '/json_files/' + rangeName + '-cache.json');
+                    var liveJson = [];
+                    var liveFileData = '';
+                    var liveFile = path.join(__dirname + '/json-files/live/' + rangeName + '-cache.json');
+                    try {
+                        //Do diff check on new data vs current live data
 
-                    fs.writeFile(file, JSON.stringify(data), function(err) {
-                        if(err) {
-                            res.send('Could not save cache file: ' + rangeName + '-cache.json');
-                            return console.log(err);
-                        }
-                        console.log('Saved File: ' + file);
-                    });
+                        liveFileData = fs.readFileSync(liveFile);
+                        liveJson = JSON.parse(liveFileData);
+                    }
+                    catch(ex) {
+                        console.log(ex);
+                    }
+
+                    //Get delta between 'new json' and current 'live json'
+                    var delta = jsondiffpatch.diff(liveJson, data);
+                    console.log('[ JSON Delta ]');
+                    console.log('Delta Changes: ' + delta.length);
+
+                    if(delta.length == 0) {
+                        //console.log('[ Delta ]');
+                        //console.log(delta[0]);
+
+                        //Save location to temp location, before performing diff check
+                        function formatDate(date) {
+                            var year = date.getFullYear(),
+                                month = date.getMonth() + 1, // months are zero indexed
+                                day = date.getDate(),
+                                hour = date.getHours(),
+                                minute = date.getMinutes(),
+                                second = date.getSeconds(),
+                                hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
+                                minuteFormatted = minute < 10 ? "0" + minute : minute,
+                                morning = hour < 12 ? "am" : "pm";
+
+                            if(month.length < 2){
+                                month = '0' + month;
+                            }
+
+                            if(day.length < 2){
+                                day = '0' + day;
+                            }
+
+                            //return year + "-" + month + "-" + day + "-" + hour + minuteFormatted;
+                            return '' + year + month + day + "-" + hour + minuteFormatted;
+                        };
+
+                        var dateStamp = formatDate(new Date());
+                        var backupFile = path.join(__dirname + '/json-files/backup/' + dateStamp + '_' + rangeName + '-cache.json');
+
+                        //Copy current live file to backup
+                        fs.writeFile(backupFile, liveFileData, function(err) {
+                            console.log('Backed up file: ' + backupFile);
+                        });
+
+                        fs.writeFile(liveFile, JSON.stringify(data), function(err) {
+                            if(err) {
+                                res.send('Could not save cache file: ' + rangeName + '-cache.json');
+                                return console.log(err);
+                            }
+                            console.log('Saved File: ' + liveFile);
+                        });
+
+                    }
 
                     //show view of json data
                     res.send(data);

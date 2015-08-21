@@ -156,7 +156,7 @@ function JoinPublishedAndRangePackages(publishedPackages, rangePackages, rangeNa
     _.each(publishedPackages, function(item) {
 
         //if (item.Plan.Home.Range.Name == 'MainVue VIC' && item.Publishing.Status == 'Published')
-        if (item.Plan.Home.Range.Name == rangeName && item.Publishing.Status == 'Published')
+        if (item.Plan.Home.Range.Name == rangeName && (item.Publishing.Status == 'Published' || item.Publishing.Status == 'Pre-release'))
         {
             //Get the Home Package from "Search" Packages that matches the one in the "Default" packages
             var sHomePackage = _.find(rangePackages, function (sItem) {
