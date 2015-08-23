@@ -33,10 +33,10 @@ app.get('/runway/packages/:range', function(req, res) {
     var rangeName = req.params.range ? req.params.range : 'MainVue VIC';
     rangeName = decodeURIComponent(rangeName);
 
-    var file = path.join(__dirname + '/json-files/live/' + rangeName + '-cache.json');
+    var liveFile = path.join(__dirname + '/json-files/live/' + rangeName + '-cache.json');
 
-    fs.readFile(file, function (err, data) {
-        console.log('Read File: ' + file);
+    fs.readFile(liveFile, function (err, data) {
+        console.log('Read File: ' + liveFile);
         var json = {};
 
         if (err) {
@@ -160,7 +160,7 @@ app.get('/runway/cache-packages/:range', function(req, res) {
                     console.log('[ JSON Delta ]');
                     console.log('Delta Changes: ' + delta.length);
 
-                    if(delta.length == 0) {
+                    if(delta.length > 0) {
                         //console.log('[ Delta ]');
                         //console.log(delta[0]);
 
@@ -204,6 +204,9 @@ app.get('/runway/cache-packages/:range', function(req, res) {
                             console.log('Saved File: ' + liveFile);
                         });
 
+                    }
+                    else {
+                        console.log('No delta changes, keeping live file: ' + liveFile);
                     }
 
                     //show view of json data
