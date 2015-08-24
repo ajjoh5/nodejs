@@ -7,6 +7,8 @@ var session = require('express-session');
 
 function loginController(app) {
 
+    //TODO: Add in ability to save login creds, update login creds to json file, store session name/secret in settings file
+
     //init variables
     var appDir = path.dirname(require.main.filename);
 

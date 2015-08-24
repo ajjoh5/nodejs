@@ -26,7 +26,13 @@ var app = express();
 app.use(compress());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/runway/packages/:range', function(req, res) {
+function allowCrossSiteMiddleware(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+}
+
+app.get('/runway/packages/:range', allowCrossSiteMiddleware, function(req, res) {
 
     console.time('total-time');
 
@@ -40,7 +46,7 @@ app.get('/runway/packages/:range', function(req, res) {
         var json = {};
 
         if (err) {
-            res.send('Could not find or read file: ' + rangeName + '-cache.json');
+            res.status(500).send('ERROR: Could not find or read file: ' + rangeName + '-cache.json');
             return console.log(err);
         }
 
