@@ -47,25 +47,28 @@
 <body ng-app="app">
 
 <header>
-    <div class="edit-menu{{#if spa.editModeOn}} edit-mode{{/if}}">
-        <a href="javascript:void(0)" data-toggle="offcanvas" data-target="#cmsMenu" data-canvas="body">
-            <img src="/css/images/menu-bars.svg" />
-        </a>
-    </div>
-    <nav id="cmsMenu" class="navmenu navmenu-fixed-left offcanvas" role="navigation">
-        <div class="nav-logo text-center">
-            NodeJS CMS
+    {{#if isAuthenticated}}
+        <div class="edit-menu{{#if spa.editModeOn}} edit-mode{{/if}}">
+            <a href="javascript:void(0)" data-toggle="offcanvas" data-target="#cmsMenu" data-canvas="body">
+                <img src="/css/images/menu-bars.svg" />
+            </a>
         </div>
-        <ul class="nav navmenu-nav">
-            {{#if spa.editModeOn}}
-                <li><a href="../{{ spa.view }}"><i class="fa fa-eye fa-lg"></i>&nbsp;View Page</a></li>
-                <li><a href="javascript:void(0)" onclick="SavePage()"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Save Page</a></li>
-            {{/if}}
-            {{#unless spa.editModeOn}}
-                <li><a href="{{ spa.view }}/edit"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Edit Page</a></li>
-            {{/unless}}
-        </ul>
-    </nav>
+        <nav id="cmsMenu" class="navmenu navmenu-fixed-left offcanvas" role="navigation">
+            <div class="nav-logo text-center">
+                NodeJS CMS
+            </div>
+            <ul class="nav navmenu-nav">
+                {{#if spa.editModeOn}}
+                    <li><a href="../{{ spa.view }}"><i class="fa fa-eye fa-lg"></i>&nbsp;View Page</a></li>
+                    <li><a href="javascript:void(0)" onclick="SavePage()"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Save Page</a></li>
+                {{/if}}
+                {{#unless spa.editModeOn}}
+                    <li><a href="{{ spa.view }}/edit"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Edit Page</a></li>
+                {{/unless}}
+                <li><a href="/logout"><i class="fa fa-sign-out fa-lg"></i>&nbsp;Sign out</a></li>
+            </ul>
+        </nav>
+    {{/if}}
     <nav class="navbar navbar-default navbar-fixed-top navbar-minimal">
         <div class="container">
             <div class="navbar-header">
@@ -95,6 +98,7 @@
 {{/block}}
 <!-- END - Custom Scripts -->
 
+{{#if isAuthenticated}}
 <script>
     $(document).ready(function() {
         $('div.spa-editor').editable({
@@ -153,6 +157,6 @@
         });
     }
 </script>
-
+{{/if}}
 </body>
 </html>

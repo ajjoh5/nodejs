@@ -17,6 +17,20 @@ function _appController(app) {
     var SPA = require(appDir + '/lib/SPA.js');
     var utilities = require(appDir + '/lib/utilities.js');
 
+    function userMiddleware(req, res, next) {
+        req.params.isAuthenticated = false;
+
+        //If user is authenticated, set params 'isAuthenticated' = true
+        if(req.session.username) {
+            //user successfully logged in - set new request variable
+            req.params.isAuthenticated = true;
+        }
+
+        //console.log('[ Authenticated = ' + req.params.isAuthenticated + ' ]');
+
+        next();
+    }
+
     //Express routes
     //Mail Sender
     app.post('/mail/send', function(req, res) {
@@ -58,36 +72,35 @@ function _appController(app) {
             });
     });
 
-    app.get('/', function(req, res) {
+    //INDEX ROUTE - custom handling
+    app.get('/', userMiddleware, function(req, res) {
 
         //Create new single page app - "pages", with default view called "default"
-        var spa = new SPA('pages', 'about-me');
+        req.params[0] = 'pages/about-me';
+        var spa = new SPA(req.params);
 
         //Render the single page app from the spa params
         res.render(spa.viewFile, spa.viewParams);
     });
 
     // Generic Catch All SPA Views (put in last)
-    app.get('/?*', function(req, res) {
-
-        //get url params
-        var params = utilities.removeLastSlash(req.params[0]).split('/');
+    app.get('/?*', userMiddleware, function(req, res) {
 
         //Create new single page app based on params
-        var spa = new SPA(params[0], params[1], params);
+        var spa = new SPA(req.params);
 
         res.render(spa.viewFile, spa.viewParams);
     });
 
     //Save SPA Content
-    app.post('/?*/save', function(req, res) {
+    app.post('/?*/save', userMiddleware, function(req, res) {
 
-        //get url params
-        var params = utilities.removeLastSlash(req.params[0]).split('/');
-
-        SPA.saveSPA(params[0], params[1], params, req, function(err, data) {
-            res.send(data)
-        });
+        //If user is authenticated, then Save the SPA
+        if(req.params.isAuthenticated) {
+            SPA.saveSPA(req.params, req, function(err, data) {
+                res.send(data)
+            });
+        }
     });
 
 }

@@ -19,14 +19,20 @@ function isEditModeInParams(params)
 }
 
 // Constructor
-function SPA(id, sView, params) {
+function SPA(reqParams) {
+
+    var utilities = require('./utilities.js');
+
+    var urlParams = utilities.removeLastSlash(reqParams[0]).split('/');
+    var id = urlParams[0];
+    var sView = urlParams[1];
+    var isAuthenticated = !reqParams.isAuthenticated ? false : reqParams.isAuthenticated;
 
     var spa = {
         id: id,
         relpath: '/apps/' + id,
         view: sView ? sView : 'default',
-        editModeOn: isEditModeInParams(params),
-        params: []
+        editModeOn: isEditModeInParams(urlParams),
     };
 
     //Setup other dynamic properties
@@ -44,7 +50,8 @@ function SPA(id, sView, params) {
     //(ensure 'layout' exists as this override the default layout location)
     var vParams = {
         spa: spa,
-        layout: spa.layout
+        layout: spa.layout,
+        isAuthenticated : isAuthenticated
     };
 
     //setup the vParams properties edit box
@@ -96,7 +103,7 @@ function SPA(id, sView, params) {
                     var contentToDisplay = cItem.value;
 
                     //if edit mode is on - then add editor widget
-                    if (spa.editModeOn == true) {
+                    if (isAuthenticated && spa.editModeOn == true) {
                         contentToDisplay = '<div class="spa-editor" data-content-name="' + cItem.name + '">' + contentToDisplay + '</div>';
                     }
 
@@ -108,7 +115,7 @@ function SPA(id, sView, params) {
                 _.each(node.properties, function (pItem) {
 
                     var propertyToDisplay = pItem.value;
-                    if (spa.editModeOn == true) {
+                    if (isAuthenticated && spa.editModeOn == true) {
                         propertiesHTML += '<div class="form-group" style="margin: 40px 0;"><label for="' + pItem.name + '">' + pItem.name + ':</label><textarea data-property-name="' + pItem.name + '" data-property-description="' + pItem.description + '" rows="3" class="form-control">' + pItem.value + '</textarea><div id="helpCounter"></div> <span id="helpBlock" class="help-block">' + pItem.description + '</span></div>'
                     }
 
@@ -116,7 +123,7 @@ function SPA(id, sView, params) {
                 });
 
                 //if edit mode is on - then add properties editor widget
-                if (spa.editModeOn == true) {
+                if (isAuthenticated && spa.editModeOn == true) {
                     vParams['properties'] = vParams['properties'].replace(/{{properties}}/g, propertiesHTML);
                 }
                 else {
@@ -127,14 +134,19 @@ function SPA(id, sView, params) {
     }
 }
 
-function saveSPA(id, sView, params, post, callback) {
+function saveSPA(reqParams, post, callback) {
+
+    var utilities = require('./utilities.js');
+
+    var urlParams = utilities.removeLastSlash(reqParams[0]).split('/');
+    var id = urlParams[0];
+    var sView = urlParams[1];
 
     var spa = {
         id: id,
         relpath: '/apps/' + id,
         view: sView ? sView : 'default',
-        editModeOn: isEditModeInParams(params),
-        params: []
+        editModeOn: isEditModeInParams(urlParams),
     };
 
     //Setup other dynamic properties

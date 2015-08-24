@@ -7,8 +7,6 @@ var express = require('express');
 var compress = require('compression');
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
-var passport = require('passport');
-
 
 //App Custom Plugins
 var utilities = require('./lib/utilities.js');
@@ -44,10 +42,6 @@ hbs = exphbs.create({
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-
 
 //Static Routes for Files
 app.use('/css', express.static('www/css'));
