@@ -1,5 +1,7 @@
 //NodeJS Plugins
+var fs = require('fs');
 var path = require('path');
+var _ = require('underscore');
 
 //Controller Plugins
 var bcrypt = require('bcrypt-nodejs');
@@ -12,11 +14,14 @@ function loginController(app) {
     //init variables
     var appDir = path.dirname(require.main.filename);
 
-    var appSessionSecret = 'app secret here';
-    var appSessionName = 'nodeblog-express';
+    //Get all Login Settings from login.json file
+    var data = fs.readFileSync(appDir + '/apps/login/data/login.json', 'utf8');
+    var appConfig = JSON.parse(data);
+    var sessionSettings = _.findWhere(appConfig.nodes, {name: 'session-settings'});
+    var appSessionSecret = _.findWhere(sessionSettings.properties, {name : 'session-secret'}).value;
+    var appSessionName = _.findWhere(sessionSettings.properties, {name : 'session-name'}).value;
 
-    //Setup sessions inside app
-    //app.use(session({secret: 'secret-here'}));
+    //Setup sessions with config as follows
     app.use(session({
         secret: appSessionSecret,
         name: appSessionName,
@@ -25,21 +30,36 @@ function loginController(app) {
         saveUninitialized: true
     }));
 
+    function findUser(inputUsername) {
+        //get all users
+        var allUsers = _.findWhere(appConfig.nodes, {name : 'login-users'});
+
+        //get user by username
+        var user = _.findWhere(allUsers.users, {username : inputUsername});
+
+        return user;
+    }
+
     function generateHash(password) {
         return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
     }
 
-    function isValidPassword(inputPassword, storedPassword) {
-        return bcrypt.compareSync(inputPassword, storedPassword);
+    function isValidPassword(inputUsername, inputPassword) {
+        var isValid = false;
+
+        var user = findUser(inputUsername);
+
+        if(user) {
+            isValid = bcrypt.compareSync(inputPassword, user.password);
+        }
+
+        return isValid;
     }
 
     //Post - Login Credentials to Nodeblog
     app.post('/login', function(req, res) {
 
-        //hash version of 'password'
-        var storedPassword = '$2a$08$i3y12yfo0T1Rw9mjbVxBiO93nf8L5VrTb8eF3RsVuvxHwhsVueBfK';
-
-        if(isValidPassword(req.body.password, storedPassword))
+        if(isValidPassword(req.body.email, req.body.password))
         {
             //Save username 'email' as valid login session
             req.session.username = req.body.email;
@@ -49,8 +69,6 @@ function loginController(app) {
         {
             res.redirect('/login');
         }
-
-        //res.send(JSON.stringify(req.body));
     });
 
     //Post - Login Credentials to Nodeblog

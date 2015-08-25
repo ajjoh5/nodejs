@@ -2,24 +2,28 @@
   "id": "lPy97yYz",
   "nodes": [
     {
-      "properties": [
+      "name" : "login-users",
+      "users" : [
+        { "username" : "ajjoh5@gmail.com", "password" : "$2a$08$erRFjZFea8jzsAs1niUYh.q0He4YDekRwVnNXxdEIeNaKGVShgirO" }
+      ],
+      "properties": [],
+      "contents": []
+    },
+    {
+      "name" : "session-settings",
+      "properties" : [
         {
-          "name": "login-name",
-          "description": "",
-          "value": "adamj101"
+          "name" : "session-secret",
+          "description" : "The secret key that all sessions are built on in expressjs",
+          "value" : "A98DB973KWL8XP1LZ94K"
         },
         {
-          "name": "login-password",
-          "description": "",
-          "value": ""
+          "name" : "session-name",
+          "description" : "The sessions unique name, based on this app. This populates the cookie name",
+          "value" : "nodeblog-express"
         }
       ],
-      "contents": [
-        {
-          "name": "",
-          "value": ""
-        }
-      ]
+      "contents" : []
     }
   ]
 }
