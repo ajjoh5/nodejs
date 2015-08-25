@@ -1,0 +1,17 @@
+{
+  "IsRunning": false,
+  "Ranges": [
+    {
+      "Name": "MainVue VIC",
+      "LastRun": "20150825-1410"
+    },
+    {
+      "Name": "Clendonvale",
+      "LastRun": "20150825-1409"
+    },
+    {
+      "Name": "Cosmopolitan",
+      "LastRun": "20150825-1416"
+    }
+  ]
+}
