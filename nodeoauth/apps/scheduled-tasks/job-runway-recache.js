@@ -19,4 +19,4 @@ function reCacheRunway(brand)
     });
 }
 
-reCacheRunway();
+reCacheRunway('MainVue VIC');
