@@ -136,7 +136,7 @@ app.get('/runway/packages/:range', allowCrossSiteMiddleware, function(req, res) 
     });
 });
 
-app.get('/runway/cache-packages/:range', ensureRunOnce, function(req, res) {
+app.get('/runway/cache-packages/:range', ensureRunOnce, allowCrossSiteMiddleware, function(req, res) {
 
     console.time('total-time');
     console.time("get-packages");
