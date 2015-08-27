@@ -8,7 +8,7 @@ var requestify = require('requestify');
 //app = express app
 function _appController(app) {
 
-    console.log('Loading _appController [LAST ALWAYS]');
+    console.log('Loading APP Controller [_appController]');
 
     //init variables
     var appDir = path.dirname(require.main.filename);
@@ -17,13 +17,20 @@ function _appController(app) {
     var SPA = require(appDir + '/lib/SPA.js');
     var utilities = require(appDir + '/lib/utilities.js');
 
-    function userMiddleware(req, res, next) {
+    function cmsMiddleware(req, res, next) {
         req.params.isAuthenticated = false;
+        req.params.isEditModeOn = false;
 
         //If user is authenticated, set params 'isAuthenticated' = true
         if(req.session.username) {
             //user successfully logged in - set new request variable
             req.params.isAuthenticated = true;
+        }
+
+        var urlRequest = req.params[0];
+        if(urlRequest && urlRequest.toUpperCase().indexOf('EDIT') > -1)
+        {
+            req.params.isEditModeOn = true;
         }
 
         //console.log('[ Authenticated = ' + req.params.isAuthenticated + ' ]');
@@ -73,31 +80,34 @@ function _appController(app) {
     });
 
     //INDEX ROUTE - custom handling
-    app.get('/', userMiddleware, function(req, res) {
+    app.get('/', cmsMiddleware, function(req, res) {
 
         //Create new single page app - "pages", with default view called "default"
-        req.params[0] = 'pages/about-me';
-        var spa = new SPA(req.params);
+        var spa = new SPA('pages', 'about-me', null, req.params);
 
         //Render the single page app from the spa params
         res.render(spa.viewFile, spa.viewParams);
     });
 
     // Generic Catch All SPA Views (put in last)
-    app.get('/?*', userMiddleware, function(req, res) {
+    app.get('/?*', cmsMiddleware, function(req, res) {
+
+        var urlParams = utilities.removeLastSlash(req.params[0]).split('/');
 
         //Create new single page app based on params
-        var spa = new SPA(req.params);
+        var spa = new SPA(urlParams[0], urlParams[1], null, req.params);
 
         res.render(spa.viewFile, spa.viewParams);
     });
 
     //Save SPA Content
-    app.post('/?*/save', userMiddleware, function(req, res) {
+    app.post('/?*/save', cmsMiddleware, function(req, res) {
+
+        var urlParams = utilities.removeLastSlash(req.params[0]).split('/');
 
         //If user is authenticated, then Save the SPA
         if(req.params.isAuthenticated) {
-            SPA.saveSPA(req.params, req, function(err, data) {
+            SPA.saveSPA(urlParams[0], urlParams[1], null, req.params, req, function(err, data) {
                 res.send(data)
             });
         }

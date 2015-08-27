@@ -47,7 +47,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/css', express.static('www/css'));
 app.use('/js', express.static('www/js'));
 app.use('*/app.js', function(req, res, next) {
-    res.sendFile(path.join(__dirname + '/' + req.params[0] + '/app.js'));
+    res.sendFile(path.join(__dirname + '/apps/' + req.params[0] + '/app.js'));
 });
 app.use('*/favicon.ico', function(req, res, next) {
     res.sendFile(path.join(__dirname + '/favicon.ico'));
@@ -55,15 +55,12 @@ app.use('*/favicon.ico', function(req, res, next) {
 
 
 
-// init utilities & init app
-//load app routes (catch all routes, etc)
-utilities.loadLoginController(app);
+// init app controllers and routes
+utilities.loadAppController(app, '_loginController');
+utilities.loadAppController(app, '_appController');
 
-// - load controllers (that aren't the starting _appController) and load their routes first
+// - load SPA controllers
 utilities.loadAllSPAControllers(app);
-
-//load app routes (catch all routes, etc)
-utilities.loadAppController(app);
 
 
 // Blitz.io custom route for performance testing

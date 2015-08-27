@@ -42,20 +42,11 @@ function loadAllSPAControllers(app) {
 
 }
 
-function loadAppController(app) {
+function loadAppController(app, controller) {
     //console.log('Loading controllers');
 
     var appDir = path.dirname(require.main.filename);
-    var controllerFile = appDir + '/apps/_app/controllers/_appController.js';
-
-    require(controllerFile)(app);
-}
-
-function loadLoginController(app) {
-    //console.log('Loading controllers');
-
-    var appDir = path.dirname(require.main.filename);
-    var controllerFile = appDir + '/apps/_login/controllers/_loginController.js';
+    var controllerFile = appDir + '/apps/_app/controllers/' + controller + '.js';
 
     require(controllerFile)(app);
 }
@@ -64,4 +55,3 @@ function loadLoginController(app) {
 module.exports.removeLastSlash = removeLastSlash;
 module.exports.loadAllSPAControllers = loadAllSPAControllers;
 module.exports.loadAppController = loadAppController;
-module.exports.loadLoginController = loadLoginController;

@@ -9,7 +9,7 @@ var session = require('express-session');
 
 function _loginController(app) {
 
-    console.log('Loading _loginController [FIRST ALWAYS]');
+    console.log('Loading APP Controller [_loginController]');
 
     //TODO: Add in ability to save login creds, update login creds to json file, store session name/secret in settings file
 
@@ -59,6 +59,10 @@ function _loginController(app) {
     }
 
     //Post - Login Credentials to Nodeblog
+    app.get('/login', function(req, res) {
+        res.render(appDir + '/apps/_app/views/login', { layout : appDir + '/apps/_app/views/layouts/login-layout'});
+    });
+
     app.post('/login', function(req, res) {
 
         if(isValidPassword(req.body.email, req.body.password))
@@ -81,7 +85,6 @@ function _loginController(app) {
                 console.log(err);
             }
             else {
-                console.log(req.session);
                 res.redirect('/');
             }
         });
