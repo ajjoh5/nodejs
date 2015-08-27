@@ -9,18 +9,7 @@ function blogController(app) {
 
     //App Custom Plugins
     var SPA = require(appDir + '/lib/SPA.js');
-
-    function userMiddleware(req, res, next) {
-        req.params.isAuthenticated = false;
-
-        //If user is authenticated, set params 'isAuthenticated' = true
-        if(req.session.username) {
-            //user successfully logged in - set new request variable
-            req.params.isAuthenticated = true;
-        }
-
-        next();
-    }
+    var utilities = require(appDir + '/lib/utilities.js');
 
     //Express routes
     app.get('/blog/blog-page', function(req, res) {
@@ -28,15 +17,14 @@ function blogController(app) {
     });
 
     // Generic Catch All Blog Article Views
-    app.get('/blog/?*', userMiddleware, function(req, res) {
+    app.get('/blog/*', utilities.cmsMiddleware, function(req, res) {
 
-        //Create new single page app based on params
-        req.params[0] = 'blog/' + req.params[0];
-        var spa = new SPA(req.params);
+        var urlParams = utilities.removeLastSlash(req.params[0]).split('/');
 
-        var blogArticleViewFile = spa.viewParams.spa.viewpath + '/blog-article';
+        //Create new single page app - "pages", with default view called "default"
+        var spa = new SPA('blog', urlParams[0], 'blog-article', null, req.params);
 
-        res.render(blogArticleViewFile, spa.viewParams);
+        res.render(spa.viewFile, spa.viewParams);
     });
 
 }

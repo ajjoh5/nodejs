@@ -2,8 +2,28 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var shortid = require('shortid');
 
-function InitSPA(spa, spaName, spaView, spaLayout, spaParams) {
+function FileExists(fileName) {
+    var retval = false;
+
+    try {
+        var stats = fs.statSync(fileName);
+        if (stats.isFile()) {
+            retval = true;
+        }
+        else {
+            retval = false;
+        }
+    }
+    catch(err) {
+        console.log('Filename Error: ' + fileName);
+    }
+
+    return retval;
+}
+
+function InitSPA(spa, spaName, spaView, spaViewFile, spaLayout, spaParams) {
 
     //init SPA settings
     var appDir = path.dirname(require.main.filename);
@@ -18,7 +38,12 @@ function InitSPA(spa, spaName, spaView, spaLayout, spaParams) {
     spa.layoutPath = spa.viewPath + '/layouts/';
 
     //Init all the file locations
-    spa.viewFile = spaView ? spa.viewPath + spaView : spa.viewPath + 'default';
+    spa.viewFile = spaViewFile ? spa.viewPath + spaViewFile : spaView ? spa.viewPath + spaView : spa.viewPath + 'default';
+    console.log('Serving ViewFile: ' + spa.viewFile);
+    if(!FileExists(spa.viewFile + '.handlebars')) {
+        spa.viewFile = spa.viewPath + 'default';
+    }
+
     spa.contentFile = spa.contentPath + '/' + spa.id + '.json';
     spa.layoutFile = spaLayout ? spa.layoutPath + spaLayout : spa.layoutPath + '/layout';
 
@@ -48,6 +73,8 @@ function processSPAContent(spa, vParams) {
 
         if (!spa.view) {
 
+            //THIS IS THE ROOT NODE
+
             var rootNodes = [];
             _.each(json.nodes, function (nItem) {
                 var nodeItem = {
@@ -66,12 +93,26 @@ function processSPAContent(spa, vParams) {
                 rootNodes.push(nodeItem);
             });
 
+            var propertiesHTML = '<div class="form-group" style="margin: 40px 0;"><button id="btnAdd" class="btn btn-info" onclick="New()">Add ' + spa.id + '</button></div>';
+
+            //if edit mode is on - then add properties editor widget
+            if (spa.isAuthenticated && spa.isEditModeOn == true) {
+                propertiesHTML = '';
+                vParams['properties'] = vParams['properties'].replace(/{{properties}}/g, propertiesHTML);
+            }
+            else {
+                vParams['properties'] = vParams['properties'].replace(/{{properties}}/g, propertiesHTML);
+
+                //vParams['properties'] = '';
+            }
+
             vParams[spa.id] = rootNodes;
         }
         else {
 
+            //NOT ROOT NODE
             var node = _.find(json.nodes, function (nItem) {
-                return nItem.name === spa.view;
+                return nItem.url === spa.view;
             });
 
             //If the child node exists in the json file, then get all it's content
@@ -113,12 +154,12 @@ function processSPAContent(spa, vParams) {
 }
 
 // Constructor
-function SPA(spaName, spaView, spaLayout, spaParams) {
+function SPA(spaName, spaView, spaViewFile, spaLayout, spaParams) {
 
     var spa = {};
 
     //Init the SPA settings
-    InitSPA(spa, spaName, spaView, spaLayout, spaParams);
+    InitSPA(spa, spaName, spaView, spaViewFile, spaLayout, spaParams);
 
     //Get the ViewFile (passed in from the params)
     this.viewFile = spa.viewFile;
@@ -142,7 +183,7 @@ function saveSPA(spaName, spaView, spaLayout, spaParams, post, callback) {
     var spa = {};
 
     //Init the SPA settings
-    InitSPA(spa, spaName, spaView, spaLayout, spaParams);
+    InitSPA(spa, spaName, spaView, null, spaLayout, spaParams);
 
     //Get existing data file
     var data = fs.readFileSync(spa.contentFile, 'utf8');
@@ -168,5 +209,51 @@ function saveSPA(spaName, spaView, spaLayout, spaParams, post, callback) {
 
 }
 
+function newSPA(spaName, spaView, spaLayout, spaParams, post, callback) {
+
+    var spa = {};
+
+    //Init the SPA settings
+    InitSPA(spa, spaName, spaView, spaViewFile, spaLayout, spaParams);
+
+    //Get existing data file
+    var data = fs.readFileSync(spa.contentFile, 'utf8');
+    var json = JSON.parse(data);
+
+    var sid = shortid.generate();
+
+    //Get the node we are interested in
+    var newNode = {
+        name : 'New Blog ID - ' + sid,
+        url : 'new-blog-' + sid,
+        contents : [],
+        properties : [
+        {
+            "name": "meta-description",
+            "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+            "value": "meta-description here"
+        },
+        {
+            "name": "page-title",
+            "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+            "value": "New Blog ID - " + sid
+        }
+    ]
+    };
+
+    json.nodes.push(newNode);
+
+    //Write new content + properties to existing file
+    fs.writeFile(spa.contentFile, JSON.stringify(json), function(err) {
+        if(err) {
+            return callback(err, null);
+        }
+
+        return callback(null, 'File was successfully saved.');
+    });
+
+}
+
 module.exports = SPA;
 module.exports.saveSPA = saveSPA;
+module.exports.newSPA = newSPA;

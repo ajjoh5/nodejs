@@ -57,11 +57,11 @@ app.use('*/favicon.ico', function(req, res, next) {
 
 // init app controllers and routes
 utilities.loadAppController(app, '_loginController');
-utilities.loadAppController(app, '_appController');
 
 // - load SPA controllers
 utilities.loadAllSPAControllers(app);
 
+utilities.loadAppController(app, '_appController');
 
 // Blitz.io custom route for performance testing
 app.get('/mu-eeb1fd94-84ab7240-46461b0f-c4b91a94', function(req, res) {

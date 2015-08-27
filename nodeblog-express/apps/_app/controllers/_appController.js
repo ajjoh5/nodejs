@@ -8,8 +8,6 @@ var requestify = require('requestify');
 //app = express app
 function _appController(app) {
 
-    console.log('Loading APP Controller [_appController]');
-
     //init variables
     var appDir = path.dirname(require.main.filename);
 
@@ -83,7 +81,7 @@ function _appController(app) {
     app.get('/', cmsMiddleware, function(req, res) {
 
         //Create new single page app - "pages", with default view called "default"
-        var spa = new SPA('pages', 'about-me', null, req.params);
+        var spa = new SPA('pages', 'about-me', null, null, req.params);
 
         //Render the single page app from the spa params
         res.render(spa.viewFile, spa.viewParams);
@@ -95,7 +93,7 @@ function _appController(app) {
         var urlParams = utilities.removeLastSlash(req.params[0]).split('/');
 
         //Create new single page app based on params
-        var spa = new SPA(urlParams[0], urlParams[1], null, req.params);
+        var spa = new SPA(urlParams[0], urlParams[1], null, null, req.params);
 
         res.render(spa.viewFile, spa.viewParams);
     });
@@ -108,6 +106,19 @@ function _appController(app) {
         //If user is authenticated, then Save the SPA
         if(req.params.isAuthenticated) {
             SPA.saveSPA(urlParams[0], urlParams[1], null, req.params, req, function(err, data) {
+                res.send(data)
+            });
+        }
+    });
+
+    //New SPA Content
+    app.post('/?*/new', cmsMiddleware, function(req, res) {
+
+        var urlParams = utilities.removeLastSlash(req.params[0]).split('/');
+
+        //If user is authenticated, then create new SPA and Save it
+        if(req.params.isAuthenticated) {
+            SPA.newSPA(urlParams[0], urlParams[1], null, req.params, req, function(err, data) {
                 res.send(data)
             });
         }

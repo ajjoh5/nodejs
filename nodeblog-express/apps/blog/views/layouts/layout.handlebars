@@ -112,6 +112,17 @@
             $(this).next().text('Count: ' + len);
         });
 
+        function New() {
+            $.post('{{spa.id}}/new/', null, function(data, status) {
+                if(status !== 'success')
+                {
+                    alert(data);
+                }
+
+                $("#cmsMenu").offcanvas('hide');
+            });
+        }
+
         function SavePage(action)
         {
             var pageContent = {

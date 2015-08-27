@@ -47,11 +47,34 @@ function loadAppController(app, controller) {
 
     var appDir = path.dirname(require.main.filename);
     var controllerFile = appDir + '/apps/_app/controllers/' + controller + '.js';
+    console.log('Loading APP Controller: ' + controller + '.js');
 
     require(controllerFile)(app);
+}
+
+function cmsMiddleware(req, res, next) {
+    req.params.isAuthenticated = false;
+    req.params.isEditModeOn = false;
+
+    //If user is authenticated, set params 'isAuthenticated' = true
+    if(req.session.username) {
+        //user successfully logged in - set new request variable
+        req.params.isAuthenticated = true;
+    }
+
+    var urlRequest = req.params[0];
+    if(urlRequest && urlRequest.toUpperCase().indexOf('EDIT') > -1)
+    {
+        req.params.isEditModeOn = true;
+    }
+
+    //console.log('[ Authenticated = ' + req.params.isAuthenticated + ' ]');
+
+    next();
 }
 
 
 module.exports.removeLastSlash = removeLastSlash;
 module.exports.loadAllSPAControllers = loadAllSPAControllers;
 module.exports.loadAppController = loadAppController;
+module.exports.cmsMiddleware = cmsMiddleware;

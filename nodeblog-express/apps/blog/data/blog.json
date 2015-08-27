@@ -1,9 +1,9 @@
 {
-  "id" : "LoLO8yXY",
-  "nodes" : [
+  "id": "LoLO8yXY",
+  "nodes": [
     {
-      "name" : "8-reasons-angularjs-is-awesome-and-why-you-should-care-about-it",
-      "url" : "8-reasons-angularjs-is-awesome-and-why-you-should-care-about-it",
+      "name": "8-reasons-angularjs-is-awesome-and-why-you-should-care-about-it",
+      "url": "8-reasons-angularjs-is-awesome-and-why-you-should-care-about-it",
       "properties": [
         {
           "name": "meta-description",
@@ -16,32 +16,32 @@
           "value": "8 reasons why AngularJS is Awesome and you should care about it"
         }
       ],
-      "contents" : [
+      "contents": [
         {
-          "name" : "more-text",
-          "value" : "AngularJS is awesome! I love it, and I'm going to tell you why you should love it too. Version 2 is well on it's way, and the haters have definetely arrived in full force. So why should you care about it? Well, because more interactive UI"
+          "name": "more-text",
+          "value": "AngularJS is awesome! I love it, and I'm going to tell you why you should love it too. Version 2 is well on it's way, and the haters have definetely arrived in full force. So why should you care about it? Well, because more interactive UI"
         },
         {
-          "name" : "featured-image",
-          "value" : "http://greenconcepts.com.au/wp-content/uploads/2012/08/featured-11.jpg"
+          "name": "featured-image",
+          "value": "http://greenconcepts.com.au/wp-content/uploads/2012/08/featured-11.jpg"
         },
         {
-          "name" : "author",
-          "value" : "Adam Johnstone"
+          "name": "author",
+          "value": "Adam Johnstone"
         },
         {
-          "name" : "publish-date",
-          "value" : "4/8/2015 13:00"
+          "name": "publish-date",
+          "value": "4/8/2015 13:00"
         },
         {
-          "name" : "article-text",
-          "value" : "This is the text"
+          "name": "article-text",
+          "value": "This is the text"
         }
       ]
     },
     {
-      "name" : "NodeJS vs .NET C# - Why I've adopted both because of their strengths",
-      "url" : "nodejs-vs-.net-c-sharp-why-im-adopting-both-and-a-review-of-their-strengths",
+      "name": "NodeJS vs .NET C# - Why I've adopted both because of their strengths",
+      "url": "nodejs-vs-net-c-sharp-why-im-adopting-both-and-a-review-of-their-strengths",
       "properties": [
         {
           "name": "meta-description",
@@ -51,29 +51,46 @@
         {
           "name": "page-title",
           "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
-          "value": "NodeJS vs .NET C# - Why I'm adopting both because of their strengths"
+          "value": "NodeJS vs NET C# - Why I'm adopting both because of their strengths"
         }
       ],
-      "contents" : [
+      "contents": [
         {
-          "name" : "more-text",
-          "value" : "AngularJS is awesome! I love it, and I'm going to tell you why you should love it too. Version 2 is well on it's way, and the haters have definetely arrived in full force. So why should you care about it? Well, because more interactive UI"
+          "name": "more-text",
+          "value": "AngularJS is awesome! I love it, and I'm going to tell you why you should love it too. Version 2 is well on it's way, and the haters have definetely arrived in full force. So why should you care about it? Well, because more interactive UI"
         },
         {
-          "name" : "featured-image",
-          "value" : "http://greenconcepts.com.au/wp-content/uploads/2012/08/featured-11.jpg"
+          "name": "featured-image",
+          "value": "http://greenconcepts.com.au/wp-content/uploads/2012/08/featured-11.jpg"
         },
         {
-          "name" : "author",
-          "value" : "Adam Johnstone"
+          "name": "author",
+          "value": "Adam Johnstone"
         },
         {
-          "name" : "publish-date",
-          "value" : "4/8/2015 13:00"
+          "name": "publish-date",
+          "value": "4/8/2015 13:00"
         },
         {
-          "name" : "article-text",
-          "value" : ""
+          "name": "article-text",
+          "value": "article...more text here"
+        }
+      ]
+    },
+    {
+      "name": "New Blog ID - E1JUXed3",
+      "url": "new-blog-E1JUXed3",
+      "contents": [],
+      "properties": [
+        {
+          "name": "meta-description",
+          "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+          "value": "meta-description here"
+        },
+        {
+          "name": "page-title",
+          "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+          "value": "New Blog ID - E1JUXed3"
         }
       ]
     }
