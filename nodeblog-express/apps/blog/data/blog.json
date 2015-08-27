@@ -4,68 +4,76 @@
     {
       "name" : "8-reasons-angularjs-is-awesome-and-why-you-should-care-about-it",
       "url" : "8-reasons-angularjs-is-awesome-and-why-you-should-care-about-it",
-      "content" : [
+      "properties": [
         {
-          "name" : "blog-title",
-          "content" : "8 Reasons AngularJS is Awesome and why you should care about it"
+          "name": "meta-description",
+          "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+          "value": "Adam Johnstone is a disruptive tech innovator, entrepreneur and business owner located in Melbourne, Australia. Skills - NodeJS, .NET, C#, SharePoint."
         },
         {
-          "name" : "meta-description",
-          "content" : "Adam Johnstone check's out why AngularJS is a framework that's creating a lot of buzz in the tech industry and is reports on why he's annoyed that some people don't care enough about it."
-        },
+          "name": "page-title",
+          "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+          "value": "8 reasons why AngularJS is Awesome and you should care about it"
+        }
+      ],
+      "contents" : [
         {
           "name" : "more-text",
-          "content" : "AngularJS is awesome! I love it, and I'm going to tell you why you should love it too. Version 2 is well on it's way, and the haters have definetely arrived in full force. So why should you care about it? Well, because more interactive UI"
+          "value" : "AngularJS is awesome! I love it, and I'm going to tell you why you should love it too. Version 2 is well on it's way, and the haters have definetely arrived in full force. So why should you care about it? Well, because more interactive UI"
         },
         {
           "name" : "featured-image",
-          "content" : "http://greenconcepts.com.au/wp-content/uploads/2012/08/featured-11.jpg"
+          "value" : "http://greenconcepts.com.au/wp-content/uploads/2012/08/featured-11.jpg"
         },
         {
           "name" : "author",
-          "content" : "Adam Johnstone"
+          "value" : "Adam Johnstone"
         },
         {
           "name" : "publish-date",
-          "content" : "4/8/2015 13:00"
+          "value" : "4/8/2015 13:00"
         },
         {
           "name" : "article-text",
-          "content" : ""
+          "value" : "This is the text"
         }
       ]
     },
     {
       "name" : "NodeJS vs .NET C# - Why I've adopted both because of their strengths",
       "url" : "nodejs-vs-.net-c-sharp-why-im-adopting-both-and-a-review-of-their-strengths",
-      "content" : [
+      "properties": [
         {
-          "name" : "blog-title",
-          "content" : "NodeJS vs .NET C# - Why I've adopted both because of their strengths"
+          "name": "meta-description",
+          "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+          "value": "Adam Johnstone is a disruptive tech innovator, entrepreneur and business owner located in Melbourne, Australia. Skills - NodeJS, .NET, C#, SharePoint."
         },
         {
-          "name" : "meta-description",
-          "content" : "Adam Johnstone check's out why AngularJS is a framework that's creating a lot of buzz in the tech industry and is reports on why he's annoyed that some people don't care enough about it."
-        },
+          "name": "page-title",
+          "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+          "value": "NodeJS vs .NET C# - Why I'm adopting both because of their strengths"
+        }
+      ],
+      "contents" : [
         {
           "name" : "more-text",
-          "content" : "AngularJS is awesome! I love it, and I'm going to tell you why you should love it too. Version 2 is well on it's way, and the haters have definetely arrived in full force. So why should you care about it? Well, because more interactive UI"
+          "value" : "AngularJS is awesome! I love it, and I'm going to tell you why you should love it too. Version 2 is well on it's way, and the haters have definetely arrived in full force. So why should you care about it? Well, because more interactive UI"
         },
         {
           "name" : "featured-image",
-          "content" : "http://greenconcepts.com.au/wp-content/uploads/2012/08/featured-11.jpg"
+          "value" : "http://greenconcepts.com.au/wp-content/uploads/2012/08/featured-11.jpg"
         },
         {
           "name" : "author",
-          "content" : "Adam Johnstone"
+          "value" : "Adam Johnstone"
         },
         {
           "name" : "publish-date",
-          "content" : "4/8/2015 13:00"
+          "value" : "4/8/2015 13:00"
         },
         {
           "name" : "article-text",
-          "content" : ""
+          "value" : ""
         }
       ]
     }

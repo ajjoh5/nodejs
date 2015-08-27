@@ -7,7 +7,9 @@ var _ = require('underscore');
 var bcrypt = require('bcrypt-nodejs');
 var session = require('express-session');
 
-function loginController(app) {
+function _loginController(app) {
+
+    console.log('Loading _loginController [FIRST ALWAYS]');
 
     //TODO: Add in ability to save login creds, update login creds to json file, store session name/secret in settings file
 
@@ -15,7 +17,7 @@ function loginController(app) {
     var appDir = path.dirname(require.main.filename);
 
     //Get all Login Settings from login.json file
-    var data = fs.readFileSync(appDir + '/apps/login/data/login.json', 'utf8');
+    var data = fs.readFileSync(__dirname + '/../data/login.json', 'utf8');
     var appConfig = JSON.parse(data);
     var sessionSettings = _.findWhere(appConfig.nodes, {name: 'session-settings'});
     var appSessionSecret = _.findWhere(sessionSettings.properties, {name : 'session-secret'}).value;
@@ -88,4 +90,4 @@ function loginController(app) {
 
 };
 
-module.exports = loginController;
+module.exports = _loginController;

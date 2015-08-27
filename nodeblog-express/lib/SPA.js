@@ -66,6 +66,7 @@ function SPA(reqParams) {
         json = JSON.parse(data);
     }
     catch(ex) {
+        console.log('ERROR: Failed to read content file: ' + spa.contentFile);
         console.log(ex);
     }
 
@@ -83,6 +84,10 @@ function SPA(reqParams) {
 
                 _.each(nItem.contents, function (cItem) {
                     nodeItem[cItem.name] = cItem.value;
+                });
+
+                _.each(nItem.properties, function (pItem) {
+                    nodeItem[pItem.name] = pItem.value;
                 });
 
                 rootNodes.push(nodeItem);

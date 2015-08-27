@@ -56,9 +56,11 @@ app.use('*/favicon.ico', function(req, res, next) {
 
 
 // init utilities & init app
+//load app routes (catch all routes, etc)
+utilities.loadLoginController(app);
+
 // - load controllers (that aren't the starting _appController) and load their routes first
 utilities.loadAllSPAControllers(app);
-
 
 //load app routes (catch all routes, etc)
 utilities.loadAppController(app);
