@@ -28,8 +28,8 @@ function loginToRunway(callback) {
 
     //Username / Password
     var data = {
-        Username : 'ajohnstone',
-        Password : 'welcome'
+        Username : 'username',
+        Password : 'password'
     };
 
     //Send get JSID request
