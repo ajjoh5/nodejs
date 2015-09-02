@@ -1,0 +1,41 @@
+{{#contentFor "header-scripts"}}
+
+    <link rel="stylesheet" href="/css/shop-style.css">
+
+{{/contentFor}}
+
+<!-- MAIN CONTENT AND INJECTED VIEWS -->
+<div id="main" class="container container-sml">
+
+    <div class="view-slide-in">
+        <div>
+            <h1 class="text-center">Shop</h1>
+            <hr class="hr--small">
+
+            {{> root-properties }}
+
+            <div class="content">
+
+                {{#each products}}
+                    <div class="blog-article">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h1><a href="/blog/{{ this.url }}">{{ this.page-title }}</a></h1>
+                                <p class="readMore">{{ this.more-text }}...</p>
+                            </div>
+
+                            <div class="col-md-4">
+                                <a href="/blog/{{ this.url }}">
+                                    <img class="featuredImage" src="{{ this.featured-image }}" width="100%" />
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+</div>
+

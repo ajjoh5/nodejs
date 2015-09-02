@@ -53,3 +53,9 @@
 {
     color: #1c1d1d;
 }
+
+.properties {
+    border: 1px dashed #dedede;
+    background-color: #fefefe;
+    padding: 15px 15px;
+}

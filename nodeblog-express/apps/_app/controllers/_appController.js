@@ -13,27 +13,51 @@ function _appController(app) {
 
     //App Custom Plugins
     var SPA = require(appDir + '/lib/SPA.js');
+    var spav2 = require(appDir + '/lib/spav2.js');
     var utilities = require(appDir + '/lib/utilities.js');
 
-    function cmsMiddleware(req, res, next) {
-        req.params.isAuthenticated = false;
-        req.params.isEditModeOn = false;
+    function newSPA() {
+        var sid = utilities.generateShortID();
 
-        //If user is authenticated, set params 'isAuthenticated' = true
-        if(req.session.username) {
-            //user successfully logged in - set new request variable
-            req.params.isAuthenticated = true;
-        }
-
-        var urlRequest = req.params[0];
-        if(urlRequest && urlRequest.toUpperCase().indexOf('EDIT') > -1)
-        {
-            req.params.isEditModeOn = true;
-        }
-
-        //console.log('[ Authenticated = ' + req.params.isAuthenticated + ' ]');
-
-        next();
+        //Class Template
+        return {
+            name : 'New SPA ID - ' + sid,
+            url : 'new-spa-' + sid,
+            contents: [
+                {
+                    name: "content",
+                    value: ""
+                }
+            ],
+            properties : [
+                {
+                    "name": "meta-description",
+                    "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+                    "value": "meta-description here"
+                },
+                {
+                    "name": "page-title",
+                    "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+                    "value": "New Node ID - " + sid
+                },
+                {
+                    name: "more-text",
+                    value: "more text here"
+                },
+                {
+                    name: "featured-image",
+                    value: "http://image"
+                },
+                {
+                    name: "author",
+                    value: "Admin"
+                },
+                {
+                    name: "publish-date",
+                    value: utilities.formatDate(new Date())
+                }
+            ]
+        };
     }
 
     //Express routes
@@ -78,50 +102,93 @@ function _appController(app) {
     });
 
     //INDEX ROUTE - custom handling
-    app.get('/', cmsMiddleware, function(req, res) {
+    app.get('/', utilities.cmsMiddleware, function(req, res) {
 
-        //Create new single page app - "pages", with default view called "default"
-        var spa = new SPA('pages', 'about-me', null, null, req.params);
+        var app = {
+            name : 'pages',
+            view : 'about-me',
+            params : req.params
+        };
 
-        //Render the single page app from the spa params
-        res.render(spa.viewFile, spa.viewParams);
+        var viewParams = spav2.initSPA(app);
+
+        res.render(app.viewFile, viewParams);
     });
 
+    var appDir = path.dirname(require.main.filename);
+
     // Generic Catch All SPA Views (put in last)
-    app.get('/?*', cmsMiddleware, function(req, res) {
+    app.get('/?*', utilities.cmsMiddleware, function(req, res) {
 
         var urlParams = utilities.removeLastSlash(req.params[0]).split('/');
 
-        //Create new single page app based on params
-        var spa = new SPA(urlParams[0], urlParams[1], null, null, req.params);
+        var app = {
+            name : urlParams[0],
+            view : urlParams[1],
+            params : req.params
+        };
 
-        res.render(spa.viewFile, spa.viewParams);
+        var viewParams = spav2.initSPA(app);
+
+        res.render(app.viewFile, viewParams);
     });
 
     //Save SPA Content
-    app.post('/?*/save', cmsMiddleware, function(req, res) {
+    app.post('/?*/save', utilities.cmsMiddleware, function(req, res) {
 
+        if (process.env.NODE_ENV == 'development' ) { console.log('[ Save - POST ]'); console.log(JSON.stringify(req.body)); }
         var urlParams = utilities.removeLastSlash(req.params[0]).split('/');
+
+        var app = {
+            name : urlParams[0],
+            view : urlParams[1],
+            params : req.params
+        };
+
+        //init spa
+        spav2.initSPA(app);
 
         //If user is authenticated, then Save the SPA
         if(req.params.isAuthenticated) {
-            SPA.saveSPA(urlParams[0], urlParams[1], null, req.params, req, function(err, data) {
+            spav2.saveSPA(app, req, function(err, data) {
+                console.log(data);
                 res.send(data)
             });
+        }
+        else {
+            console.log('Not saved');
+            res.send('Not saved');
         }
     });
 
     //New SPA Content
-    app.post('/?*/new', cmsMiddleware, function(req, res) {
+    app.post('/?*/new', utilities.cmsMiddleware, function(req, res) {
 
+        //var urlParams = utilities.removeLastSlash(req.params[0]).split('/');
+        //
+        ////If user is authenticated, then create new SPA and Save it
+        //if(req.params.isAuthenticated) {
+        //    SPA.newSPA(urlParams[0], urlParams[1], null, req.params, req, function(err, data) {
+        //        res.send(data)
+        //    });
+        //}
+
+        var nSPA = newSPA();
         var urlParams = utilities.removeLastSlash(req.params[0]).split('/');
 
-        //If user is authenticated, then create new SPA and Save it
-        if(req.params.isAuthenticated) {
-            SPA.newSPA(urlParams[0], urlParams[1], null, req.params, req, function(err, data) {
-                res.send(data)
-            });
-        }
+        var app = {
+            name : urlParams[0],
+            view : nSPA.url,
+            params : req.params
+        };
+
+        //init spa
+        spav2.initSPA(app);
+
+        //Save the new blog and redirect to it
+        spav2.newSPA(app, blog, function(err, data) {
+            res.redirect(app.view);
+        });
     });
 
 }

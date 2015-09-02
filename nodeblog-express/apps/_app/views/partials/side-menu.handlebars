@@ -1,0 +1,106 @@
+{{#if spa.isAuthenticated}}
+
+    <div class="edit-menu{{#if spa.isEditModeOn}} edit-mode{{/if}}">
+        <a href="javascript:void(0)" data-toggle="offcanvas" data-target="#cmsMenu" data-canvas="body">
+            <img src="/css/images/menu-bars.svg" />
+        </a>
+    </div>
+    <nav id="cmsMenu" class="navmenu navmenu-fixed-left offcanvas" role="navigation">
+        <div class="nav-logo text-center">
+            NodeJS CMS
+        </div>
+        <ul class="nav navmenu-nav">
+
+            {{#if spa.isEditModeOn}}
+
+                {{#unless spa.isRoot }}
+                    <li><a href="/{{ spa.id }}/{{ spa.view }}"><i class="fa fa-eye fa-lg"></i>&nbsp;View Page</a></li>
+                {{/unless}}
+
+                {{#if spa.isRoot }}
+                    <li><a href="/{{ spa.id }}"><i class="fa fa-eye fa-lg"></i>&nbsp;View Page</a></li>
+                {{/if}}
+                <li><a href="javascript:void(0)" onclick="SavePage()"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Save Page</a></li>
+            {{/if}}
+
+            {{#unless spa.isEditModeOn}}
+
+                {{#unless spa.isRoot }}
+                    <li><a href="/{{ spa.id }}/{{ spa.view }}/edit"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Edit Page</a></li>
+                {{/unless}}
+
+                {{#if spa.isRoot }}
+                    <li><a href="/{{ spa.id }}/edit"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Edit Page</a></li>
+                {{/if}}
+            {{/unless}}
+
+            <li><a href="/logout"><i class="fa fa-sign-out fa-lg"></i>&nbsp;Sign out</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        $(document).ready(function() {
+            $('div.spa-editor').editable({
+                inlineMode: true,
+                countCharacters: false
+            })
+        });
+
+        $('*[data-property-name]').keyup(function() {
+            var len = $(this).val().length;
+            $(this).next().text('Count: ' + len);
+        });
+
+        function SavePage()
+        {
+            var pageContent = {
+                properties : [],
+                contents : []
+            };
+
+            //Get all properties & save
+            $('*[data-property-name]').each(function() {
+                var propertyName = $(this).attr('data-property-name');
+                var propertyDescription = $(this).attr('data-property-description');
+                var propertyValue = $(this).val();
+                var propertyNode = {
+                    name : propertyName,
+                    description : propertyDescription,
+                    value : propertyValue
+                };
+
+                pageContent.properties.push(propertyNode);
+            });
+
+
+            //Get all contents & save
+            $('div.spa-editor').each(function() {
+                var contentName = $(this).attr('data-content-name');
+                var contentValue = $(this).editable('getHTML', false, false);
+                var contentNode = {
+                    name : contentName,
+                    value : contentValue
+                };
+
+                pageContent.contents.push(contentNode);
+            });
+
+            var saveURL = '';
+            {{#if spa.isRoot }}
+                saveURL = '/{{ spa.id }}/save';
+            {{/if}}
+            {{#unless spa.isRoot }}
+                saveURL = '/{{ spa.id }}/{{ spa.view }}/save';
+            {{/unless}}
+
+            $.post(saveURL, pageContent, function(data, status) {
+                if(status !== 'success') {
+                    alert(data);
+                }
+
+                $("#cmsMenu").offcanvas('hide');
+            });
+        }
+    </script>
+
+{{/if}}

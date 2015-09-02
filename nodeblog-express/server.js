@@ -11,6 +11,9 @@ var bodyParser = require('body-parser');
 //App Custom Plugins
 var utilities = require('./lib/utilities.js');
 
+//Setup environment variable
+process.env.NODE_ENV = 'development';
+
 //Create & Configure express app
 var app = express();
 
@@ -20,8 +23,8 @@ app.use(compress());
 hbs = exphbs.create({
     extname:'handlebars',
     defaultLayout: 'layout',
-    partialsDir: "views/partials/",
-    layoutsDir: "views/layouts/",
+    partialsDir: ['views/partials/'],
+    layoutsDir: 'views/layouts/',
     helpers: {
         block: function (name) {
             var blocks  = this._blocks,
@@ -42,6 +45,7 @@ hbs = exphbs.create({
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: true }));
+//app.set('hbs', hbs);
 
 //Static Routes for Files
 app.use('/css', express.static('www/css'));
@@ -53,15 +57,13 @@ app.use('*/favicon.ico', function(req, res, next) {
     res.sendFile(path.join(__dirname + '/favicon.ico'));
 });
 
-
-
 // init app controllers and routes
-utilities.loadAppController(app, '_loginController');
+utilities.loadAppController(app, hbs, '_loginController');
 
 // - load SPA controllers
-utilities.loadAllSPAControllers(app);
+utilities.loadAllSPAControllers(app, hbs);
 
-utilities.loadAppController(app, '_appController');
+utilities.loadAppController(app, hbs, '_appController');
 
 // Blitz.io custom route for performance testing
 app.get('/mu-eeb1fd94-84ab7240-46461b0f-c4b91a94', function(req, res) {

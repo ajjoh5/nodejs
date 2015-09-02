@@ -1,0 +1,23 @@
+{{#if spa.isAuthenticated }}
+{{#if spa.isEditModeOn }}
+
+<strong>Properties</strong>
+<div class="properties">
+
+    {{#each properties}}
+
+        <div class="form-group" style="margin: 40px 0;">
+            <label for="{{this.name}}">{{this.name}}:</label>
+            <textarea data-property-name="{{this.name}}" data-property-description="{{this.description}}" rows="3" class="form-control">{{this.value}}</textarea>
+            <div id="helpCounter"></div>
+            <span id="helpBlock" class="help-block">
+                {{this.description}}
+            </span>
+        </div>
+
+    {{/each}}
+
+</div>
+
+{{/if}}
+{{/if}}

@@ -1,0 +1,10 @@
+{{#if spa.isAuthenticated }}
+{{#if spa.isEditModeOn }}
+
+<strong>Properties</strong>
+<div class="properties">
+    <a id="btnAdd" class="btn btn-info" href="/{{ spa.id }}/new">Add {{ spa.id }}</a>
+</div>
+
+{{/if}}
+{{/if}}

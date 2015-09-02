@@ -23,10 +23,25 @@ function FileExists(fileName) {
     return retval;
 }
 
+function readConfigFile(filename) {
+    var data = '';
+
+    try {
+        data = fs.readFileSync(filename, 'utf8');
+    }
+    catch(ex) {
+        console.log('ERROR: Failed to read file: ' + filename);
+        console.log(ex);
+    }
+
+    return data;
+}
+
 function InitSPA(spa, spaName, spaView, spaViewFile, spaLayout, spaParams) {
 
     //init SPA settings
     var appDir = path.dirname(require.main.filename);
+
     spa.id = spaName;
     spa.view = spaView;
 
@@ -50,6 +65,9 @@ function InitSPA(spa, spaName, spaView, spaViewFile, spaLayout, spaParams) {
     //Init the other important properties
     spa.isAuthenticated = !spaParams.isAuthenticated ? false : spaParams.isAuthenticated;
     spa.isEditModeOn = !spaParams.isEditModeOn ? false : spaParams.isEditModeOn;
+
+    //INit HTML properties
+    spa.rootPropertiesHTML = readConfigFile(appDir + '/apps/_app/views/spa-root-properties.handlebars');
 }
 
 function processSPAContent(spa, vParams) {
@@ -93,7 +111,8 @@ function processSPAContent(spa, vParams) {
                 rootNodes.push(nodeItem);
             });
 
-            var propertiesHTML = '<div class="form-group" style="margin: 40px 0;"><button id="btnAdd" class="btn btn-info" onclick="New()">Add ' + spa.id + '</button></div>';
+            //var propertiesHTML = '<div class="form-group" style="margin: 40px 0;"><button id="btnAdd" class="btn btn-info" onclick="New()">Add ' + spa.id + '</button></div>';
+            propertiesHTML = spa.rootPropertiesHTML ? spa.rootPropertiesHTML : '<strong>No properties loaded.</strong>';
 
             //if edit mode is on - then add properties editor widget
             if (spa.isAuthenticated && spa.isEditModeOn == true) {
@@ -178,6 +197,31 @@ function SPA(spaName, spaView, spaViewFile, spaLayout, spaParams) {
     processSPAContent(spa, vParams);
 }
 
+// Constructor
+function SPA2(obj) {
+
+    var spa = {};
+
+    //Init the SPA settings
+    InitSPA(spa, obj.name, obj.view, obj.viewFile, obj.layout, obj.params);
+
+    //Get the ViewFile (passed in from the params)
+    this.viewFile = spa.viewFile;
+
+    //Set the View Params
+    //(ensure 'layout' exists as this override the default layout location)
+    var vParams = {};
+    vParams.spa = spa;
+    vParams.layout = spa.layoutFile;
+    vParams.properties = '<div class="row"><div class="col-md-12" style="background-color: #fafafa; border: 1px dashed #dedede;">{{properties}}</div></div>';
+
+    //Get the Views Params (ViewParams)
+    this.viewParams = vParams;
+
+    //Process this view's SPA content (from the content file) and load it in
+    processSPAContent(spa, vParams);
+}
+
 function saveSPA(spaName, spaView, spaLayout, spaParams, post, callback) {
 
     var spa = {};
@@ -224,8 +268,8 @@ function newSPA(spaName, spaView, spaLayout, spaParams, post, callback) {
 
     //Get the node we are interested in
     var newNode = {
-        name : 'New Blog ID - ' + sid,
-        url : 'new-blog-' + sid,
+        name : 'New Node ID - ' + sid,
+        url : 'new-node-' + sid,
         contents : [],
         properties : [
         {
@@ -236,10 +280,47 @@ function newSPA(spaName, spaView, spaLayout, spaParams, post, callback) {
         {
             "name": "page-title",
             "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
-            "value": "New Blog ID - " + sid
+            "value": "New Node ID - " + sid
         }
     ]
     };
+
+    json.nodes.push(newNode);
+
+    //Write new content + properties to existing file
+    fs.writeFile(spa.contentFile, JSON.stringify(json), function(err) {
+        if(err) {
+            return callback(err, null);
+        }
+
+        return callback(null, 'File was successfully saved.');
+    });
+
+}
+
+function newSPA(obj, newSPA, post, callback) {
+
+    var spa = {};
+
+    //Init the SPA settings
+    InitSPA(spa, obj.name, obj.view, obj.viewFile, obj.layout, obj.params);
+
+    //Get existing data file
+    var data = fs.readFileSync(spa.contentFile, 'utf8');
+    var json = JSON.parse(data);
+
+    var newNode = {};
+    if(!newSPA) {
+        newNode = {
+            name: 'New Node ID - ' + sid,
+            url: 'new-node-' + sid,
+            contents: [],
+            properties: []
+        };
+    }
+    else {
+        newNode = newSPA;
+    }
 
     json.nodes.push(newNode);
 

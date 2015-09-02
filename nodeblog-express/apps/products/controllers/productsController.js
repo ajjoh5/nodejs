@@ -2,7 +2,7 @@
 var path = require('path');
 
 //app = express app
-function blogController(app) {
+function productsController(app) {
 
     //init variables
     var appDir = path.dirname(require.main.filename);
@@ -12,17 +12,17 @@ function blogController(app) {
     var spav2 = require(appDir + '/lib/spav2.js');
     var utilities = require(appDir + '/lib/utilities.js');
 
-    function newBlog() {
+    function newProduct() {
         var sid = utilities.generateShortID();
 
         //Class Template
         return {
-            name : 'New Blog ID - ' + sid,
-            url : 'new-blog-' + sid,
+            name : 'New Product ID - ' + sid,
+            url : 'new-product-' + sid,
             contents: [
                 {
-                    name: "article-text",
-                    value: "article text here"
+                    name: "product-text",
+                    value: ""
                 }
             ],
             properties : [
@@ -56,15 +56,15 @@ function blogController(app) {
         };
     }
 
-    // [ NEW ] - Blog
-    app.get('/blog/new', utilities.cmsMiddleware, function(req, res) {
+    // [ NEW ] - products
+    app.get('/products/new', utilities.cmsMiddleware, function(req, res) {
 
-        var blog = newBlog();
+        var product = newProduct();
 
         var app = {
-            name : 'blog',
-            view : blog.url,
-            viewFile : 'blog-article',
+            name : 'products',
+            view : product.url,
+            viewFile : 'product',
             layoutFile : 'layout',
             params : req.params
         };
@@ -73,16 +73,16 @@ function blogController(app) {
         spav2.initSPA(app);
 
         //Save the new blog and redirect to it
-        spav2.newSPA(app, blog, function(err, data) {
+        spav2.newSPA(app, product, function(err, data) {
             res.redirect(app.view);
         });
     });
 
-    // Root View + Root EDIT view
-    app.get('/blog(/edit)?', utilities.cmsMiddleware, function(req, res) {
+    // products View + products EDIT view
+    app.get('/products(/edit)?', utilities.cmsMiddleware, function(req, res) {
 
         var app = {
-            name : 'blog',
+            name : 'products',
             isRoot : true,
             params : req.params
         };
@@ -93,14 +93,14 @@ function blogController(app) {
     });
 
     // Generic Catch All Blog Article Views
-    app.get('/blog/*', utilities.cmsMiddleware, function(req, res) {
+    app.get('/products/*', utilities.cmsMiddleware, function(req, res) {
 
         var urlParams = utilities.removeLastSlash(req.params[0]).split('/');
 
         var app = {
-            name : 'blog',
+            name : 'products',
             view : urlParams[0],
-            viewFile : 'blog-article',
+            viewFile : 'product',
             params : req.params
         };
 
@@ -111,4 +111,4 @@ function blogController(app) {
 
 }
 
-module.exports = blogController;
+module.exports = productsController;
