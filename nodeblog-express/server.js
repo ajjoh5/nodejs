@@ -49,6 +49,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //Static Routes for Files
 app.use('/css', express.static('www/css'));
+app.use('/images', express.static('www/images'));
 app.use('/js', express.static('www/js'));
 app.use('*/app.js', function(req, res, next) {
     res.sendFile(path.join(__dirname + '/apps/' + req.params[0] + '/app.js'));

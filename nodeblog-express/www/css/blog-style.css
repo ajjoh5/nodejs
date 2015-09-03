@@ -21,7 +21,7 @@ html {
     font-size: 1.5625em;
     font-weight: 400;
     color: #1c1d1d;
-    padding: 15px 5px 15px 15px;
+    padding: 15px 8px 15px 15px;
 }
 
 .brand-img {
@@ -123,6 +123,7 @@ h1
     -webkit-font-smoothing: antialiased;
     margin-top: 5px;
     margin-bottom: 5px;
+    line-height: 1.3em;
 }
 
 .blog-article .author
