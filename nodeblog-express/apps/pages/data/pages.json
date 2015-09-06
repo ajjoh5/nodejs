@@ -8,12 +8,12 @@
         {
           "name": "meta-description",
           "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
-          "value": "Get in contact with Adam Johnstone to discuss upcoming innovation meetups, talk about new technology or request some innovation advice."
+          "value": "Adam Johnstone is a disruptive tech innovator, entrepreneur and business owner located in Melbourne, AUS. Skills - NodeJS, Angular, .NET, C#, SharePoint"
         },
         {
           "name": "page-title",
           "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
-          "value": "Adam Johnstone | Contact Me and start the Innovation Conversation"
+          "value": "Adam Johnstone | Disruptive Tech Innovator and Entrepreneur"
         }
       ],
       "contents": [

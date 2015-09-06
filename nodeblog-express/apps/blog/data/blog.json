@@ -1,1 +1,173 @@
-{"id":"LoLO8yXY","nodes":[{"name":"8 reasons why you should use NodeJS","url":"8-reasons-why-you-should-use-nodejs","properties":[{"name":"meta-description","description":"The meta-description must contain the primary keyword / phrase and be no longer than 156 characters","value":"Node.js is a server side technology that is deadly when used properly. Here's 8 reasons why you should start using NodeJS in your business right now"},{"name":"page-title","description":"The page title must contain the primary keyword / phrase and be no longer than 70 characters","value":"8 reasons why you should use NodeJS"},{"name":"more-text","description":"","value":"Node.js is a server side technology that is deadly when used properly. Here's 8 reasons why you should start using NodeJS in your business right now"},{"name":"featured-image","description":"","value":"https://nodejs.org/static/images/logos/nodejs-green.png"},{"name":"author","description":"","value":"Adam Johnstone"},{"name":"publish-date","description":"","value":"8:00pm September 3rd 2015"}],"contents":[{"name":"article-text","value":"<p>Here's my article text</p>"}]},{"name":"NodeJS vs .NET C# - Why I've adopted both because of their strengths","url":"nodejs-vs-net-c-sharp-why-im-adopting-both-and-a-review-of-their-strengths","properties":[{"name":"meta-description","description":"The meta-description must contain the primary keyword / phrase and be no longer than 156 characters","value":"NodeJS vs .NET C# - I love both platforms, I'm proficient in both. World first view on what the strengths and weaknesses are, the results are shocking!"},{"name":"page-title","description":"The page title must contain the primary keyword / phrase and be no longer than 70 characters","value":"NodeJS vs .NET C# - Why I'm adopting both and a solid Review"},{"name":"more-text","description":"","value":"NodeJS vs .NET C# - I love both platforms, I'm proficient in both. This is my world exclusive first view on what the strengths and weaknesses are of both node vs .net.\n                        Spoiler alert - the results even shocked me!"},{"name":"featured-image","description":"","value":"http://www.hanselman.com/blog/content/binary/Windows-Live-Writer/You-have-more-flexibility-with-software-_BA40/94b3ff4e-cd07-11e3-833c-b0474d25119a_ed266157-f846-4741-9afd-7ee3e91ff93a.png"},{"name":"author","description":"","value":"Adam Johnstone"},{"name":"publish-date","description":"","value":"9:00pm 24/8/2015"}],"contents":[{"name":"article-text","value":""}]},{"name":"WiTricity (Wireless Electricity) and the top 3 Reasons it's game changing","url":"witricity-wireless-electricity-and-the-top-3-reasons-its-game-changing","contents":[{"name":"article-text","value":""}],"properties":[{"name":"meta-description","description":"The meta-description must contain the primary keyword / phrase and be no longer than 156 characters","value":"WiTricity is a company with a big vision to bring wireless electricity into mainstream. The health dangers are paramount, but it's worth the risk."},{"name":"page-title","description":"The page title must contain the primary keyword / phrase and be no longer than 70 characters","value":"WiTricity (Wireless Electricity) and the top 3 Reasons it's game changing"},{"name":"more-text","description":"","value":"WiTricity is a company with a big vision to bring wireless electricity into our homes and hearts. The health dangers and concerns are important - but I have 3 reasons why it's worth taking the risk and what ideas I have for it's practical use."},{"name":"featured-image","description":"","value":"/images/witricity.png"},{"name":"author","description":"","value":"Adam Johnstone"},{"name":"publish-date","description":"","value":"5:30pm 3/9/2015"}]},{"name":"Bootstrap 4 News and a Recap on 8 things Bootstrap is awesome at doing","url":"bootstrap-4-news-8-things-bootstrap-is-awesome-at-doing","contents":[{"name":"article-text","value":"<h1>Bootstrap 4 - A new Alpha Approaches</h1><p>The first alpha release of Bootstrap 4 was announced on 19th August 2015 (see&nbsp;<a href=\"http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha\" rel=\"nofollow\" target=\"_blank\">http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha</a>) and came with a promo video as well.</p><p><br></p><p><br></p><p><br></p>"}],"properties":[{"name":"meta-description","description":"The meta-description must contain the primary keyword / phrase and be no longer than 156 characters","value":"Bootstrap 4 is almost here. As a tool for Web UI, let's recap on the 8 things that Bootstrap is awesome at doing"},{"name":"page-title","description":"The page title must contain the primary keyword / phrase and be no longer than 70 characters","value":"Bootstrap 4 News and a Recap on 8 things Bootstrap is awesome at doing"},{"name":"more-text","description":"","value":"Bootstrap 4 is almost here. \n                                    As a tool for Web UI, let's recap on the 8 things that Bootstrap is awesome at doing"},{"name":"featured-image","description":"","value":"/images/bootstrap-4-news.png"},{"name":"author","description":"","value":"Adam Johnstone"},{"name":"publish-date","description":"","value":"8:02pm September 10th 2015"}]}]}
+{
+  "id": "LoLO8yXY",
+  "nodes": [
+    {
+      "name": "8 reasons why you should use NodeJS",
+      "url": "8-reasons-why-you-should-use-nodejs",
+      "properties": [
+        {
+          "name": "meta-description",
+          "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+          "value": "Node.js is a server side technology that is deadly when used properly. Here's 8 reasons why you should start using NodeJS in your business right now"
+        },
+        {
+          "name": "page-title",
+          "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+          "value": "8 reasons why you should use NodeJS"
+        },
+        {
+          "name": "more-text",
+          "description": "",
+          "value": "Node.js is a server side technology that is deadly when used properly. Here's 8 reasons why you should start using NodeJS in your business right now"
+        },
+        {
+          "name": "featured-image",
+          "description": "",
+          "value": "https://nodejs.org/static/images/logos/nodejs-green.png"
+        },
+        {
+          "name": "author",
+          "description": "",
+          "value": "Adam Johnstone"
+        },
+        {
+          "name": "publish-date",
+          "description": "",
+          "value": "8:00pm September 3rd 2015"
+        }
+      ],
+      "contents": [
+        {
+          "name": "article-text",
+          "value": "<p>Here's my article text</p>"
+        }
+      ]
+    },
+    {
+      "name": "NodeJS vs .NET C# - Why I've adopted both because of their strengths",
+      "url": "nodejs-vs-net-c-sharp-why-im-adopting-both-and-a-review-of-their-strengths",
+      "properties": [
+        {
+          "name": "meta-description",
+          "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+          "value": "NodeJS vs .NET C# - I love both platforms, I'm proficient in both. World first view on what the strengths and weaknesses are, the results are shocking!"
+        },
+        {
+          "name": "page-title",
+          "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+          "value": "NodeJS vs .NET C# - Why I'm adopting both and a solid Review"
+        },
+        {
+          "name": "more-text",
+          "description": "",
+          "value": "NodeJS vs .NET C# - I love both platforms, I'm proficient in both. This is my world exclusive first view on what the strengths and weaknesses are of both node vs .net.\n                        Spoiler alert - the results even shocked me!"
+        },
+        {
+          "name": "featured-image",
+          "description": "",
+          "value": "http://www.hanselman.com/blog/content/binary/Windows-Live-Writer/You-have-more-flexibility-with-software-_BA40/94b3ff4e-cd07-11e3-833c-b0474d25119a_ed266157-f846-4741-9afd-7ee3e91ff93a.png"
+        },
+        {
+          "name": "author",
+          "description": "",
+          "value": "Adam Johnstone"
+        },
+        {
+          "name": "publish-date",
+          "description": "",
+          "value": "9:00pm 24/8/2015"
+        }
+      ],
+      "contents": [
+        {
+          "name": "article-text",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "name": "WiTricity (Wireless Electricity) and the top 3 Reasons it's game changing",
+      "url": "witricity-wireless-electricity-and-the-top-3-reasons-its-game-changing",
+      "contents": [
+        {
+          "name": "article-text",
+          "value": ""
+        }
+      ],
+      "properties": [
+        {
+          "name": "meta-description",
+          "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+          "value": "WiTricity is a company with a big vision to bring wireless electricity into mainstream. The health dangers are paramount, but it's worth the risk."
+        },
+        {
+          "name": "page-title",
+          "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+          "value": "WiTricity (Wireless Electricity) and the top 3 Reasons it's game changing"
+        },
+        {
+          "name": "more-text",
+          "description": "",
+          "value": "WiTricity is a company with a big vision to bring wireless electricity into our homes and hearts. The health dangers and concerns are important - but I have 3 reasons why it's worth taking the risk and what ideas I have for it's practical use."
+        },
+        {
+          "name": "featured-image",
+          "description": "",
+          "value": "/images/witricity.png"
+        },
+        {
+          "name": "author",
+          "description": "",
+          "value": "Adam Johnstone"
+        },
+        {
+          "name": "publish-date",
+          "description": "",
+          "value": "5:30pm 3/9/2015"
+        }
+      ]
+    },
+    {
+      "name": "Bootstrap 4 News and a Recap on 8 things Bootstrap is awesome at doing",
+      "url": "bootstrap-4-news-8-things-bootstrap-is-awesome-at-doing",
+      "contents": [
+        {
+          "name": "article-text",
+          "value": "<h1>Bootstrap 4 - A new Alpha Approaches</h1><p>The first alpha release of Bootstrap 4 was announced on 19th August 2015 (see&nbsp;<a href=\"http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha\" rel=\"nofollow\" target=\"_blank\">http://blog.getbootstrap.com/2015/08/19/bootstrap-4-alpha</a>) and came with a promo video as well.</p><p><br></p><p><br></p><p><br></p>"
+        }
+      ],
+      "properties": [
+        {
+          "name": "meta-description",
+          "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+          "value": "Bootstrap 4 is almost here. As a tool for Web UI, let's recap on the 8 things that Bootstrap is awesome at doing"
+        },
+        {
+          "name": "page-title",
+          "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+          "value": "Bootstrap 4 News and a Recap on 8 things Bootstrap is awesome at doing"
+        },
+        {
+          "name": "more-text",
+          "description": "",
+          "value": "Bootstrap 4 is almost here. \n                                    As a tool for Web UI, let's recap on the 8 things that Bootstrap is awesome at doing"
+        },
+        {
+          "name": "featured-image",
+          "description": "",
+          "value": "/images/bootstrap-4-news.png"
+        },
+        {
+          "name": "author",
+          "description": "",
+          "value": "Adam Johnstone"
+        },
+        {
+          "name": "publish-date",
+          "description": "",
+          "value": "8:02pm September 10th 2015"
+        }
+      ]
+    }
+  ]
+}
