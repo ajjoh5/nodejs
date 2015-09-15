@@ -17,6 +17,7 @@
             <div class="content">
 
                 {{#each blog}}
+                    {{#if this.visible}}
                     <div class="blog-article">
                         <div class="row">
                             <div class="col-md-8">
@@ -33,6 +34,7 @@
 
                         </div>
                     </div>
+                    {{/if}}
                 {{/each}}
             </div>
         </div>
