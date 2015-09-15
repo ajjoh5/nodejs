@@ -1,1 +1,89 @@
-{"id":"NkLO9XxY","nodes":[{"name":"New Blog ID - 4kHbB3JT","url":"new-blog-4kHbB3JT","contents":[{"name":"article-text","value":"article text here"}],"properties":[{"name":"meta-description","description":"The meta-description must contain the primary keyword / phrase and be no longer than 156 characters","value":"meta-description here"},{"name":"page-title","description":"The page title must contain the primary keyword / phrase and be no longer than 70 characters","value":"New Node ID - 4kHbB3JT"},{"name":"more-text","value":"more text here"},{"name":"featured-image","value":"http://image"},{"name":"author","value":"Admin"},{"name":"publish-date","value":"2015092-1948"}]},{"name":"New Product ID - VyH3Un16","url":"new-product-VyH3Un16","contents":[{"name":"product-text","value":""}],"properties":[{"name":"meta-description","description":"The meta-description must contain the primary keyword / phrase and be no longer than 156 characters","value":"meta-description here"},{"name":"page-title","description":"The page title must contain the primary keyword / phrase and be no longer than 70 characters","value":"New Node ID - VyH3Un16"},{"name":"more-text","value":"more text here"},{"name":"featured-image","value":"http://image"},{"name":"author","value":"Admin"},{"name":"publish-date","value":"2015092-1955"}]}]}
+{
+  "id": "NkLO9XxY",
+  "nodes": [
+    {
+      "name": "eric ries the lean startup",
+      "url": "eric-ries-the-lean-startup",
+      "contents": [
+        {
+          "name": "product-text",
+          "value": "<p><br></p><p>First things first I need to let you know that I don't receive any commissions or money from promoting this book.</p><p>I firmly believe the content Eric has put together is amazing, and if you feel compelled to speak with me, or other tech innovators I would advise you read this book, so that you understand the lingo and also the concept of constant innovation within your business.</p><p><br></p><p><a href=\"http://www.amazon.com/The-Lean-Startup-Entrepreneurs-Continuous/dp/0307887898/ref=zg_bs_2741_8\" target=\"_blank\" rel=\"nofollow\">Click here to see View and or Purchase the book on Amazon</a></p>"
+        }
+      ],
+      "properties": [
+        {
+          "name": "meta-description",
+          "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+          "value": "The Lean Startup - A masterpeice by Eric Ries that covers one process you can use to implement a planned process of innovation in any size business or venture."
+        },
+        {
+          "name": "page-title",
+          "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+          "value": "The Lean Startup - A Must Have Field Guide to Innovation in your Business"
+        },
+        {
+          "name": "more-text",
+          "description": "",
+          "value": "You don't need to be overly creative, or \"genetically gifted\" to be innovative. \nPlease read this book to understand one mindset and process you can adopt to foster a culture of constant innovation within your business right now. Be warned, this will change your mindset and potentially inspire you!"
+        },
+        {
+          "name": "featured-image",
+          "description": "",
+          "value": "http://ecx.images-amazon.com/images/I/51vN15YCJyL.jpg"
+        },
+        {
+          "name": "author",
+          "description": "",
+          "value": "Adam Johnstone"
+        },
+        {
+          "name": "publish-date",
+          "description": "",
+          "value": "20150915-1608"
+        }
+      ]
+    },
+    {
+      "name": "free prize inside - how to make a purple cow",
+      "url": "free-prize-inside-how-to-make-a-purple-cow",
+      "contents": [
+        {
+          "name": "product-text",
+          "value": "<p>This book carries on from \"Purple Cow\" and the premise that if you drive down a road and see a bunch of black and white cows, then you spot a purple cow, it stands out... it is remarkable.</p><p>This is a metaphor or course for what I recommend (and Seth) recommends you do - innovate, be unique, build something remarkable and your service or product will virtually sell itself.</p><p><a href=\"http://www.amazon.com/Free-Prize-Inside-Make-Purple/dp/1591841674\" target=\"_blank\" rel=\"nofollow\">Click here to View and or Purchase \"Free Prize Inside - How to make a Purple Cow\"</a></p>"
+        }
+      ],
+      "properties": [
+        {
+          "name": "meta-description",
+          "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+          "value": "How to Make a Purple Cow - Seth Godin needs no introduction, the master of marketing walks you through how to be an innovator in your industry."
+        },
+        {
+          "name": "page-title",
+          "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+          "value": "Free Prize Inside - How to Make a Purple Cow"
+        },
+        {
+          "name": "more-text",
+          "description": "",
+          "value": "How to Make a Purple Cow - Seth Godin needs no introduction, the master of marketing walks you through how to be an innovator in your industry. My core belief could not be any more in line with Seth here... Implement a process of constant tech innovation in your business, and stand out from the crowd by building something remarkable."
+        },
+        {
+          "name": "featured-image",
+          "description": "",
+          "value": "http://ecx.images-amazon.com/images/I/51RzISji29L._SX355_BO1,204,203,200_.jpg"
+        },
+        {
+          "name": "author",
+          "description": "",
+          "value": "Seth Godin"
+        },
+        {
+          "name": "publish-date",
+          "description": "",
+          "value": "20150915-1608"
+        }
+      ]
+    }
+  ]
+}

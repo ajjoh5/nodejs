@@ -1,0 +1,282 @@
+html {
+    overflow-y: scroll;
+}
+
+.navbar-minimal
+{
+    background-color: #fdfdfd;
+    min-height: 100px;
+    padding-top: 25px;
+    font-family: "Montserrat","HelveticaNeue","Helvetica Neue",sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-left: -1px;
+    -webkit-font-smoothing: antialiased;
+    border-bottom: 1px solid #efefef;
+}
+
+.navbar-minimal .navbar-brand
+{
+    margin-top: 0px;
+    font-size: 1.5625em;
+    font-weight: 400;
+    color: #1c1d1d;
+    padding: 15px 8px 15px 15px;
+}
+
+.brand-img {
+    display: block;
+    margin: 11px 0 0 0;
+}
+
+.navbar-minimal .navbar-brand:hover
+{
+    color: #4d4d4d;
+}
+
+.navbar-right
+{
+    margin-top: 1px;
+    margin-bottom: 0px;
+    margin-right: 7px;
+}
+
+.navbar-default .navbar-right > li > a
+{
+    color: #1c1d1d;
+    font-size: 1em;
+}
+
+.navbar-default .navbar-right > li > a:hover
+{
+    color: #5d5d5d;
+    background-color: transparent;
+}
+
+body
+{
+    background-color: white;
+}
+
+#main
+{
+
+}
+
+.container
+{
+    max-width: 1000px;
+}
+
+.container-sml
+{
+    max-width: 700px;
+    margin-top: 150px;
+}
+
+.content
+{
+    margin-top: 70px;
+}
+
+.content a
+{
+    font-weight: bold;
+}
+
+.content p, .content label
+{
+    font-family: "Arapey",serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    margin: 0 0 15px 0;
+    line-height: 1.563;
+    font-size: 16px;
+}
+
+.content label
+{
+    /*font-weight: bold;*/
+    line-height: 1em;
+    margin: 0 0 5px 0;
+}
+
+h1, h2, h3, h4
+{
+    font-family: "Old Standard TT",sans-serif;
+    color: #1c1d1d;
+    -webkit-font-smoothing: antialiased;
+    text-align: center;
+}
+
+h1
+{
+    font-size: 2.3em;
+}
+
+.content h1, .content h2, .content h3, .content h4
+{
+    font-family: "Montserrat","HelveticaNeue","Helvetica Neue",sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #1c1d1d;
+    -webkit-font-smoothing: antialiased;
+    text-align: center;
+    line-height: 5em;
+    margin-top: 3em;
+}
+
+.content h1
+{
+    font-size: 1.375em;
+}
+
+.content h2
+{
+    font-size: 1.0625em;
+    text-align: left;
+}
+
+.hr--small {
+    margin: 20px auto;
+}
+
+hr, .hr--small, .hr--medium, .hr--large {
+    border-width: 1px 0 0 0;
+    width: 50px;
+}
+
+hr
+{
+    clear: both;
+    border-top: solid #1c1d1d;
+}
+
+.spa-editor {
+    /*border: 1px dashed #dedede;*/
+    /*background-color: #fefefe;*/
+}
+
+
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .navbar-fixed-bottom, .navbar-fixed-top {
+        border-radius: 0;
+    }
+
+    .navbar-default .navbar-right > li > a {
+        font-size: 0.95em;
+    }
+
+    .navbar-minimal .navbar-brand {
+        font-size: 1.6em;
+    }
+
+    .content p, .content label {
+        font-size: 18px;
+    }
+
+    .content h1
+    {
+        font-size: 1.575em;
+    }
+
+    .content h2
+    {
+        font-size: 1.2625em;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .navbar-fixed-bottom, .navbar-fixed-top {
+        border-radius: 0;
+    }
+
+    .navbar-default .navbar-right > li > a {
+        font-size: 0.9em;
+    }
+
+    .navbar-minimal .navbar-brand {
+        font-size: 1.3em;
+    }
+
+    .content p, .content label {
+        font-size: 18px;
+    }
+
+    .content h1
+    {
+        font-size: 1.475em;
+    }
+
+    .content h2
+    {
+        font-size: 1.1625em;
+    }
+
+    .navbar-right
+    {
+        margin-top: 24px;
+        margin-bottom: 24px;
+        font-size: 1.3em;
+        padding-left: 30px;
+    }
+
+    .navbar-default .navbar-right > li > a {
+        margin: 10px 0px;
+    }
+
+    .navbar-default .navbar-collapse
+    {
+        border: none;
+    }
+}
+
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px)
+{
+    .navbar-minimal {
+        background-color: #fbfbfb;
+    }
+
+    .navbar-default .navbar-right > li > a {
+        font-size: 0.9em;
+    }
+
+    .navbar-minimal .navbar-brand {
+        font-size: 1.3em;
+    }
+
+    .content p, .content label {
+        font-size: 16px;
+    }
+
+    .content h1
+    {
+        font-size: 1.475em;
+    }
+
+    .content h2
+    {
+        font-size: 1.1625em;
+    }
+
+    .navbar-right
+    {
+        margin-top: 24px;
+        margin-bottom: 24px;
+        font-size: 1.3em;
+        padding-left: 30px;
+    }
+
+    .navbar-default .navbar-right > li > a {
+        margin: 10px 0px;
+    }
+
+    .navbar-default .navbar-collapse
+    {
+        border: none;
+    }
+}

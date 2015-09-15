@@ -1,6 +1,6 @@
 {{#contentFor "header-scripts"}}
 
-    <link rel="stylesheet" href="/css/shop-style.css">
+    <link rel="stylesheet" href="/css/blog-style.css">
 
 {{/contentFor}}
 
@@ -20,12 +20,12 @@
                     <div class="blog-article">
                         <div class="row">
                             <div class="col-md-8">
-                                <h1><a href="/blog/{{ this.url }}">{{ this.page-title }}</a></h1>
+                                <h1><a href="/products/{{ this.url }}">{{ this.page-title }}</a></h1>
                                 <p class="readMore">{{ this.more-text }}...</p>
                             </div>
 
                             <div class="col-md-4">
-                                <a href="/blog/{{ this.url }}">
+                                <a href="/products/{{ this.url }}">
                                     <img class="featuredImage" src="{{ this.featured-image }}" width="100%" />
                                 </a>
                             </div>
