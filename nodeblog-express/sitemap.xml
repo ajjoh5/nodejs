@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+<url>
+  <loc>http://www.adamjohnstone.co/</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.adamjohnstone.co/pages/about-me</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.adamjohnstone.co/blog</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.adamjohnstone.co/products</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.adamjohnstone.co/pages/contact-me</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.adamjohnstone.co/blog/8-reasons-why-you-should-use-nodejs</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.adamjohnstone.co/blog/5-reasons-why-bootstrap-is-awesome-bootstrap-4-news</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.adamjohnstone.co/products/eric-ries-the-lean-startup</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.adamjohnstone.co/products/free-prize-inside-how-to-make-a-purple-cow</loc>
+  <changefreq>weekly</changefreq>
+</url>
+</urlset>

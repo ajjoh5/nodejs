@@ -57,6 +57,9 @@ app.use('*/app.js', function(req, res, next) {
 app.use('*/favicon.ico', function(req, res, next) {
     res.sendFile(path.join(__dirname + '/favicon.ico'));
 });
+app.use('*/sitemap.xml', function(req, res, next) {
+    res.sendFile(path.join(__dirname + '/sitemap.xml'));
+});
 
 // init app controllers and routes
 utilities.loadAppController(app, hbs, '_loginController');
