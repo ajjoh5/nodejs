@@ -87,27 +87,40 @@ function getViewParams(spa, viewParams) {
         //If we are at the root SPA page, then serve all content nodes
         //eg. if we are at "http://website/blogs", then serve all child "blogs"
 
+        var node = {};
+
         if (spa.isRoot) {
 
             if (process.env.NODE_ENV == 'development' ) { console.log('Root node: ' + spa.view); }
 
             //THIS IS THE ROOT NODE
+
+            //Get the root node in the json file
+            node = _.find(json.nodes, function (nItem) {
+                return nItem.url == "";
+            });
+
+            //Get all the other nodes
             var rootNodes = [];
+
             _.each(json.nodes, function (nItem) {
-                var nodeItem = {
-                    name: nItem.name,
-                    url: nItem.url
-                };
 
-                _.each(nItem.contents, function (cItem) {
-                    nodeItem[cItem.name] = cItem.value;
-                });
+                if(nItem.url && nItem.url != '') {
+                    var nodeItem = {
+                        name: nItem.name,
+                        url: nItem.url
+                    };
 
-                _.each(nItem.properties, function (pItem) {
-                    nodeItem[pItem.name] = pItem.value;
-                });
+                    _.each(nItem.contents, function (cItem) {
+                        nodeItem[cItem.name] = cItem.value;
+                    });
 
-                rootNodes.push(nodeItem);
+                    _.each(nItem.properties, function (pItem) {
+                        nodeItem[pItem.name] = pItem.value;
+                    });
+
+                    rootNodes.push(nodeItem);
+                }
             });
 
             viewParams[spa.id] = rootNodes;
@@ -115,33 +128,34 @@ function getViewParams(spa, viewParams) {
         else {
 
             //NOT ROOT NODE
-            var node = _.find(json.nodes, function (nItem) {
+            //Find the node we need
+            node = _.find(json.nodes, function (nItem) {
                 return nItem.url == spa.view;
             });
+        }
 
-            //If the child node exists in the json file, then get all it's content
-            if (node) {
+        //If we found the node in the json file, then get all it's content
+        if (node) {
 
-                if (process.env.NODE_ENV == 'development' ) { console.log('SPA Child - Found spa with url: ' + spa.view); }
-                _.each(node.contents, function (cItem) {
+            if (process.env.NODE_ENV == 'development' ) { console.log('SPA Child - Found spa with url: ' + spa.view); }
+            _.each(node.contents, function (cItem) {
 
-                    var contentToDisplay = cItem.value;
+                var contentToDisplay = cItem.value;
 
-                    //if edit mode is on - then add editor widget
-                    if (spa.isAuthenticated && spa.isEditModeOn == true) {
-                        contentToDisplay = '<div class="spa-editor" data-content-name="' + cItem.name + '">' + contentToDisplay + '</div>';
-                    }
+                //if edit mode is on - then add editor widget
+                if (spa.isAuthenticated && spa.isEditModeOn == true) {
+                    contentToDisplay = '<div class="spa-editor" data-content-name="' + cItem.name + '">' + contentToDisplay + '</div>';
+                }
 
-                    viewParams[cItem.name] = contentToDisplay;
-                });
+                viewParams[cItem.name] = contentToDisplay;
+            });
 
-                viewParams.properties = node.properties;
+            viewParams.properties = node.properties;
 
-                _.each(node.properties, function (pItem) {
-                    var propertyToDisplay = pItem.value;
-                    viewParams[pItem.name] = propertyToDisplay;
-                });
-            }
+            _.each(node.properties, function (pItem) {
+                var propertyToDisplay = pItem.value;
+                viewParams[pItem.name] = propertyToDisplay;
+            });
         }
     }
 }

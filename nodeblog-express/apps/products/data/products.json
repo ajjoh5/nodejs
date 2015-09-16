@@ -2,6 +2,23 @@
   "id": "NkLO9XxY",
   "nodes": [
     {
+      "name": "Root Products Page",
+      "url": "",
+      "contents": [],
+      "properties": [
+        {
+          "name": "meta-description",
+          "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+          "value": "Adam Johnstone lists the books, products and tools he recommends if you are planning to disrupt a tired industry with tech innovation and new products"
+        },
+        {
+          "name": "page-title",
+          "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+          "value": "Adam Johnstone's Recommended Products | You need to Read, Buy and Research these products"
+        }
+      ]
+    },
+    {
       "name": "eric ries the lean startup",
       "url": "eric-ries-the-lean-startup",
       "contents": [

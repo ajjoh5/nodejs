@@ -2,6 +2,23 @@
   "id": "LoLO8yXY",
   "nodes": [
     {
+      "name": "Root Blog Page",
+      "url": "",
+      "contents": [],
+      "properties": [
+        {
+          "name": "meta-description",
+          "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
+          "value": "Adam Johnstone Blog | Inspiring Tech Innovation Articles written by Adam and his team."
+        },
+        {
+          "name": "page-title",
+          "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
+          "value": "Adam Johnstone Blog | Inspiring Tech Innovation Articles written by Adam and his team."
+        }
+      ]
+    },
+    {
       "name": "8 reasons why you should use NodeJS",
       "url": "8-reasons-why-you-should-use-nodejs",
       "properties": [
