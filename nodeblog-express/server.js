@@ -60,6 +60,9 @@ app.use('*/favicon.ico', function(req, res, next) {
 app.use('*/sitemap.xml', function(req, res, next) {
     res.sendFile(path.join(__dirname + '/sitemap.xml'));
 });
+app.use('*/googlea0fef48171f78961.html', function(req, res, next) {
+    res.sendFile(path.join(__dirname + '/googlea0fef48171f78961.html'));
+});
 
 // init app controllers and routes
 utilities.loadAppController(app, hbs, '_loginController');
