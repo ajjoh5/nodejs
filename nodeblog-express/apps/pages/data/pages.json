@@ -8,7 +8,7 @@
         {
           "name": "meta-description",
           "description": "The meta-description must contain the primary keyword / phrase and be no longer than 156 characters",
-          "value": "Adam Johnstone is a disruptive tech innovator, entrepreneur and business owner located in Melbourne, AUS. Skills - NodeJS, Angular, .NET, C#, SharePoint"
+          "value": "Adam Johnstone is a disruptive tech innovator, entrepreneur and business owner located in Melbourne (AUS). Skills - NodeJS, Angular, .NET, C#, SharePoint"
         },
         {
           "name": "page-title",
@@ -35,7 +35,7 @@
         {
           "name": "page-title",
           "description": "The page title must contain the primary keyword / phrase and be no longer than 70 characters",
-          "value": "Adam Johnstone | Contact Me and start the Innovation Conversation"
+          "value": "Adam Johnstone | Contact Me to Start the Conversation"
         }
       ],
       "contents": [
