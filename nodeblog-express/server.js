@@ -60,8 +60,8 @@ app.use('*/favicon.ico', function(req, res, next) {
 app.use('*/sitemap.xml', function(req, res, next) {
     res.sendFile(path.join(__dirname + '/sitemap.xml'));
 });
-app.use('*/googlea0fef48171f78961.html', function(req, res, next) {
-    res.sendFile(path.join(__dirname + '/googlea0fef48171f78961.html'));
+app.use('*/robots.txt', function(req, res, next) {
+    res.sendFile(path.join(__dirname + '/robots.txt'));
 });
 
 // init app controllers and routes
