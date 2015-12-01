@@ -1,5 +1,7 @@
 var path = require('path');
 
+var express = require('express');
+
 function init(app, rebootConfig) {
 
     function cmsMiddleware(req, res, next) {
@@ -53,6 +55,23 @@ function init(app, rebootConfig) {
 
         return retval;
     }
+
+    //Static Routes for Files
+    app.use('/css', express.static(__base + '/apps/www/css'));
+    app.use('/images', express.static(__base + '/apps/www/images'));
+    app.use('/js', express.static(__base + '/apps/www/js'));
+    app.use('*/app.js', function(req, res, next) {
+        res.sendFile(path.join(__dirname + '/apps/' + req.params[0] + '/app.js'));
+    });
+    app.use('*/favicon.ico', function(req, res, next) {
+        res.sendFile(path.join(__base + '/favicon.ico'));
+    });
+    app.use('*/sitemap.xml', function(req, res, next) {
+        res.sendFile(path.join(__base + '/sitemap.xml'));
+    });
+    app.use('*/robots.txt', function(req, res, next) {
+        res.sendFile(path.join(__base + '/robots.txt'));
+    });
 
     // Generic Catch All (put in last)
     app.get('/?*', cmsMiddleware, function(req, res) {

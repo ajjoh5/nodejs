@@ -6,7 +6,7 @@ function rbJsonFileSync(file) {
         return JSON.parse(data);
     }
     catch(ex) {
-        var err = 'ERROR: Failed to read reboot config file: ' + file;
+        var err = 'ERROR: Failed to read json file: ' + file;
         console.log(err);
         console.log(ex);
         throw err;

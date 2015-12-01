@@ -17,6 +17,7 @@ function go() {
 
     //init variables
     var appDir = path.dirname(require.main.filename);
+    global.__base = appDir + '/';
     var rebootConfig = rebootUtilities.rbJsonFileSync(__dirname + '/reboot-config.json');
 
     //Setup environment variable
@@ -81,17 +82,20 @@ function go() {
             hbs.partialsDir.push(appDir + '/views/partials/');
 
             var appCodeDir = path.resolve(appDir, 'code');
-            var files = fs.readdirSync(appCodeDir);
+            try {
+                var files = fs.readdirSync(appCodeDir);
 
-            for(var f in files) {
-                var codeFile = path.resolve(appCodeDir, files[f]);
+                for(var f in files) {
+                    var codeFile = path.resolve(appCodeDir, files[f]);
 
-                var stats = fs.statSync(codeFile);
-                if (stats.isFile()) {
-                    require(codeFile)(app);
-                    console.log(codeFile.replace(rootDir, ''));
+                    var stats = fs.statSync(codeFile);
+                    if (stats.isFile()) {
+                        require(codeFile)(app);
+                        console.log(codeFile.replace(rootDir, ''));
+                    }
                 }
             }
+            catch(ex) {}
         }
     }
 }
