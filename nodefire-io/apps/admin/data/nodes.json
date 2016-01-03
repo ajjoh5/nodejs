@@ -8,7 +8,12 @@
         {
           "type" : "content-page-1",
           "name" : "About Us",
-          "fields" : [],
+          "fields" : [
+            {
+              "type": "link",
+              "value" : "/admin/henley"
+            }
+          ],
           "nodes" : [
             {
               "type" : "content-page-1",
