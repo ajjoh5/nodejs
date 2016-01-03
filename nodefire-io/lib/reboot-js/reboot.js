@@ -57,13 +57,12 @@ function go() {
 
     //Create server on configured port
     app.listen(rebootConfig.port, function() {
-        console.log('Server running at: ' + rebootConfig.port);
-
         art.font('reboot', 'Doom', function(rendered){
 
             loadAllRebootCodeFiles();
             rebootRoutes.init(app, rebootConfig);
             console.log(rendered);
+            console.log('Port: '+ rebootConfig.port);
         });
     });
 
