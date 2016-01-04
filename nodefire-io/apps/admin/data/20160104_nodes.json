@@ -1,0 +1,60 @@
+{
+  "nodes" : [
+    {
+      "type" : "web",
+      "name" : "Henley Website",
+      "fields" : [],
+      "nodes" : [
+        {
+          "type" : "content-page-1",
+          "name" : "About Us",
+          "fields" : [
+            {
+              "type": "link",
+              "value" : "/admin/henley/about-us"
+            }
+          ],
+          "nodes" : [
+            {
+              "type" : "content-page-1",
+              "name" : "Our Vision",
+              "fields" : [
+                {
+                  "type": "link",
+                  "value" : "/admin/henley/vision"
+                }
+              ]
+            },
+            {
+              "type" : "snippet-1",
+              "name" : "Our Objectives",
+              "fields" : [
+                {
+                  "type": "link",
+                  "value" : "/admin/henley/objectives"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type" : "content-page-1",
+          "name" : "Our History",
+          "fields" : []
+        }
+      ]
+    },
+    {
+      "type" : "web",
+      "name" : "MainVue Website",
+      "fields" : [],
+      "nodes" : [
+        {
+          "type" : "content-page-1",
+          "name" : "MV - About Us",
+          "fields" : []
+        }
+      ]
+    }
+  ]
+}
