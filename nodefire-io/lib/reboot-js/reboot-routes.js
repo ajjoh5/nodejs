@@ -48,7 +48,8 @@ function init(app, rebootConfig) {
             requestApp.viewFile = path.resolve(appDir, 'views/' + requestApp.view);
             requestApp.layout = path.resolve(appDir, 'views/layouts/' + requestApp.layout);
 
-            console.log(requestApp.viewFile);
+            console.log('view : ' + requestApp.viewFile);
+            console.log('layout : ' + requestApp.layout);
 
             retval = requestApp;
         }
@@ -75,6 +76,8 @@ function init(app, rebootConfig) {
 
     // Generic Catch All (put in last)
     app.get('/?*', cmsMiddleware, function(req, res) {
+
+        console.log('[reboot: default route]');
 
         var urlParams = removeLastSlash(req.params[0]).split('/');
 
