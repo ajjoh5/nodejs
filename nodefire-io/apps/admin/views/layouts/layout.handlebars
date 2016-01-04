@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- js tree plugins -->
-    <link rel="stylesheet" href="/js/themes/default/style.min.css" />
+    <link rel="stylesheet" href="/js/themes/default-dark/style.min.css" />
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/js/jstree.min.js"></script>
 
@@ -25,9 +25,33 @@
             margin-bottom: 0px;
         }
 
-        #nodefire-nodes {
-            background-color: #efefef;
+        .body {
+            background-color: #434647;
+            min-height: 600px;
         }
+
+        #nodefire-nodes {
+            background-color: #434647;
+            padding-top: 50px;
+        }
+
+        #nodefire-content {
+            background-color: #434647;
+            padding-top: 50px;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .jstree-anchor, .jstree-anchor:link, .jstree-anchor:visited, .jstree-anchor:hover, .jstree-anchor:active {
+            margin-bottom: 10px;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .jstree-anchor:hover {
+            background-color: #868b8f;
+        }
+
     </style>
 
 </head>
@@ -72,8 +96,7 @@
         </div>
     </nav>
 
-
-    <div class="container">
+    <div class="body container">
         {{{ body }}}
     </div> <!-- /container -->
 

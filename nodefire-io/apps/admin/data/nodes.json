@@ -11,19 +11,29 @@
           "fields" : [
             {
               "type": "link",
-              "value" : "/admin/henley"
+              "value" : "/admin/henley/about-us"
             }
           ],
           "nodes" : [
             {
               "type" : "content-page-1",
               "name" : "Our Vision",
-              "fields" : []
+              "fields" : [
+                {
+                  "type": "link",
+                  "value" : "/admin/henley/vision"
+                }
+              ]
             },
             {
               "type" : "snippet-1",
               "name" : "Our Objectives",
-              "fields" : []
+              "fields" : [
+                {
+                  "type": "link",
+                  "value" : "/admin/henley/objectives"
+                }
+              ]
             }
           ]
         },
