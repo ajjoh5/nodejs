@@ -1,0 +1,19 @@
+{
+  "name": "dynamics-createlead",
+  "version": "1.0.0",
+  "description": "dynamics-createlead | a node based content delivery system",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ascii-art": "0.0.2-alpha",
+    "body-parser": "^1.14.1",
+    "compression": "^1.6.0",
+    "express": "^4.13.3",
+    "express-handlebars": "^2.0.1",
+    "underscore": "^1.8.3"
+  }
+}

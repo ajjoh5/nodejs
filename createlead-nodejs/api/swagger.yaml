@@ -1,0 +1,123 @@
+---
+swagger: "2.0"
+info:
+  description: "Create leads that get allocated internally by our Marketing staff"
+  version: "1.0.0"
+  title: "Henley Dynamics API"
+host: "devapi.henley.com.au"
+basePath: "/api/v1/dynamics"
+schemes:
+- "https"
+produces:
+- "application/json"
+paths:
+  /CreateLead:
+    post:
+      tags:
+      - "Lead"
+      summary: "Creates a lead in the lead syncronization table"
+      description: "The CreateLead endpoint allows you to post a lead into a staging\
+        \ system, that is manually checked and allocated by the Marketing Staff.\n"
+      parameters:
+      - in: "body"
+        name: "lead"
+        description: "The Lead model json object."
+        required: true
+        schema:
+          $ref: "#/definitions/Lead"
+      responses:
+        200:
+          description: "The lead is passed back if it was successfully received."
+          schema:
+            $ref: "#/definitions/Lead"
+        401:
+          description: "Keytoken was unauthorised"
+          schema:
+            $ref: "#/definitions/Error"
+        520:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+definitions:
+  Lead:
+    type: "object"
+    properties:
+      FirstName:
+        type: "string"
+        description: "eg. John"
+      LastName:
+        type: "string"
+        description: "eg. Smith"
+      Email:
+        type: "string"
+        description: "eg. john@email.com"
+      MobilePhone:
+        type: "string"
+        description: "eg. 0400000000"
+      Subject:
+        type: "string"
+        description: "eg. 5600000000"
+      WhenMoveIn:
+        type: "string"
+        description: "eg. 5600000000"
+      PriceRange:
+        type: "number"
+        description: "eg. 5600000000"
+      LeadRegion:
+        type: "number"
+        description: "eg. 5600000000"
+      LeadSalesUnit:
+        type: "number"
+        description: "eg. 5600000000"
+      PreferredContact:
+        type: "string"
+        description: "Not used."
+      LeadBrand:
+        type: "number"
+        description: "eg. 5600000000"
+      LandStatus:
+        type: "number"
+        description: "eg. 1 or 0"
+      LandFrontage:
+        type: "number"
+        description: "eg. 15"
+      LandSize:
+        type: "number"
+        description: "eg. 576"
+      LandSuburb:
+        type: "string"
+        description: "eg. Mentone"
+      Storey:
+        type: "string"
+        description: "eg. SNG, DBL, BTH (Single, Double, Both)"
+      CollectionInterestedIn:
+        type: "string"
+        description: "eg. HEN, MNV, BTH (Henley, Mainvue, Both)"
+      FreeSiteAssessment:
+        type: "number"
+        description: "eg. 1 or 0"
+      MoreInfoHomeDesign:
+        type: "number"
+        description: "eg. 1 or 0"
+      StepByStepGuide:
+        type: "number"
+        description: "eg. 1 or 0"
+      Comments:
+        type: "string"
+        description: "eg. This is the comments section that is for free sorm text\
+          \ and additional data not in the fields"
+      SubscribeToNews:
+        type: "number"
+        description: "eg. 1 or 0"
+      InputSource:
+        type: "number"
+        description: "eg. 1 (1 being the value for web site leads. Other numbers can\
+          \ be requested for better marketing tracking)"
+  Error:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      message:
+        type: "string"
