@@ -10,11 +10,15 @@ RUN wget https://nodejs.org/dist/v5.4.1/node-v5.4.1-linux-x64.tar.gz
 RUN tar -C /usr/local --strip-components 1 -xzf node-v5.4.1-linux-x64.tar.gz
 RUN rm node-v5.4.1-linux-x64.tar.gz
 
+## Add entire nodejs app, in local 'web' directory
 ADD /web/package.json /web/package.json
 RUN cd web; npm install
 
+## Copy entire nodejs app across to image
 ADD /web /web
 
-EXPOSE 3001
+## Expose the port 3000 - because that's the nodejs app port we are using
+EXPOSE 3000
 
-CMD ["node", "/web/server.js"]
+## Run the node server
+## CMD ["node", "/web/server.js"]
