@@ -64,6 +64,8 @@ function go() {
             rebootRoutes.init(app, rebootConfig);
             console.log(rendered);
             console.log('Port: '+ rebootConfig.port);
+            console.log('Environment: ' + process.env.NODE_ENV);
+
         });
     });
 
