@@ -5,7 +5,7 @@ var testController = function(app) {
 
     var request = require("request");
     var cheerio = require("cheerio");
-    var url = "http://www.realestate.com.au/buy/in-mortlake%2c+vic+3272%3b/list-{0}?activeSort=price-asc";
+    var url = "http://www.realestate.com.au/buy/in-essendon%2c+vic+3040%3b+/list-{0}?activeSort=price-asc";
 
 
     app.get('/test/hello', function(req, res) {
@@ -41,28 +41,44 @@ var testController = function(app) {
                     numPages = Math.floor(numPages);
                 }
 
-                for(var i=1; i <= numPages; i++) {
+                var promises = [];
+                createAsyncListingRequests(numPages, promises);
 
-                    asyncTasks.push(function(callback){
-                        var tempUrl = 'http://www.realestate.com.au/buy/in-mortlake%2c+vic+3272%3b/list-' + i;
+                //Once all web requests run, combine them all together
+                async.parallel(promises, function (err, results) {
 
-                        getListingPage(tempUrl, function(jsonListings) {
-                            console.log(jsonListings[0]);
-                            callback(jsonListings);
-                        });
-                    });
-                }
+                    var combinedResults = [];
 
-                async.parallel(asyncTasks, function(){
-                    // All tasks are done now
-                    console.log('all run!!');
+                    for(var r in results) {
+                        combinedResults.push.apply(combinedResults, results[r]);
+                    }
+
+                    res.send(combinedResults);
                 });
 
-            } else {
+            }
+            else {
 
             }
         });
     });
+
+    function createAsyncListingRequests(numPages, promises) {
+
+        for(var i = 1; i <= numPages; i++) {
+
+            (function(b) {
+                var newUrl = format(url, b);
+
+                promises.push(function(callback) {
+
+                    //Async the get listings for the URL + page number
+                    getListingPage(newUrl, callback);
+                });
+
+            })(i);
+        }
+    }
 
     function getListingPage(tUrl, callback) {
 
@@ -77,27 +93,103 @@ var testController = function(app) {
                 listings.find('article').each(function(i, element){
                     var a = $(this);
                     var item = getItemDetails(a);
-                    jsonListings.push(item);
+
+                    //filter out bad results
+                    if(item.bed && item.bath && item.price && item.address) {
+                        jsonListings.push(item);
+                    }
+                    else {
+                        console.log(format('Dropped: {0} - {1} - {2} - {3}', item.address, item.bed, item.bath, item.price))
+                    }
+
+                    //Get all listings (debug only)
+                    //jsonListings.push(item);
                 });
 
                 console.log("Found the listings: " + tUrl);
-                callback(jsonListings);
+                callback(null, jsonListings);
             } else {
                 console.log("We’ve encountered an error: " + error);
-                callback(jsonListings);
+                callback(error, null);
             }
         });
 
     };
 
+    function convertShorthandNumbers(num) {
+
+        //remove commas
+        num = num.replace(/,/g, '');
+
+        if(num.indexOf('K') > -1) {
+            console.log(format('Cleaning up thousand (K): {0}' + num));
+            num = num.replace(/K/g, '000');
+
+            return num;
+        }
+
+        if(num.indexOf('M') > -1) {
+            console.log(format('Cleaning up million (M): {0}' + num));
+            var m1 = num.indexOf('M');
+            var m2 = num.indexOf('.');
+
+            var numOfZeros = 6;
+
+            if(m2 > -1) {
+                m2++;
+                numOfZeros = numOfZeros - (m1 - m2);
+            }
+
+            var millString = '';
+            for(var i = 1; i <= numOfZeros; i++) {
+                millString += '0';
+            }
+
+            num = num.replace(/M/g, millString);
+
+            //remove dot point
+            num = num.replace(/\./g, '');
+            return num;
+        }
+
+        return num;
+    }
+
     function getItemDetails(a) {
         var retval = {};
 
         var price = a.find('p.priceText').text();
+        //ensure all characters are uppercase
+        price = price.toUpperCase();
+
+        if(price.indexOf('$') > -1) {
+
+            //Get a clean version of price
+            price = price.substring(price.indexOf('$') + 1);
+            price = price.replace(/-/, ' ');
+
+            //Convert any Millions (M) or thousands (K) to the proper number
+            price = convertShorthandNumbers(price);
+
+            //Get rid of any text or numbers after a trailing space
+            if(price.indexOf(' ') > -1) {
+                price = price.substring(0, price.indexOf(' '));
+            }
+
+            if(price.length < 4) {
+                price = null;
+            }
+        }
+        else
+        { price = null; }
+
         var address = a.find('div.vcard').text();
         var bed = a.find('dt.rui-icon-bed').next().text();
         var bath = a.find('dt.rui-icon-bath').next().text();
         var car = a.find('dt.rui-icon-car').next().text();
+
+        //validation on returned items
+
 
         retval = {
             price : price,
