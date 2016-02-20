@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ page-title }}</title>
+    <meta name="description" content="{{ meta-description }}" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- load bootstrap and fontawesome via CDN -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+
+    <!-- Load jQuery & Bootstrap js-->
+    <script src="/js/framework/jquery-1.11.3.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <!-- Facicon.ico links -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- HEADER - Custom Scripts -->
+    {{{ block "header-scripts" }}}
+
+</head>
+<body>
+
+    <header>
+
+        <nav class="navbar navbar-default navbar-fixed-top navbar-minimal">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand">
+                        <img class="brand-img" src="/images/deal-finder-white.png" width="150" />
+                        <!--<a class="brand-title" href="/">Deal Finder</a>-->
+                    </div>
+                </div>
+
+                <ul class="nav navbar-nav navbar-right navbar-collapse collapse">
+                    <li><a href="/pages/about-me"><i class="fa fa-question-circle"></i>&nbsp;FAQ</a></li>
+                    <li><a href="/blog"><i class="fa fa-envelope-o"></i>&nbsp;Contact</a></li>
+                    <li><a href="/products" class="btn-buy">BUY NOW</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    {{{ body }}}
+
+    <!-- LOAD - Custom Scripts -->
+    {{#block "footer-scripts"}}
+
+    {{/block}}
+    <!-- END - Custom Scripts -->
+
+
+    <script>
+    //    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    //                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    //            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    //    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    //
+    //    ga('create', 'UA-67243093-1', 'auto');
+    //    ga('send', 'pageview');
+
+    </script>
+
+    <!-- Begin Inspectlet Embed Code -->
+    <script type="text/javascript" id="inspectletjs">
+    //    window.__insp = window.__insp || [];
+    //    __insp.push(['wid', 243739945]);
+    //    (function() {
+    //        function ldinsp(){var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); };
+    //        document.readyState != "complete" ? (window.attachEvent ? window.attachEvent('onload', ldinsp) : window.addEventListener('load', ldinsp, false)) : ldinsp();
+    //
+    //    })();
+    </script>
+    <!-- End Inspectlet Embed Code -->
+
+    <div style="background-color: #FA6501; height: 5px;"></div>
+    <div style="background-color: #FE9902; height: 5px;"></div>
+    <footer>
+        <div class="container p60">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy;&nbsp;iGenius Group 2016</p>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a class="pr40" href="#">FAQ</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
