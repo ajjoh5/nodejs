@@ -229,7 +229,7 @@ function getItemDetails(a) {
     var car = a.find('dt.rui-icon-car').next().text();
 
     retval = {
-        price : price,
+        price : Number(price),
         address : address,
         link : link,
         type : getPropertyType(link),

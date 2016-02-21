@@ -32,7 +32,7 @@ var testController = function(app) {
 
         reajs.scrape.reaSuburbScrape(suburb)
         .then(function (data) {
-            console.log('[ Refactor Listings ]');
+            console.log('[ REFACTOR LISTINGS ]');
             reajs.refactor.reaRefactorListings(data);
 
             res.send(data);
