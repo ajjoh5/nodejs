@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 
     <!-- Load jQuery & Bootstrap js-->
-    <script src="/js/framework/jquery-1.11.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
     <!-- Facicon.ico links -->
@@ -44,7 +46,7 @@
                 <ul class="nav navbar-nav navbar-right navbar-collapse collapse">
                     <li><a href="/pages/about-me"><i class="fa fa-question-circle"></i>&nbsp;FAQ</a></li>
                     <li><a href="/blog"><i class="fa fa-envelope-o"></i>&nbsp;Contact</a></li>
-                    <li><a href="/products" class="btn-buy">BUY NOW</a></li>
+                    <li><a href="/products" class="btn-buy">{{{ action-button }}}</a></li>
                 </ul>
             </div>
         </nav>

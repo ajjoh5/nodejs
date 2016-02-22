@@ -88,9 +88,17 @@ body
     max-width: 1000px;
 }
 
+.container-lrg {
+    max-width: 1400px;
+}
+
 .p20 { padding-top: 20px; }
 .p40 { padding-top: 40px; }
 .p60 { padding-top: 60px; }
+.p80 { padding-top: 80px; }
+.p100 { padding-top: 100px; }
+.p120 { padding-top: 120px; }
+.p140 { padding-top: 140px; }
 
 .pr20 { padding-right: 20px; }
 .pr40 { padding-right: 40px; }
@@ -121,7 +129,6 @@ footer a:hover
 }
 
 section.story {
-    padding-top: 140px;
     background-color: #061524;
 }
 
@@ -214,6 +221,22 @@ section.why .btn-landing-1:hover {
     color: #fff;
     background-color: #2090f3;
 }
+
+.btn-panel {
+    min-height: 350px;
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,0.25);
+}
+
+.btn-panel:hover {
+    /*background-color: #fcf8e3;*/
+    cursor: pointer;
+}
+
+/*.btn-panel:hover .panel-heading {*/
+    /*color: #8a6d3b;*/
+    /*background-color: #fcf8e3;*/
+/*}*/
+
 
 
 @media (min-width: 768px) and (max-width: 991px) {

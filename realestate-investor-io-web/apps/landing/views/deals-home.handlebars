@@ -1,0 +1,68 @@
+{{#contentFor "header-scripts"}}
+
+    <link rel="stylesheet" href="/css/landing-test-1.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('.btn-panel').hover(function() {
+                $('.btn-panel').addClass('inactive-btn-panel');
+                $(this).removeClass('inactive-btn-panel');
+                $(this).addClass('active-btn-panel');
+
+                $(this).animate({ opacity : '1.0' }, 300);
+                $('div.inactive-btn-panel').animate({ opacity : '0.5' }, 300);
+            }, function() {
+                $(this).removeClass('active-btn-panel');
+                $(this).addClass('inactive-btn-panel');
+            });
+
+            $('.panel-outside').hover(null, function() {
+                $('div.inactive-btn-panel').animate({ opacity : '1.0' }, 300);
+            });
+        });
+    </script>
+
+{{/contentFor}}
+
+<section class="why p100">
+    <div class="container container-lrg p60">
+        <div class="row panel-outside">
+            <div class="col-md-4 pr60">
+                <div class="panel panel-success btn-panel inactive-btn-panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;&nbsp;Search Cashflow Deals</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p class="p20">Finding cashflow positive deals used to be time consuming because you need to know which location to target, rent averages for the property type and then calculate the feasibility of the property along with the financials of the deal.</p>
+                    </div>
+                </div>
+             </div>
+            <div class="col-md-4 pr60">
+                <div class="panel panel-info btn-panel inactive-btn-panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;&nbsp;Search Renovation Deals</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p class="p20">Finding potential candidates for renovations, subdivisions or 'flipping' opportunities takes a keen eye and a knowledge of where to look.</p>
+                        <p class="p20">And 'add value' deals and have them shortlisted and ready for you to browse.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 pr60">
+                <div class="panel panel-info btn-panel inactive-btn-panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;&nbsp;Search Chunk Deals</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p class="p20">Chunk Deals are....</p>
+                        <p class="p20">Oh wait, we've already uncovered potential 'add value' deals and have them shortlisted and ready for you to browse.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p60"></div>
+    </div>
+</section>
