@@ -13,6 +13,10 @@ var Q = require('q');
 //    'reaCode' : 'box+hill%2c+vic+3128'
 //};
 
+function getRandomNum(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
 var reaSuburbScrape = function(suburb) {
 
     var deferred = Q.defer();
@@ -56,11 +60,6 @@ var reaSuburbScrape = function(suburb) {
                 //set suburb summary to suburb object passed in - then add additional fields
                 var suburbSummary = suburb;
                 suburbSummary.summary = {};
-                //suburbSummary.summary['1-bed-total'] = 0;
-                //suburbSummary.summary['2-bed-total'] = 0;
-                //suburbSummary.summary['3-bed-total'] = 0;
-                //suburbSummary.summary['4-bed-total'] = 0;
-
                 suburbSummary.listings = combinedResults;
 
                 deferred.resolve(suburbSummary);
@@ -228,6 +227,15 @@ function getItemDetails(a) {
     var bath = a.find('dt.rui-icon-bath').next().text();
     var car = a.find('dt.rui-icon-car').next().text();
 
+    var propertyRentWeek = Math.floor(getRandomNum(0.9,1.3) * (Number(price) / 1000));
+    var propertyRentSimilar = propertyRentWeek * 52;
+    var interestRate = 0.0499;
+    var deposit = Number(price) * 0.20;
+    var mortgage = Number(price) * 0.80;
+    //calculate property expenses by taking - annual mgmt fees + annual repairs + annual other costs + annual interest
+    var propertyExpenses = Math.floor((propertyRentSimilar * 0.07) + (propertyRentSimilar * 0.025) + (propertyRentSimilar * 0.05) + (mortgage * interestRate));
+    var cashflow = propertyRentSimilar - propertyExpenses;
+
     retval = {
         price : Number(price),
         address : address,
@@ -235,7 +243,15 @@ function getItemDetails(a) {
         type : getPropertyType(link),
         bed : bed,
         bath : bath,
-        car : car
+        car : car,
+        deals : {
+            deposit: deposit,
+            rentWeek:propertyRentWeek,
+            rentAnnual: propertyRentSimilar,
+            expensesAnnual: propertyExpenses,
+            cashflowAnnual : cashflow,
+            cashflowMonthly : Math.floor(cashflow / 12)
+        }
     };
 
     return retval;
