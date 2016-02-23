@@ -226,6 +226,9 @@ function getItemDetails(a) {
     var bed = a.find('dt.rui-icon-bed').next().text();
     var bath = a.find('dt.rui-icon-bath').next().text();
     var car = a.find('dt.rui-icon-car').next().text();
+    var imageSrc = a.find('div.media img').attr('src');
+    imageSrc = !imageSrc ? a.find('div.photoviewer img').attr('src') : imageSrc;
+    imageSrc = (!imageSrc) ? '' : imageSrc;
 
     var propertyRentWeek = Math.floor(getRandomNum(0.9,1.3) * (Number(price) / 1000));
     var propertyRentSimilar = propertyRentWeek * 52;
@@ -240,6 +243,7 @@ function getItemDetails(a) {
         price : Number(price),
         address : address,
         link : link,
+        imageSrc : imageSrc,
         type : getPropertyType(link),
         bed : bed,
         bath : bath,

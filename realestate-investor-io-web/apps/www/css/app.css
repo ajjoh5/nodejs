@@ -85,7 +85,7 @@ body
 
 .container
 {
-    max-width: 1000px;
+    max-width: 1400px;
 }
 
 .p20 { padding-top: 20px; }
@@ -96,6 +96,7 @@ body
 .p120 { padding-top: 120px; }
 .p140 { padding-top: 140px; }
 
+.pr10 { padding-right: 10px; }
 .pr20 { padding-right: 20px; }
 .pr40 { padding-right: 40px; }
 .pr60 { padding-right: 60px; }
@@ -124,66 +125,11 @@ footer a:hover
     text-decoration: none;
 }
 
-section.story {
-    background-color: #061524;
-}
-
-section.story h1 {
-    font-family: 'Roboto', sans-serif;
-    letter-spacing: 3px;
-    line-height: 1.5em;
-    font-size: 4em;
-    font-weight: 100;
-    color: #eee;
-}
-
-section.story p {
-    font-family: 'Roboto', sans-serif;
-    letter-spacing: 1px;
-    line-height: 1.5em;
-    font-size: 1.4em;
-    font-weight: 300;
-    color: #bbb;
-}
-
-section.story p.small {
-    font-size: 85%;
-}
-
-section.story a {
-    color: #ccc;
-    text-decoration: none;
-}
-
-section.story a:hover {
-    color: #fff;
-    text-decoration: none;
-}
-
-section.story .btn-landing-1 {
-    color: #fff;
-    background-color: #207cdf;
-    border-radius: 5px;
-    border: none;
-    padding: 11px 15px;
-    font-family: 'Roboto', sans-serif;
-    letter-spacing: 1px;
-    line-height: 1.5em;
-    font-size: 1em;
-    font-weight: 100;
-    box-shadow: inset 0 -3px 0 rgba(0,0,0,0.25);
-}
-
-section.story .btn-landing-1:hover {
-    color: #fff;
-    background-color: #2090f3;
-}
-
-section.why {
+section.app {
     min-height: 800px;
 }
 
-section.why h2 {
+section.app h2 {
     font-family: 'Roboto', sans-serif;
     letter-spacing: 1px;
     line-height: 1.5em;
@@ -191,7 +137,7 @@ section.why h2 {
     font-weight: 300;
 }
 
-section.why p {
+section.app p {
     font-family: 'Roboto', sans-serif;
     letter-spacing: 1px;
     line-height: 1.5em;
@@ -199,7 +145,7 @@ section.why p {
     font-weight: 300;
 }
 
-section.why .btn-landing-1 {
+section.app .btn-landing-1 {
     color: #fff;
     background-color: #207cdf;
     border-radius: 5px;
@@ -213,26 +159,61 @@ section.why .btn-landing-1 {
     box-shadow: inset 0 -3px 0 rgba(0,0,0,0.25);
 }
 
-section.why .btn-landing-1:hover {
+section.app .btn-landing-1:hover {
     color: #fff;
     background-color: #2090f3;
 }
 
-.btn-panel {
+section.app .btn-panel {
     min-height: 350px;
     box-shadow: inset 0 -3px 0 rgba(0,0,0,0.25);
 }
 
-.btn-panel:hover {
+section.app .btn-panel:hover {
     /*background-color: #fcf8e3;*/
     cursor: pointer;
 }
 
-/*.btn-panel:hover .panel-heading {*/
-    /*color: #8a6d3b;*/
-    /*background-color: #fcf8e3;*/
-/*}*/
+section.app article.listing {
+    width: 350px;
+    min-height: 500px;
+    margin-right: 20px;
+    float: left;
+    overflow: hidden;
+}
 
+section.app article.listing .panel:hover {
+    background-color: #def2fc;
+    cursor: pointer;
+}
+
+section.app article.listing p {
+    font-size: 1.1em;
+}
+
+section.app article.listing a {
+    text-decoration: none;
+}
+
+section.app .loader {
+    padding: 20px;
+}
+
+@font-face {
+    font-family: 'fontello';
+    src: url('/css/font/fontello.eot?84657161');
+    src: url('/css/font/fontello.eot?84657161#iefix') format('embedded-opentype'),
+    url('/css/font/fontello.woff?84657161') format('woff'),
+    url('/css/font/fontello.ttf?84657161') format('truetype'),
+    url('/css/font/fontello.svg?84657161#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.rea-icon {
+    font-family: "fontello";
+    font-style: normal;
+}
 
 
 @media (min-width: 768px) and (max-width: 991px) {

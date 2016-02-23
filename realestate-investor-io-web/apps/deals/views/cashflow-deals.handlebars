@@ -1,0 +1,61 @@
+{{#contentFor "header-scripts"}}
+
+    <link rel="stylesheet" href="/css/app.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300' rel='stylesheet' type='text/css'>
+
+    //Angular and Underscore
+    <script type="application/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script type="application/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script type="application/javascript" src="/js/deals/app-deals.js"></script>
+
+{{/contentFor}}
+
+<section class="app p100" ng-app="appDeals" ng-controller="dealsController">
+    <div class="container p60">
+
+        <div class="loader bg-danger text-center" ng-show="listings.length == 0">
+            <img src="/images/magnify.svg" width="50px"/>&nbsp;&nbsp;&nbsp;<strong>Loading Listings....</strong>
+        </div>
+
+        <div class="filters">
+            <div class="row">
+
+            </div>
+        </div>
+
+        <article class="listing pr20" ng-show="listings.length > 0" ng-click="openProperty(item.link)" ng-repeat="item in listings" ng-cloak>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title pull-left">Deposit: {[{ item.deals.deposit | currency : '$' : 0 }]}</h3>
+                    <h3 class="panel-title pull-right">CF: {[{ item.deals.cashflowMonthly | currency : '$' : 0 }]} pm</h3>
+                    <span class="clearfix"></span>
+                </div>
+                <div class="panel-body">
+                    <p>{[{ getAddressShort(item.address, 35) }]}</p>
+                    <p>
+                        <span class="pr10"><i class="rea-icon icon-bed">&#xe801;</i>&nbsp;{[{ item.bed }]}</span>
+                        <span class="pr10"><i class="rea-icon icon-bath">&#xe800;</i>&nbsp;{[{ item.bath }]}</span>
+                        <span class="pr10"><i class="rea-icon icon-car">&#xe802;</i>&nbsp;{[{ item.car }]}</span>
+                    </p>
+                    <p><img src="{[{ item.imageSrc }]}" width="100%" style="border-radius: 3px;" /></p>
+                    <table class="table p20">
+                        <tr>
+                            <th>Price</th>
+                            <th>Rent</th>
+                            <th>Expenses</th>
+                            <th>Cashflow</th>
+                        </tr>
+                        <tr>
+                            <td>{[{ item.price | number : 0 }]}</td>
+                            <td>{[{ item.deals.rentAnnual | number : 0 }]}</td>
+                            <td>{[{ item.deals.expensesAnnual | number : 0 }]}</td>
+                            <td>{[{ item.deals.cashflowAnnual | number : 0 }]}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </article>
+
+        <div class="p60"></div>
+    </div>
+</section>

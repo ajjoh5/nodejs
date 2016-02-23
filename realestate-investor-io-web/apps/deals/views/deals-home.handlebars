@@ -1,33 +1,39 @@
 {{#contentFor "header-scripts"}}
 
-    <link rel="stylesheet" href="/css/landing-test-1.css">
+    <link rel="stylesheet" href="/css/app.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto:100,300' rel='stylesheet' type='text/css'>
 
     <script type="text/javascript">
         $(document).ready(function() {
+
+            $('.btn-panel').click(function() {
+                window.location.href='/cashflow-deals';
+            });
+
 
             $('.btn-panel').hover(function() {
                 $('.btn-panel').addClass('inactive-btn-panel');
                 $(this).removeClass('inactive-btn-panel');
                 $(this).addClass('active-btn-panel');
 
-                $(this).animate({ opacity : '1.0' }, 300);
-                $('div.inactive-btn-panel').animate({ opacity : '0.5' }, 300);
+
+                $(this).animate({ opacity : '1.0', marginTop : '-=3' }, 100);
+                $('div.inactive-btn-panel').animate({ opacity : '0.7', marginTop: '0' }, 100);
             }, function() {
                 $(this).removeClass('active-btn-panel');
                 $(this).addClass('inactive-btn-panel');
             });
 
             $('.panel-outside').hover(null, function() {
-                $('div.inactive-btn-panel').animate({ opacity : '1.0' }, 300);
+                $('div.inactive-btn-panel').animate({ opacity : '1.0', marginTop: '0' }, 100);
             });
         });
     </script>
 
 {{/contentFor}}
 
-<section class="why p100">
-    <div class="container container-lrg p60">
+<section class="app p100">
+    <div class="container p60">
         <div class="row panel-outside">
             <div class="col-md-4 pr60">
                 <div class="panel panel-success btn-panel inactive-btn-panel">
