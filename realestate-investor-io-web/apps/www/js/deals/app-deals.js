@@ -17,12 +17,28 @@ app.controller('dealsController', function($scope, $http, $window, _) {
     function GetListings() {
 
         //Get allocated jobs
-        $http.get('/api/deals/vic/altona/3018')
+        $http.get('/api/deals/vic/burwood/3125')
         .success(function(data, status, headers, config) {
 
             //get allocated jobs into scope
             var json = angular.fromJson(data);
             var listings = json.listings;
+            var sortedListings = _.sortBy(listings, function(item) { return item.deals.cashflowAnnual }).reverse();
+            $scope.listings = sortedListings;
+        }).
+        error(function(data, status, headers, config) {
+            // log error
+        });
+    }
+
+    function GetAllListings() {
+
+        //Get allocated jobs
+        $http.get('/api/all-deals/')
+        .success(function(data, status, headers, config) {
+
+            //get allocated jobs into scope
+            var listings = angular.fromJson(data);
             var sortedListings = _.sortBy(listings, function(item) { return item.deals.cashflowAnnual }).reverse();
             $scope.listings = sortedListings;
         }).
@@ -45,5 +61,5 @@ app.controller('dealsController', function($scope, $http, $window, _) {
         $window.open(link);
     };
 
-    GetListings();
+    GetAllListings();
 });

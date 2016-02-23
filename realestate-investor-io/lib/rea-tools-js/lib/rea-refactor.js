@@ -4,7 +4,7 @@ var _ = require('underscore');
 var Q = require('q');
 
 
-var reaRefactorListings = function(suburbSummary) {
+var reaRefactorListings = function(suburbSummary, suburbStats) {
 
     var deferred = Q.defer();
 
@@ -32,12 +32,12 @@ var reaRefactorListings = function(suburbSummary) {
         suburbSummary.summary.units.total = houseTypes.unit.length;
 
         //Refactor houses
-        console.log('[ Refactoring Houses ]');
-        groupHouseTypes(houseTypes.house, suburbSummary.summary.houses);
+        console.log(format('[ Refactoring Houses - {0} ]', suburbSummary.name));
+        groupHouseTypes('houses', houseTypes.house, suburbSummary.summary.houses, suburbStats.houses);
 
         //Refactor units
-        console.log('[ Refactoring Units ]');
-        groupHouseTypes(houseTypes.unit, suburbSummary.summary.units);
+        console.log(format('[ Refactoring Units - {0} ]', suburbSummary.name));
+        groupHouseTypes('units', houseTypes.unit, suburbSummary.summary.units, suburbStats.units);
 
         //return summary
         deferred.resolve(suburbSummary);
@@ -50,38 +50,76 @@ var reaRefactorListings = function(suburbSummary) {
 
 };
 
-function groupHouseTypes(listings, arrayToFill) {
+function groupHouseTypes(propertyType, listings, arrayToFill, suburbStats) {
 
     if(listings.length > 0) {
 
-        var allGroups = _(listings).groupBy('bed');
+        try {
+            var allGroups = _(listings).groupBy('bed');
 
-        var g = _.keys(allGroups);
-        _.each(g, function(i) {
+            var g = _.keys(allGroups);
+            _.each(g, function(i) {
 
-            console.log(format('  > Refactoring {0} Bed List', i));
+                console.log(format('  > Refactoring {0} Bed List', i));
 
-            var sortedListings = _.sortBy(allGroups[i], 'price');
+                var sortedListings = _.sortBy(allGroups[i], 'price');
 
-            var groupStats = {
-                sumPrices : 0,
-                average : 0,
-                median : 0,
-                total : allGroups[i].length,
-                listings : sortedListings
-            };
+                var groupStats = {
+                    sumPrices : 0,
+                    average : 0,
+                    median : 0,
+                    rentMedian : 0,
+                    rentalDemand : 0,
+                    rentalProperties : 0,
+                    total : allGroups[i].length,
+                    listings : sortedListings
+                };
 
-            arrayToFill[format('{0}-bed-stats', i)] = groupStats;
+                //Fill in relevant suburb stats
+                if(suburbStats[i]) {
+                    groupStats.rentMedian = Number(suburbStats[i]['investor_metrics']['median_rental_price']);
+                    groupStats.rentalDemand = Number(suburbStats[i]['investor_metrics']['rental_demand']);
+                    groupStats.rentalProperties = Number(suburbStats[i]['investor_metrics']['rental_properties']);
+                }
 
-            _.each(allGroups[i], function(item) {
-                groupStats.sumPrices = groupStats.sumPrices + Number(item.price)
+                //calculate deals
+                _.each(groupStats.listings, function(item) {
+                    //Get annual rent
+                    var rentAnnual = (groupStats.rentMedian * 52);
+
+                    //Get annual expenses
+                    var interestRate = 0.0499;
+                    var mortgage = Number(item.price) * 0.80;
+                    // (calculate property expenses by taking - annual mgmt fees + annual repairs + annual other costs + annual interest)
+                    var propertyExpenses = Math.floor((rentAnnual * 0.07) + (rentAnnual * 0.025) + (rentAnnual * 0.05) + (mortgage * interestRate));
+                    //Set annual expenses
+                    item.deals.expensesAnnual = propertyExpenses;
+
+                    //Calculate annual cashflow
+                    var cashflowAnnual = rentAnnual - propertyExpenses;
+
+                    item.deals.rentWeek = groupStats.rentMedian;
+                    item.deals.rentAnnual = rentAnnual;
+                    item.deals.cashflowMonthly = Math.floor(cashflowAnnual / 12);
+                    item.deals.cashflowAnnual = cashflowAnnual;
+                });
+
+                //Fill in array with new group stats and listings info
+                arrayToFill[format('{0}-bed-stats', i)] = groupStats;
+
+                _.each(allGroups[i], function(item) {
+                    groupStats.sumPrices = groupStats.sumPrices + Number(item.price)
+                });
+
+                //once finished summing all prices, calculate average, median, etc
+                var m = getMedianValue(sortedListings, 'price');
+                groupStats.median = m;
+                groupStats.average = Math.floor((groupStats.sumPrices / sortedListings.length));
             });
-
-            //once finished summing all prices, calculate average, median, etc
-            var m = getMedianValue(sortedListings, 'price');
-            groupStats.median = m;
-            groupStats.average = Math.floor((groupStats.sumPrices / sortedListings.length));
-        });
+        }
+        catch(error) {
+            console.log(error);
+        }
     }
 }
 

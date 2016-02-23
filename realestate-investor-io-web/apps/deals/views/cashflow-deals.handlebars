@@ -31,11 +31,12 @@
                     <span class="clearfix"></span>
                 </div>
                 <div class="panel-body">
-                    <p>{[{ getAddressShort(item.address, 35) }]}</p>
+                    <p>{[{ getAddressShort(item.address, 30) }]}</p>
                     <p>
                         <span class="pr10"><i class="rea-icon icon-bed">&#xe801;</i>&nbsp;{[{ item.bed }]}</span>
                         <span class="pr10"><i class="rea-icon icon-bath">&#xe800;</i>&nbsp;{[{ item.bath }]}</span>
                         <span class="pr10"><i class="rea-icon icon-car">&#xe802;</i>&nbsp;{[{ item.car }]}</span>
+                        <span class="pr10"><i class="rea-icon house-rent">&#xe803;</i>&nbsp;{[{ item.deals.rentWeek | currency : '$' : 0 }]}</span>
                     </p>
                     <p><img src="{[{ item.imageSrc }]}" width="100%" style="border-radius: 3px;" /></p>
                     <table class="table p20">

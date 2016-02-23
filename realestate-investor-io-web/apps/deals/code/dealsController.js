@@ -47,6 +47,25 @@ var dealsController = function(app) {
         });
 
     });
+
+    app.get('/api/all-deals/', function(req, res) {
+
+        var url = 'http://localhost:3001/db2';
+
+        //Check the status code of the request for errors. If the response is an error log the error return result.
+        request(url,function(error, response, body){
+            if(!error && response.statusCode == 200){
+
+                var data = JSON.parse(body);
+                res.send(data);
+            }
+            else {
+                res.send(error);
+                return false;
+            }
+        });
+
+    });
 };
 
 module.exports = dealsController;

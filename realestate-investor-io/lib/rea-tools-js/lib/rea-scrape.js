@@ -17,18 +17,49 @@ function getRandomNum(min, max) {
     return Math.random() * (max - min) + min;
 }
 
+function reaGetSuburbStats(suburb) {
+    var deferred = Q.defer();
+
+    var statsUrl = 'http://investor-api.realestate.com.au/states/{0}/suburbs/{1}/postcodes/{2}.json';
+    var sUrl = format(statsUrl, suburb.state, suburb.name, suburb.postCode);
+
+    request(sUrl, function (error, response, body) {
+
+        if (!error) {
+            try {
+                var data = JSON.parse(body);
+                var suburbData = {
+                    houses : [],
+                    units : []
+                };
+
+                suburbData.houses = data[format('{0}-{1}', suburb.name.toUpperCase(), suburb.postCode)]['property_types']['HOUSE']['bedrooms'];
+                suburbData.units = data[format('{0}-{1}', suburb.name.toUpperCase(), suburb.postCode)]['property_types']['UNIT']['bedrooms'];
+            }
+            catch(error) {
+                console.log(format('Error: {0}', error));
+            }
+
+            deferred.resolve(suburbData);
+        }
+        else {
+            deferred.reject(new Error(error));
+        }
+    });
+
+    return deferred.promise;
+}
+
 var reaSuburbScrape = function(suburb) {
 
     var deferred = Q.defer();
 
-    //suburb = box+hill%2c+vic+3128
-    var url = 'http://www.realestate.com.au/buy/in-{0}/list-{1}?includeSurrounding=false&persistIncludeSurrounding=true&source=location-search';
-
     var jsonListings = [];
     var maxIteration = 1000;
-    var rUrl = '';
+    var rUrl = '', sUrl = '';
     var asyncTasks = [];
 
+    var url = 'http://www.realestate.com.au/buy/in-{0}/list-{1}?includeSurrounding=false&persistIncludeSurrounding=true&source=location-search';
     rUrl = format(url, suburb.reaCode, 1);
 
     request(rUrl, function (error, response, body) {
@@ -230,14 +261,7 @@ function getItemDetails(a) {
     imageSrc = !imageSrc ? a.find('div.photoviewer img').attr('src') : imageSrc;
     imageSrc = (!imageSrc) ? '' : imageSrc;
 
-    var propertyRentWeek = Math.floor(getRandomNum(0.9,1.3) * (Number(price) / 1000));
-    var propertyRentSimilar = propertyRentWeek * 52;
-    var interestRate = 0.0499;
     var deposit = Number(price) * 0.20;
-    var mortgage = Number(price) * 0.80;
-    //calculate property expenses by taking - annual mgmt fees + annual repairs + annual other costs + annual interest
-    var propertyExpenses = Math.floor((propertyRentSimilar * 0.07) + (propertyRentSimilar * 0.025) + (propertyRentSimilar * 0.05) + (mortgage * interestRate));
-    var cashflow = propertyRentSimilar - propertyExpenses;
 
     retval = {
         price : Number(price),
@@ -250,11 +274,11 @@ function getItemDetails(a) {
         car : car,
         deals : {
             deposit: deposit,
-            rentWeek:propertyRentWeek,
-            rentAnnual: propertyRentSimilar,
-            expensesAnnual: propertyExpenses,
-            cashflowAnnual : cashflow,
-            cashflowMonthly : Math.floor(cashflow / 12)
+            rentWeek: 0,
+            rentAnnual: 0,
+            expensesAnnual: 0,
+            cashflowMonthly : 0,
+            cashflowAnnual : 0
         }
     };
 
@@ -262,3 +286,4 @@ function getItemDetails(a) {
 }
 
 module.exports.reaSuburbScrape = reaSuburbScrape;
+module.exports.reaGetSuburbStats = reaGetSuburbStats;
