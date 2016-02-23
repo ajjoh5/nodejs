@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "reboot-js": "^1.0.9"
+    "reboot-js": "^1.0.9",
+    "request": "^2.69.0",
+    "string-format": "^0.5.0"
   }
 }
