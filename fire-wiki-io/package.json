@@ -1,0 +1,16 @@
+{
+  "name": "fire-wiki-io",
+  "version": "1.0.0",
+  "description": "FireWiki.io - Wiki built on markdown (showdown), with file uploads built for NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "reboot-js": "^1.1.1",
+    "showdown": "^1.3.0",
+    "underscore": "^1.8.3"
+  }
+}
