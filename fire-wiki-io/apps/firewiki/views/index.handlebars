@@ -7,12 +7,52 @@
         function editwiki(slug) {
             window.location.href = '/wiki/{{slug}}/edit';
         }
+
+        function getbreadcrumbs() {
+
+            var bc = [];
+
+            if(localStorage['breadcrumbs']) {
+                bc = JSON.parse(localStorage['breadcrumbs']);
+            }
+
+            //push new page into breadcrumbs & check if length > 5 (remove all trailing)
+            if(bc[bc.length - 1] && bc[bc.length - 1] != '{{slug}}') {
+                bc.push('{{slug}}');
+            }
+
+            if(bc.length > 5) {
+                bc = bc.slice(bc.length - 5);
+            }
+
+            //save new localstorage
+            localStorage['breadcrumbs'] = JSON.stringify(bc);
+            console.log(localStorage['breadcrumbs']);
+
+            var bcHtml = '';
+            for(var i=0; i < bc.length; i++) {
+                bcHtml += '<a href="/wiki/' + bc[i] + '">' + bc[i] + '</a>&nbsp;&gt;&nbsp;';
+            }
+            bcHtml = bcHtml.substr(0, bcHtml.length - 16);
+
+            //send bc html to control
+            $('.crumbs').html(bcHtml);
+        }
+
+        $(document).ready(function() {
+            getbreadcrumbs();
+        });
+
+
     </script>
 
 {{/contentFor}}
 
 <section class="article p140">
     <div class="container">
+        <div class="breadcrumbs">
+            <span class="crumbs"></span>
+        </div>
         <article>
             <header><h1 class="section-header">{{{ article-title }}}</h1></header>
             <p>{{{ article }}}</p>

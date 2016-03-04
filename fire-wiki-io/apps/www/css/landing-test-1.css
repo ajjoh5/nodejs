@@ -36,7 +36,7 @@ html {
 .brand-img {
     display: block;
     float: left;
-    margin: -26px 0 10px 0;
+    margin: -14px 0 10px 0;
 }
 
 .navbar-minimal .navbar-brand:hover
@@ -58,13 +58,18 @@ html {
     padding: 10px 15px;
 }
 
+.navbar-default .navbar-right > li > a.action:visited, .navbar-default .navbar-right > li > a.action:active
+{
+    color: #ccc;
+}
+
 .navbar-default .navbar-right > li > a:hover
 {
     color: #fff;
     background-color: transparent;
 }
 
-.navbar-default .navbar-right > li > a.action
+.navbar-default .navbar-right > li > a.action, .navbar-default .navbar-right > li > a:active.action
 {
     background-color: #062534;
     border: 1px solid #ccc;
@@ -99,6 +104,9 @@ body
 .pr20 { padding-right: 20px; }
 .pr40 { padding-right: 40px; }
 .pr60 { padding-right: 60px; }
+
+.m20 { margin-top: 20px; }
+.m40 { margin-top: 40px; }
 
 
 footer {
@@ -203,6 +211,29 @@ section.article p {
     font-family: 'Playfair Display', serif;
     font-size: 1.2em;
     line-height: 1.2em;
+}
+
+
+section.article a.action:link, section.article a.action:visited, section.article a.action:active
+{
+    color: #eee;
+    text-decoration: none;
+}
+
+section.article a.action
+{
+    background-color: #22364F;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 10px;
+    text-decoration: none;
+}
+
+section.article a.action:hover
+{
+    color: #fff;
+    background-color: #062c3b;
+    text-decoration: none;
 }
 
 .edit-panel {

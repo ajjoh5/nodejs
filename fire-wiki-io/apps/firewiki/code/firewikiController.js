@@ -71,25 +71,21 @@ var firewikiController = function(app) {
 
         var wiki = {};
 
-        // Get default 'home' wiki
+        //Get wiki for edit
         fw.findOneWiki(wikiSlug)
         .then(function(fWiki) {
-            // If there's no home wiki - create one now
+
+            // If wiki doesn't exist, 404
             wiki = fWiki;
 
-            // Get wiki content links [[ link ]]
-            return fw.getFireWikiContent(wiki.content, []);
-        })
-        .then(function(wikiContent) {
-
             // convert markdown -->> html
-            var html = fw.toHtml(wikiContent);
+            var html = fw.toHtml(wiki.content);
 
             var viewParams = {
                 layout : __dirname + '/../views/layouts/layout',
                 viewFile : __dirname + '/../views/edit',
-                'rmenu-action' : '<i class="fa fa-save"></i>&nbsp;Save',
-                'rmenu-js' : "savewiki('" + wiki.slug + "')",
+                'rmenu-action' : '<i class="fa fa-file-o"></i>&nbsp;View Wiki',
+                'rmenu-js' : "viewwiki()",
                 'article-title' : wiki.title,
                 slug : wiki.slug,
                 article : html,
@@ -122,10 +118,9 @@ var firewikiController = function(app) {
 
         var wiki = {};
 
-        // Get default 'home' wiki
+        // Get wiki for viewing
         fw.findOneWiki(wikiSlug)
         .then(function(fWiki) {
-            // If there's no home wiki - create one now
             wiki = fWiki;
 
             // Return all wiki slugs
@@ -155,42 +150,49 @@ var firewikiController = function(app) {
         });
     });
 
-    //app.get('/:wiki/new', function(req, res) {
-    //
-    //    var wikiSlug = !(req.params.wiki) ? 'home' : req.params.wiki;
-    //    console.time('new wiki');
-    //
-    //    db.find('wikidb', { slug : wikiSlug }).then(function(docs) {
-    //
-    //        var newWiki = {};
-    //        if(!docs || docs.length < 1) {
-    //            newWiki = { slug: wikiSlug, title : wikiSlug, content : "" };
-    //            db.insert('wikidb', newWiki);
-    //        }
-    //        else {
-    //            newWiki = docs[0];
-    //        }
-    //
-    //        var html = fw.toHtml(newWiki.content);
-    //
-    //        var viewParams = {
-    //            layout : __dirname + '/../views/layouts/layout',
-    //            viewFile : __dirname + '/../views/index',
-    //            'rmenu-action' : '<i class="fa fa-pencil"></i>&nbsp;Edit',
-    //            'rmenu-js' : "editwiki('" + wikiSlug + "')",
-    //            'article-title' : newWiki.title,
-    //            slug : wikiSlug,
-    //            article : html
-    //        };
-    //
-    //        console.timeEnd('new wiki');
-    //        res.render(viewParams.viewFile, viewParams);
-    //
-    //    }, function(error) {
-    //        console.log(error);
-    //        res.send(error);
-    //    });
-    //});
+    app.get('/wiki/:wiki/new', function(req, res) {
+
+        var wikiSlug = req.params.wiki;
+        console.log('New wiki - "' + wikiSlug + '"');
+        console.time('- time');
+
+        var wiki = {};
+
+        // Get default 'home' wiki
+        fw.findOneWiki(wikiSlug)
+        .then(function(fWiki) {
+
+            // If no wiki was found (this should be the case) - create the new one now
+            if (!fWiki) {
+                wiki = {
+                    slug: wikiSlug,
+                    title: wikiSlug,
+                    content: "# Title Here"
+                };
+                fw.insertWiki(wiki);
+            }
+            else {
+                wiki = fWiki;
+            }
+
+            // convert markdown -->> html
+            var html = fw.toHtml(wiki.content);
+
+            var viewParams = {
+                layout : __dirname + '/../views/layouts/layout',
+                viewFile : __dirname + '/../views/edit',
+                'rmenu-action' : '<i class="fa fa-file-o"></i>&nbsp;View Wiki',
+                'rmenu-js' : "viewwiki()",
+                'article-title' : wiki.title,
+                slug : wiki.slug,
+                article : html,
+                'article-markdown' : wiki.content
+            };
+
+            console.timeEnd('- time');
+            res.render(viewParams.viewFile, viewParams);
+        });
+    });
 };
 
 module.exports = firewikiController;

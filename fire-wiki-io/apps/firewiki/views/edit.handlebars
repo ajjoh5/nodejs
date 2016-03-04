@@ -17,6 +17,10 @@
             });
         });
 
+        function viewwiki() {
+            window.location.href = '/wiki/{{slug}}';
+        }
+
         function savewiki(slug) {
 
             var updatedWiki = {
@@ -43,8 +47,16 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 edit-panel">
-                <h1 class="section-header">Markdown ##</h1>
-                <textarea id="txtMarkdown" class="form-control">{{{ article-markdown }}}</textarea>
+                <div>
+                    <h1 class="section-header pull-left">Markdown ##</h1>
+                    <div class="pull-right" style="margin-top: 32px;">
+                        <a href="#" class="action" onclick="viewwiki()"><i class="fa fa-file-o"></i>&nbsp;View Wiki</a>
+                        <a href="#" class="action" onclick="savewiki('{{ wiki.slug }}')"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    </div>
+                </div>
+                <div>
+                    <textarea id="txtMarkdown" class="form-control">{{{ article-markdown }}}</textarea>
+                </div>
             </div>
             <div class="col-md-6">
                 <article>

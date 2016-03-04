@@ -37,11 +37,11 @@ FireWiki.prototype.getFireWikiContent = function(text, slugsArray) {
         console.log('1');
         if(_.contains(slugsArray, link)) {
             //console.log('contains');
-            retval = retval.replace('[[' + link + ']]', '<a href="/' + link + '">' + link + '</a>');
+            retval = retval.replace('[[' + link + ']]', '<a href="/wiki/' + link + '">' + link + '</a>');
         }
         else {
             //console.log('new');
-            retval = retval.replace('[[' + link + ']]', '<a href="/' + link + '/new">' + link + '</a>');
+            retval = retval.replace('[[' + link + ']]', '<a href="/wiki/' + link + '/new">' + link + '</a>');
         }
         console.log('2');
 
