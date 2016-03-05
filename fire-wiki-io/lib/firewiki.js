@@ -14,14 +14,11 @@ var FireWiki = function() {
     this.db.initDB('wikidb', __base + '/data/wiki.db');
 
     //this.name = 'adam johnstone';
-    //this.age = 33;
 };
 
 FireWiki.prototype.getFireWikiContent = function(text, slugsArray) {
 
     var deferred = Q.defer();
-
-    //console.log('replaceLinks - blocking');
 
     var retval = text;
     var linkStart = text.indexOf('[[');
@@ -36,14 +33,11 @@ FireWiki.prototype.getFireWikiContent = function(text, slugsArray) {
 
         console.log('1');
         if(_.contains(slugsArray, link)) {
-            //console.log('contains');
             retval = retval.replace('[[' + link + ']]', '<a href="/wiki/' + link + '">' + link + '</a>');
         }
         else {
-            //console.log('new');
             retval = retval.replace('[[' + link + ']]', '<a href="/wiki/' + link + '/new">' + link + '</a>');
         }
-        console.log('2');
 
         linkStart = retval.indexOf('[[', linkEnd + 2);
     }

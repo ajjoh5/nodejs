@@ -192,6 +192,7 @@ section.article {
     letter-spacing: 1px;
     line-height: 1.3em;
     font-weight: 300;
+    min-height: 700px;
 }
 
 section.article h1.section-header {
