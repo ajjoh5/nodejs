@@ -8,13 +8,24 @@
             window.location.href = '/wiki/{{slug}}/edit';
         }
 
+        function clearbc() {
+            localStorage.removeItem('breadcrumbs');
+            $('.crumbs').html('');
+        }
+
         function getbreadcrumbs() {
 
-            var bc = [];
+            var bc = ['home'];
 
-            if(localStorage['breadcrumbs']) {
+            if(!localStorage['breadcrumbs']) {
+                localStorage['breadcrumbs'] = JSON.stringify(bc);
+            }
+            else {
                 bc = JSON.parse(localStorage['breadcrumbs']);
             }
+
+            console.log(bc);
+            console.log(localStorage['breadcrumbs']);
 
             //push new page into breadcrumbs & check if length > 5 (remove all trailing)
             if(bc[bc.length - 1] && bc[bc.length - 1] != '{{slug}}') {
@@ -27,7 +38,6 @@
 
             //save new localstorage
             localStorage['breadcrumbs'] = JSON.stringify(bc);
-            console.log(localStorage['breadcrumbs']);
 
             var bcHtml = '';
             for(var i=0; i < bc.length; i++) {
@@ -52,6 +62,7 @@
     <div class="container">
         <div class="breadcrumbs">
             <span class="crumbs"></span>
+            <a href="#" onclick="clearbc()">[clear]</a>
         </div>
         <article>
             <header><h1 class="section-header">{{{ article-title }}}</h1></header>

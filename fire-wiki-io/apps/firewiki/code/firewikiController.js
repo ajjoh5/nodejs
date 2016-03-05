@@ -5,12 +5,6 @@ var firewikiController = function(app) {
     var FireWiki = require(__base + '/index.js');
     var fw = new FireWiki();
 
-    //var logger = new fw.Logger();
-    //logger.log();
-    //logger.write('new message');
-    //logger.write('message 2');
-    //logger.log();
-
     function displayWiki(slug) {
 
     }
