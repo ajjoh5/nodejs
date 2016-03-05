@@ -31,7 +31,6 @@ FireWiki.prototype.getFireWikiContent = function(text, slugsArray) {
         var link = retval.substring(linkStart + 2, linkEnd);
         //console.log("link: " + link);
 
-        console.log('1');
         if(_.contains(slugsArray, link)) {
             retval = retval.replace('[[' + link + ']]', '<a href="/wiki/' + link + '">' + link + '</a>');
         }
