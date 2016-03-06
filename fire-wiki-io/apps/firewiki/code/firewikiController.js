@@ -187,6 +187,18 @@ var firewikiController = function(app) {
             res.render(viewParams.viewFile, viewParams);
         });
     });
+
+    app.post('/wiki/:wiki/new', function(req, res) {
+
+        var wikiSlug = req.params.wiki;
+        var markdown = req.body.markdown;
+
+        //update the wiki
+        fw.updateOneWiki(wikiSlug, markdown)
+        .then(function(message) {
+            res.status(200).send('Saved successfully!');
+        });
+    });
 };
 
 module.exports = firewikiController;

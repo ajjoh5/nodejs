@@ -26,16 +26,13 @@ FireWiki.prototype.getFireWikiContent = function(text, slugsArray) {
     while(linkStart > -1) {
 
         var linkEnd = retval.indexOf(']]', linkStart);
-        //console.log('link start: ' + linkStart);
-        //console.log('link end: ' + linkEnd);
         var link = retval.substring(linkStart + 2, linkEnd);
-        //console.log("link: " + link);
 
-        if(_.contains(slugsArray, link)) {
-            retval = retval.replace('[[' + link + ']]', '<a href="/wiki/' + link + '">' + link + '</a>');
+        if(_.contains(slugsArray, link.toLowerCase())) {
+            retval = retval.replace('[[' + link + ']]', '<a href="/wiki/' + link.toLowerCase() + '">' + link + '</a>');
         }
         else {
-            retval = retval.replace('[[' + link + ']]', '<a href="/wiki/' + link + '/new">' + link + '</a>');
+            retval = retval.replace('[[' + link + ']]', '<a href="/wiki/' + link.toLowerCase() + '/new">' + link + '</a>');
         }
 
         linkStart = retval.indexOf('[[', linkEnd + 2);
@@ -51,12 +48,15 @@ FireWiki.prototype.toHtml = function(text) {
 };
 
 FireWiki.prototype.insertWiki = function(wiki) {
+    wiki.slug = wiki.slug.toLowerCase();
     this.db.insert('wikidb', wiki);
 };
 
 FireWiki.prototype.findOneWiki = function(wikiSlug) {
 
     var deferred = Q.defer();
+
+    wikiSlug = wikiSlug.toLowerCase();
 
     this.db.find('wikidb', { slug : wikiSlug }).then(function(docs) {
 
@@ -78,6 +78,8 @@ FireWiki.prototype.findOneWiki = function(wikiSlug) {
 FireWiki.prototype.updateOneWiki = function(wikiSlug, markdown) {
 
     var deferred = Q.defer();
+
+    wikiSlug = wikiSlug.toLowerCase();
 
     //update the current wiki with the new contents
     this.db.update('wikidb', { slug : wikiSlug }, { $set: { content : markdown } })

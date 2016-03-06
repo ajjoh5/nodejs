@@ -24,8 +24,8 @@
                 bc = JSON.parse(localStorage['breadcrumbs']);
             }
 
-            //push new page into breadcrumbs & check if length > 5 (remove all trailing)
-            if(bc[bc.length - 1] && bc[bc.length - 1] != '{{slug}}') {
+            //push new page into breadcrumbs (if this breadcrumb doesn't exist) & check if length > 5 (remove all trailing)
+            if($.inArray('{{slug}}', bc) == -1) {
                 bc.push('{{slug}}');
             }
 

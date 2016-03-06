@@ -214,6 +214,9 @@ section.article p {
     line-height: 1.2em;
 }
 
+section.article a {
+    font-weight: bold;
+}
 
 section.article a.action:link, section.article a.action:visited, section.article a.action:active
 {
