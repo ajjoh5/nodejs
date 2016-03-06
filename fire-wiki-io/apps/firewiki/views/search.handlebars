@@ -1,0 +1,38 @@
+{{#contentFor "header-scripts"}}
+
+    <link rel="stylesheet" href="/css/landing-test-1.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,700|Playfair+Display' rel='stylesheet' type='text/css'>
+
+{{/contentFor}}
+
+<section class="article p120">
+    <div class="container">
+        <nav class="wiki-nav">
+            <div class="pull-left">
+                <span class="crumbs p10"></span><a href="#" onclick="clearbc()">[clear]</a>
+            </div>
+            <div class="pull-right form-inline">
+                <!--<form class="form-inline" method="get" id="s" action="/">-->
+                    <!--<div class="form-group">-->
+                        <!--<input type="text" class="form-control search-query" name="s" placeholder="Search" value="">-->
+                        <!--<button class="btn btn-default"><i class="fa fa-search"></i>&nbsp;Search</button>-->
+                    <!--</div>-->
+                <!--</form>-->
+                <div class="input-group">
+                    <input type="text" class="form-control" style="min-width: 300px;">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="searchwiki()"><i class="fa fa-search"></i>&nbsp;Search</button>
+                        </span>
+                    </input>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </nav>
+        {{each article}}
+            <article>
+                <header><h1 class="section-header">{{{ article-title }}}</h1></header>
+                <p>more info...</p>
+            </article>
+        {{/each}}
+    </div>
+</section>
