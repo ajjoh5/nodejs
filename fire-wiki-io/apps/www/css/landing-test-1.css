@@ -93,6 +93,8 @@ body
     max-width: 1000px;
 }
 
+.p05 { padding-top: 5px; }
+.p10 { padding-top: 10px; }
 .p20 { padding-top: 20px; }
 .p40 { padding-top: 40px; }
 .p60 { padding-top: 60px; }
