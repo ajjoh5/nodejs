@@ -17,7 +17,7 @@ app.controller('dealsController', function($scope, $http, $window, _) {
     function GetListings() {
 
         //Get allocated jobs
-        $http.get('/api/deals/vic/burwood/3125')
+        $http.get('/api/deals/vic/palm cove/4879')
         .success(function(data, status, headers, config) {
 
             //get allocated jobs into scope
@@ -61,5 +61,5 @@ app.controller('dealsController', function($scope, $http, $window, _) {
         $window.open(link);
     };
 
-    GetAllListings();
+    GetListings();
 });
