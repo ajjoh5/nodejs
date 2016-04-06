@@ -1,13 +1,17 @@
 //Reboot Plugins
 var rebootUtilities = require(__base + 'lib/reboot-js/reboot-utilities');
+var rebootDB = require(__base + 'lib/reboot-js/reboot-db');
 var _ = require('underscore');
 
-var adminController = function(app) {
+var nodesController = function(app) {
 
     var nodesHTML = '';
+    rebootDB.initDB('nodes', __dirname + '/../data/nodes.db');
+    rebootDB.insert('nodes', { name: 'adam'});
+    var docs = rebootDB.find('nodes', {});
 
     // Generic Catch All SPA Views (put in last)
-    app.get('/admin/?', function(req, res) {
+    app.get('/nodes/?', function(req, res) {
 
         nodesHTML = '<ul class="collapsibleList">';
         var json = rebootUtilities.rbJsonFileSync(__dirname + '/../data/nodes.json');
@@ -66,4 +70,4 @@ var adminController = function(app) {
     }
 }
 
-module.exports = adminController;
+module.exports = nodesController;

@@ -13,11 +13,4 @@ function rbJsonFileSync(file) {
     }
 }
 
-function rbIsDev() {
-    if(process.env.NODE_ENV = 'development') {
-        return true;
-    }
-}
-
 module.exports.rbJsonFileSync = rbJsonFileSync;
-module.exports.rbIsDev = rbIsDev;
