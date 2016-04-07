@@ -7,7 +7,7 @@ var zzGenericController = function(app) {
     var bodyParser = require('body-parser');
 
     // parse application/x-www-form-urlencoded
-    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.urlencoded({ extended: true }));
 
     // parse application/json
     app.use(bodyParser.json());
@@ -67,9 +67,33 @@ var zzGenericController = function(app) {
         var newUrl = 'http://webapi.henley.com.au' + urlPath;
         var start = new Date();
 
-        var data = req.body;
+        //Get the data posted to this body
+        console.log(req.body);
+        var data = JSON.stringify(req.body);
 
-        request.post(newUrl, data, function(error, response, body) {
+        // var options = {
+        //     url: 'http://webapi.henley.com.au' + urlPath,
+        //     method: 'POST',
+        //     //headers: {'Content-Type' : 'application/json'},
+        //     headers: req.headers,
+        //     body : data
+        // };
+
+        var options = {
+            url: 'http://webapi.henley.com.au' + urlPath,
+            method: 'POST',
+            //headers: {'Content-Type' : 'application/json'},
+            headers: req.headers,
+            form : req.body
+        };
+
+        console.log(options);
+
+        request(options, function(error, response, body) {
+
+            console.log('received response');
+            console.log(body);
+            console.log(response.headers);
 
             var json = {};
             var logEntry = {
@@ -84,7 +108,7 @@ var zzGenericController = function(app) {
 
             var responseTime = new Date() - start;
 
-            if(body.toLowerCase().indexOf('error') > -1) {
+            if(body && body.toLowerCase().indexOf('error') > -1) {
                 error = body;
             }
 
