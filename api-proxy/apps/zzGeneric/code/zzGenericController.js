@@ -68,9 +68,10 @@ var zzGenericController = function(app) {
         var start = new Date();
 
         //Get the data posted to this body
-        console.log(req.body);
+        console.log(req.headers);
         var data = JSON.stringify(req.body);
 
+        // POST JSON
         // var options = {
         //     url: 'http://webapi.henley.com.au' + urlPath,
         //     method: 'POST',
@@ -79,10 +80,11 @@ var zzGenericController = function(app) {
         //     body : data
         // };
 
+        //POST FORM OBJECT
         var options = {
-            url: 'http://webapi.henley.com.au' + urlPath,
+            url: 'http://localhost:64444' + urlPath,
             method: 'POST',
-            //headers: {'Content-Type' : 'application/json'},
+            headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
             headers: req.headers,
             form : req.body
         };
