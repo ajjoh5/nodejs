@@ -13,7 +13,7 @@ var zzGenericController = function(app) {
     app.use(bodyParser.json());
 
     var log = new Logger({
-        token:'3ee89457-5668-4059-a70f-0fab020dd373'
+        token:'84a4090e-a184-44b2-8213-c09264ef1b98'
     });
 
     // Generic Catch All - GET METHOD
@@ -21,7 +21,7 @@ var zzGenericController = function(app) {
 
         var urlParts = url.parse(req.url, true);
         var urlPath = urlParts.path;
-        var newUrl = 'http://webapi.henley.com.au' + urlPath;
+        var newUrl = 'http://api2.henley.com.au' + urlPath;
         var start = new Date();
 
         //Time how long url takes to serve
@@ -35,17 +35,26 @@ var zzGenericController = function(app) {
                 request : {}
             };
 
-            if (!error && response.statusCode == 200) {
-                json = JSON.parse(body);
-                res.json(json);
-            }
+            // if (!error && response.statusCode == 200) {
+            //     json = JSON.parse(body);
+            //     res.json(json);
+            // }
+            //console.log(body);
+
+            //Set the response to whatever we get back (include all options)
+            res.set(response.headers);
+            res.send(body);
 
             var responseTime = new Date() - start;
 
             if(!error && response.statusCode == 200) {
-                var message = (!json.ResponseMessage) ? '' : json.ResponseMessage;
-                logEntry.request = { type : 'get', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : message };
-                log.log('info', logEntry);
+                var contentType = response.headers['content-type'];
+                if(contentType.indexOf('application/json') > -1) {
+                    var json = JSON.parse(body);
+                    var message = (!json.ResponseMessage) ? '' : json.ResponseMessage;
+                    logEntry.request = { type : 'get', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : message };
+                    log.log('info', logEntry);
+                }
             }
 
             if(error) {
@@ -53,8 +62,8 @@ var zzGenericController = function(app) {
                 log.log('err', logEntry);
             }
 
-            //console.timeEnd(format('[v1 - default route - {0}]', urlPath));
-            
+            res.end();
+
         });
     });
 
@@ -68,28 +77,48 @@ var zzGenericController = function(app) {
         var start = new Date();
 
         //Get the data posted to this body
-        console.log(req.headers);
+        var headers = req.headers;
         var data = JSON.stringify(req.body);
+        var options = {};
+        var contentType = req.headers['content-type'];
 
-        // POST JSON
-        // var options = {
-        //     url: 'http://webapi.henley.com.au' + urlPath,
-        //     method: 'POST',
-        //     //headers: {'Content-Type' : 'application/json'},
-        //     headers: req.headers,
-        //     body : data
-        // };
+        if (contentType) {
 
-        //POST FORM OBJECT
-        var options = {
-            url: 'http://localhost:64444' + urlPath,
-            method: 'POST',
-            headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
-            headers: req.headers,
-            form : req.body
-        };
+            //If we got posted json - post through json
+            if (contentType.indexOf('application/json') > -1) {
+                // POST JSON
+                console.log('json');
+                options = {
+                    url: 'http://webapi.henley.com.au' + urlPath,
+                    method: 'POST',
+                    headers: req.headers,
+                    body : data
+                };
+            }
+            //If we got posted a form - handle it as a form and post it through accordingly
+            else if (contentType.indexOf('application/x-www-form-urlencoded') > -1) {
+                // POST FORM
+                console.log('form');
+                options = {
+                    url: 'http://webapi.henley.com.au' + urlPath,
+                    method: 'POST',
+                    headers: req.headers,
+                    form : req.body
+                };
+            }
+            else {
+                //assume json
+                console.log('other - defaulting to json');
+                options = {
+                    url: 'http://webapi.henley.com.au' + urlPath,
+                    method: 'POST',
+                    headers: req.headers,
+                    body : data
+                };
+            }
+        }
 
-        console.log(options);
+        //console.log(options);
 
         request(options, function(error, response, body) {
 
@@ -103,10 +132,9 @@ var zzGenericController = function(app) {
                 request : {}
             };
 
-            if (!error && response.statusCode == 200) {
-                json = JSON.parse(body);
-                res.json(json);
-            }
+            //Set the response to whatever we get back (include all options)
+            res.set(response.headers);
+            res.send(body);
 
             var responseTime = new Date() - start;
 
@@ -114,7 +142,9 @@ var zzGenericController = function(app) {
                 error = body;
             }
 
-            if(!error && response.statusCode == 200) {
+            var contentType = response.headers['content-type'];
+            if(contentType.indexOf('application/json') > -1) {
+                var json = JSON.parse(body);
                 var message = (!json.ResponseMessage) ? '' : json.ResponseMessage;
                 logEntry.request = { type : 'post', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : message };
                 log.log('info', logEntry);
@@ -125,6 +155,7 @@ var zzGenericController = function(app) {
                 log.log('err', logEntry);
             }
 
+            res.end();
         });
     });
 
