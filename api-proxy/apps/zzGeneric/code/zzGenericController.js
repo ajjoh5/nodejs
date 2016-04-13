@@ -52,14 +52,28 @@ var zzGenericController = function(app) {
                 if(contentType.indexOf('application/json') > -1) {
                     var json = JSON.parse(body);
                     var message = (!json.ResponseMessage) ? '' : json.ResponseMessage;
-                    logEntry.request = { type : 'get', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : message };
-                    log.log('info', logEntry);
+                    logEntry.request = { level : 'Info', date : new Date(), type : 'GET', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : message };
+                    //log.log('info', logEntry);
+
+                    var hookOptions = {
+                        url: 'https://zapier.com/hooks/catch/294068/ubqxjb',
+                        method: 'POST',
+                        body : JSON.stringify(logEntry.request)
+                    };
+                    request(hookOptions);
                 }
             }
 
             if(error) {
-                logEntry.request = { type : 'get', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : error };
-                log.log('err', logEntry);
+                logEntry.request = { level : 'Error', date : new Date(), type : 'GET', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : error };
+                //log.log('err', logEntry);
+
+                var hookOptions = {
+                    url: 'https://zapier.com/hooks/catch/294068/ubqxjb',
+                    method: 'POST',
+                    body : JSON.stringify(logEntry.request)
+                };
+                request(hookOptions);
             }
 
             res.end();
@@ -77,17 +91,16 @@ var zzGenericController = function(app) {
         var start = new Date();
 
         //Get the data posted to this body
-        var headers = req.headers;
-        var data = JSON.stringify(req.body);
         var options = {};
         var contentType = req.headers['content-type'];
+        var data = JSON.stringify(req.body);
 
         if (contentType) {
 
             //If we got posted json - post through json
             if (contentType.indexOf('application/json') > -1) {
                 // POST JSON
-                console.log('json');
+                //console.log('json');
                 options = {
                     url: 'http://webapi.henley.com.au' + urlPath,
                     method: 'POST',
@@ -98,7 +111,7 @@ var zzGenericController = function(app) {
             //If we got posted a form - handle it as a form and post it through accordingly
             else if (contentType.indexOf('application/x-www-form-urlencoded') > -1) {
                 // POST FORM
-                console.log('form');
+                //console.log('form');
                 options = {
                     url: 'http://webapi.henley.com.au' + urlPath,
                     method: 'POST',
@@ -108,7 +121,7 @@ var zzGenericController = function(app) {
             }
             else {
                 //assume json
-                console.log('other - defaulting to json');
+                //console.log('other - defaulting to json');
                 options = {
                     url: 'http://webapi.henley.com.au' + urlPath,
                     method: 'POST',
@@ -123,8 +136,8 @@ var zzGenericController = function(app) {
         request(options, function(error, response, body) {
 
             console.log('received response');
-            console.log(body);
-            console.log(response.headers);
+            //console.log(body);
+            //console.log(response.headers);
 
             var json = {};
             var logEntry = {
@@ -142,17 +155,31 @@ var zzGenericController = function(app) {
                 error = body;
             }
 
-            var contentType = response.headers['content-type'];
-            if(contentType.indexOf('application/json') > -1) {
+            var responseContentType = response.headers['content-type'];
+            if(responseContentType.indexOf('application/json') > -1) {
                 var json = JSON.parse(body);
                 var message = (!json.ResponseMessage) ? '' : json.ResponseMessage;
-                logEntry.request = { type : 'post', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : message };
-                log.log('info', logEntry);
+                logEntry.request = { level : 'Info', date : new Date(), type : 'POST', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : message };
+                //log.log('info', logEntry);
+
+                var hookOptions = {
+                    url: 'https://zapier.com/hooks/catch/294068/ubqxjb',
+                    method: 'POST',
+                    body : JSON.stringify(logEntry.request)
+                };
+                request(hookOptions);
             }
 
             if(error) {
-                logEntry.request = { type : 'post', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : error };
-                log.log('err', logEntry);
+                logEntry.request = { level : 'Error', date : new Date(), type : 'POST', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : error };
+                //log.log('err', logEntry);
+
+                var hookOptions = {
+                    url: 'https://zapier.com/hooks/catch/294068/ubqxjb',
+                    method: 'POST',
+                    body : JSON.stringify(logEntry.request)
+                };
+                request(hookOptions);
             }
 
             res.end();
