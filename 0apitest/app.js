@@ -1,20 +1,38 @@
-var request = require('request');
-var async = require('async');
+var express = require('express');
+var bodyParser = require('body-parser');
 
-function getV1API(n, callback) {
-    request('http://localhost:8888/v1/jobapi/Jobs/303090?keytoken=68656e6c65792061646d696e20636f6d70616e792064617461&Job%20%23=303090', callback);
-}
+var app = express();
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-//Run 10 calls
-async.timesSeries(10, function(n, next) {
-    console.log(n);
-    getV1API(n, function(err, data) {
-        next(err, data);
-    })
-}, function(err, results) {
-    for (var i = 0; i < results.length; ++i) {
-        console.log('#' + (i + 1) + "  " + results[i]);
-    }
+app.post('/post', function (req, res) {
 
-    //console.log(results);
+    console.log('Post received');;
+
+    var reqBack = {
+        headers : req.headers,
+        body : req.body
+    };
+
+    console.log(reqBack);
+
+    res.send(reqBack);
+});
+
+app.get('/get', function (req, res) {
+
+    console.log('Get received');;
+
+    var json = {
+        name : 'Adam Johnstone',
+        address : '34 My Address Rd, My Suburb, 2918'
+    };
+
+    console.log(json);
+
+    res.send(json);
+});
+
+app.listen(5050, function () {
+    console.log('Example app listening on port 5050!');
 });

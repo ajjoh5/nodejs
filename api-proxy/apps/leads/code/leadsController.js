@@ -3,56 +3,38 @@ var leadsController = function(app) {
     var request = require('request');
     var url = require('url');
     var format = require('string-format');
-    var Logger = require('le_node');
-    var log = new Logger({
-        token:'3ee89457-5668-4059-a70f-0fab020dd373'
-    });
+    var bodyParser = require('body-parser');
+    var dateFormat = require('dateformat');
 
-    app.get('/jobapi/leads/GetRegions', function(req, res) {
-        //params - (string keytoken, string brandID)
+    // parse application/x-www-form-urlencoded
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+
+    app.post('/CreateNew', function(req, res) {
 
         var urlParts = url.parse(req.url, true);
-        console.log(urlParts);
         var urlPath = urlParts.path;
-        var newUrl = 'http://webapi.henley.com.au' + urlPath;
-        var start = new Date();
 
-        //Time how long url takes to serve
-        //console.time(format('[v1 - default route - {0}]', urlPath));
+        console.log(req.body);
 
-        request(newUrl, function(error, response, body) {
+        //Log lead to spreadsheet first!
+        var logLeadEntry = {
+            date : dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT'),
+            path : urlPath,
+            leadJSON : JSON.stringify(req.body)
+        };
 
-            var json = {};
+        //console.log(logLeadEntry);
 
-            if (!error && response.statusCode == 200) {
-                json = JSON.parse(body);
-                res.json(json);
-            }
-
-            var logEntry = {
-                type : 'GetRegions',
-                request : {},
-                response : {
-                    regionCount : json.length
-                }
-            };
-
-            var responseTime = new Date() - start;
-
-            if(!error && response.statusCode == 200) {
-                var message = (!json.ResponseMessage) ? '' : json.ResponseMessage;
-                logEntry.request = { httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : message };
-                log.log('info', logEntry);
-            }
-
-            if(error) {
-                logEntry.request = { httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : message };
-                log.log('err', logEntry);
-            }
-
-            //console.timeEnd(format('[v1 - default route - {0}]', urlPath));
-
-        });
+        var hookOptions = {
+            url: 'https://zapier.com/hooks/catch/294068/u2lplt/',
+            method: 'POST',
+            json: true,
+            body : logLeadEntry
+        };
+        request(hookOptions);
     });
-}
+
+};
+
 module.exports = leadsController;
