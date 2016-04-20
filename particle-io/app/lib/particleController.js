@@ -4,6 +4,7 @@ var particleController = function(app) {
 
     var bodyParser = require('body-parser');
     var dateFormat = require('dateformat');
+    var _ = require('underscore');
     var ParticleData = require(__base + '/lib/particle-data');
     var particleData = new ParticleData();
 
@@ -13,12 +14,19 @@ var particleController = function(app) {
 
     app.get('/particle/list', function(req, res) {
 
-        var particles = particleData.Find({});
+        particleData.Find({}).then(function(result) {
+            console.log(result);
+            var pArray = [];
+            _.each(result, function(item) {
+                item.particleJSON = JSON.stringify(item.particle);
+                pArray.push(item);
+            });
 
-        particles = [{ particle : JSON.stringify({ name : "adam" }) }, { particle : JSON.stringify({ field1 : "todo" }) }];
-        console.log(particles);
+            console.log(pArray);
 
-        res.render('home', { particles : particles });
+            res.render('home', { particles : pArray });
+        });
+
     });
 
     app.get('/api/particle', function(req, res) {

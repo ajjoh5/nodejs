@@ -1,3 +1,5 @@
+var Q = require('q');
+
 var ParticleData = function(options) {
 
 };
@@ -25,6 +27,8 @@ ParticleData.prototype.Insert = function(particle) {
 
 ParticleData.prototype.Find = function(query) {
 
+    var deferred = Q.defer();
+
     var MongoClient = require('mongodb').MongoClient;
     var assert = require('assert');
 
@@ -34,12 +38,18 @@ ParticleData.prototype.Find = function(query) {
     MongoClient.connect(url, function(err, db) {
 
         db.collection('particles').find(query).toArray(function(err, result) {
+            if(result) {
+                deferred.resolve(result);
+            }
+
             //if error, add this to database for processing later - like a queue!!
             assert.equal(null, err, 'Error finding records into mongodb.');
             db.close();
             return result;
         });
     });
+
+    return deferred.promise;
 };
 
 // ParticleData.prototype.CreateParticle = function(particle) {
