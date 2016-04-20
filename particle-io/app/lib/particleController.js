@@ -11,6 +11,10 @@ var particleController = function(app) {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
 
+    app.get('/api/Particle', function(req, res) {
+        res.send('Particle.io - Hello!');
+    });
+
     //url eg. /api/Particle?group=[group]
     app.post('/api/Particle', function(req, res) {
 
