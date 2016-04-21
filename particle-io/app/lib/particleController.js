@@ -12,7 +12,9 @@ var particleController = function(app) {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
 
-    app.get('/particle/list', function(req, res) {
+    app.get('/api/particle/:group/list', function(req, res) {
+
+        var particleGroup = (!req.params.group) ? 'default' : req.params.group;
 
         particleData.Find({}).then(function(result) {
             console.log(result);
@@ -34,12 +36,13 @@ var particleController = function(app) {
     });
 
     //url eg. /api/Particle?group=[group]
-    app.post('/api/particle', function(req, res) {
+    app.post('/api/particle/:group/create', function(req, res) {
 
         var particle = (!req.body) ? {} : req.body;
+        var particleGroup = (!req.params.group) ? 'default' : req.params.group;
 
         var options = {
-            group : (!particle.group) ? 'particles' : particle.group
+            group : particleGroup
         };
 
         var data = {
