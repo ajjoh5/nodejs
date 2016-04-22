@@ -1,6 +1,5 @@
 //Plugins
 var express = require('express');
-var exphbs = require('express-handlebars');
 var path = require('path');
 var bodyParser = require('body-parser');
 var art = require('ascii-art');
@@ -17,8 +16,6 @@ process.env.NODE_ENV = 'development';
 
 //Create & Configure express app
 var app = express();
-app.engine('.hbs', exphbs({extname: '.hbs', defaultLayout: 'main'}));
-app.set('view engine', '.hbs');
 
 console.log('Booting Controllers...');
 require(__base + "/lib/particleController")(app);
