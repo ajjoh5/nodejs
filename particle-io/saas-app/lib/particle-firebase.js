@@ -10,9 +10,9 @@ var ParticleFirebase = function(options) {
         var users = ref.child('users');
         users.once("value", function(data) {
 
-            var users = data.val();
+            var allUsers = data.val();
 
-            var user = _.find(users, function(item) {
+            var user = _.find(allUsers, function(item) {
                 return item.keytoken == keytoken
             });
 
@@ -25,7 +25,7 @@ var ParticleFirebase = function(options) {
         }, function (error) {
             return callback(error, null)
         });
-        
+
     };
 
     return {
@@ -53,6 +53,7 @@ var ParticleFirebase = function(options) {
 
             db.init(function(err, ref) {
 
+                //TODO: Make the get user by keytoken < 10ms (without this 10 x runs in 3.5 secs, with it 10 x runs in 7 secs)
                 //Ensure user keytoken is valid
                 getUserByKeytoken(keytoken, ref, function(err, user) {
 
