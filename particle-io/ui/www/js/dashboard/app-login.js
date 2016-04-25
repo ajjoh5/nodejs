@@ -6,7 +6,7 @@ app.config(function($interpolateProvider){
 
 app.controller('loginController', function($scope, $window, $firebaseArray) {
 
-    var ref = new Firebase("https://amber-heat-6552.firebaseio.com/particles");
+    var ref = new Firebase("https://amber-heat-6552.firebaseio.com/particle-io/rbluff");
     var fbData = [];
     $scope.user = {};
 
