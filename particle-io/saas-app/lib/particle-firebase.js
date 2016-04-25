@@ -1,135 +1,83 @@
-var Q = require('q');
-var format = require('string-format');
-var _ = require('underscore');
-
-// "particles": {
-//     // grants read access to any user who is logged in with an email and password
-//     ".write": "auth !== null && auth.provider === 'password'",
-//         // grants read access to any user who is logged in with an email and password
-//         ".read": "auth !== null && auth.provider === 'password'"
-// }
-
 var ParticleFirebase = function(options) {
 
-    //Admin user account
-    this.user = {
-        email: 'ajjoh5@gmail.com',
-        password: 'jabronie'
+    //init plugins
+    var dateFormat = require('dateformat');
+    var _ = require('underscore');
+    var db = require('./FirebaseDB.js').createDB();
+
+    var getUserByKeytoken = function(keytoken, ref, callback) {
+
+        var users = ref.child('users');
+        users.once("value", function(data) {
+
+            var users = data.val();
+
+            var user = _.find(users, function(item) {
+                return item.keytoken == keytoken
+            });
+
+            if(!user) {
+                return callback('No user found for keytoken: ' + keytoken, null);
+            }
+
+            return callback(null, user);
+
+        }, function (error) {
+            return callback(error, null)
+        });
+        
     };
 
-    this.userspace = 'ajjoh5';
+    return {
 
-    if(options) {
-        this.user = (!options.user) ? this.user : options.user;
-    }
-};
+        insertParticle : function(keytoken, particle, callback) {
 
-ParticleFirebase.prototype.Insert = function(particle) {
+            if(!particle) {
+                return callback('particle was null.', null);
+            }
 
-    var deferred = Q.defer();
+            if(!keytoken) {
+                return callback('keytoken was null.', null);
+            }
 
-    if(particle) {
+            //Setup particle
+            var newParticle = {
+                group : (!particle.group) ? 'default' : particle.group,
+                created : dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT'),
+                type : (!particle.type) ? 'info' : particle.type,
+                particle : particle
+            };
 
-        var Firebase = require('firebase');
-        var firebaseURL = format('https://amber-heat-6552.firebaseio.com/{0}', this.userspace);
-        var ref = new Firebase(firebaseURL);
-        var particles = ref.child('particles');
+            delete newParticle.particle.group;
+            delete newParticle.particle.type;
 
-        var authData = ref.getAuth();
-        if (authData) {
-            //if user auth'd in session - just push new particle
-            particles.push(particle, function(error) {
-                if(error) {
-                    deferred.reject(error);
-                }
-                else {
-                    deferred.resolve(particle);
-                }
-            });
-        }
-        else {
-            //User not auth'd yet - auth them.. then push new particle
-            ref.authWithPassword(this.user, function(error, authData) {
-                if (!error) {
-                    console.log("User " + authData.uid + " is logged in with " + authData.provider);
-                    particles.push(particle, function(error) {
-                        if(error) {
-                            deferred.reject(error);
+            db.init(function(err, ref) {
+
+                //Ensure user keytoken is valid
+                getUserByKeytoken(keytoken, ref, function(err, user) {
+
+                    if(err) {
+                        return callback(err, null);
+                    }
+
+                    var particles = ref.child(user.userid + '/particles');
+
+                    particles.push(newParticle, function(error) {
+                        if(!error) {
+                            return callback(null, newParticle);
                         }
                         else {
-                            deferred.resolve(particle);
+                            return callback(error, null);
                         }
                     });
-                }
-            });
-        }
-    }
-
-    return deferred.promise;
-};
-
-ParticleFirebase.prototype.GetUserByKey = function(keytoken) {
-
-    var deferred = Q.defer();
-
-    if(keytoken) {
-
-        var Firebase = require('firebase');
-        var firebaseURL = 'https://amber-heat-6552.firebaseio.com/users';
-        var ref = new Firebase(firebaseURL);
-
-        var authData = ref.getAuth();
-        if (authData) {
-            ref.once("value", function(data) {
-
-                var users = data.val();
-                console.log(users);
-
-                var user = _.find(users, function(item) {
-                    console.log(item);
-                    return item.keytoken == keytoken
                 });
-                console.log(user);
-
-                //return null or the user obj
-                deferred.resolve(user);
-
-            }, function (error) {
-                deferred.reject("The read failed: " + error.code);
             });
+
         }
-        else {
-            //User not auth'd yet - auth them.. then push new particle
-            ref.authWithPassword(this.user, function(error, authData) {
-                if (!error) {
-                    console.log("User " + authData.uid + " is logged in with " + authData.provider);
 
-                    ref.once("value", function(data) {
-
-                        var users = [];
-                        data.forEach(function(user) {
-                            // console.log(user.key());
-                            // console.log(user.val());
-                            users.push(user.val());
-                        });
-
-                        //make sure to include html encoding for double //
-                        var user = _.find(users, function(item) {
-                            return item.keytoken == keytoken
-                        });
-
-                        //return null or the user obj
-                        deferred.resolve(user);
-
-                    }, function (error) {
-                        deferred.reject("The read failed: " + error.code);
-                    });
-                }
-            });
-        }
     }
-
-    return deferred.promise;
 };
 
-module.exports = ParticleFirebase;
+module.exports.createDB = function(options) {
+    return new ParticleFirebase(options);
+};

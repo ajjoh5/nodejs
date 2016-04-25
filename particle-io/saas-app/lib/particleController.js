@@ -6,12 +6,10 @@ var particleController = function(app) {
     var dateFormat = require('dateformat');
     var bearerToken = require('express-bearer-token');
 
-    var ParticleFirebase = require(__base + '/lib/particle-firebase');
-    var db = new ParticleFirebase();
+    var db = require(__base + './lib/particle-firebase.js').createDB();
 
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
-
     app.use(bearerToken());
 
     app.get('/up', function(req, res) {
@@ -22,36 +20,18 @@ var particleController = function(app) {
     app.post('/api/particle/new', function(req, res) {
 
         var particle = (!req.body) ? {} : req.body;
-        var headers = (!req.headers) ? {} : req.headers;
 
         //Get user by user key
-        console.log(req.token);
-        db.GetUserByKey(req.token)
-        .then(function(user) {
-            res.send('found user');
-        })
-        .fail(function(err) {
-            res.send('error');
+        //console.log('Bearer = ' + req.token);
+
+        db.insertParticle(req.token, particle, function(err, data) {
+
+            if(err) {
+                return res.status(500).send(err);
+            }
+
+            return res.status(200).send(data);
         });
-
-
-        // var data = {
-        //     group : (!particle.group) ? 'default' : particle.group,
-        //     created : dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT'),
-        //     type : (!particle.type) ? 'info' : particle.type,
-        //     particle : particle
-        // };
-        //
-        // delete particle.group;
-        // delete particle.type;
-        //
-        // //Insert data into database
-        // db.Insert(data)
-        // .then(function(result) {
-        //     res.status(200).send(result);
-        // }).fail(function (err) {
-        //     res.status(500).send(err);
-        // });
     });
 
 };
