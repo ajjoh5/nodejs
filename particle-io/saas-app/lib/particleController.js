@@ -17,13 +17,12 @@ var particleController = function(app) {
     });
 
     //url eg. /api/Particle
-    app.post('/api/particle/new', function(req, res) {
+    app.post('/api/particles/new', function(req, res) {
 
         var particle = (!req.body) ? {} : req.body;
 
         //Get user by user key
         //console.log('Bearer = ' + req.token);
-
         db.insertParticle(req.token, particle, function(err, data) {
 
             if(err) {
@@ -34,6 +33,20 @@ var particleController = function(app) {
         });
     });
 
+    //url eg. /api/Particle
+    app.get('/api/particles/:group?', function(req, res) {
+
+        var group = (!req.params.group) ? null : req.params.group;
+
+        db.getParticlesByGroup(req.token, group, function(err, data) {
+
+            if(err) {
+                return res.status(500).send(err);
+            }
+
+            return res.status(200).send(data);
+        });
+    });
 };
 
 module.exports = particleController;

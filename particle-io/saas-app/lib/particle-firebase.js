@@ -74,6 +74,46 @@ var ParticleFirebase = function(options) {
                 });
             });
 
+        },
+
+        getParticlesByGroup : function(keytoken, group, callback) {
+
+            if(!keytoken) {
+                return callback('keytoken was null.', null);
+            }
+
+            db.init(function(err, ref) {
+
+                //TODO: Make the get user by keytoken < 10ms (without this 10 x runs in 3.5 secs, with it 10 x runs in 7 secs)
+                //Ensure user keytoken is valid
+                getUserByKeytoken(keytoken, ref, function(err, user) {
+
+                    if(err) {
+                        return callback(err, null);
+                    }
+
+                    var particles = ref.child(user.userid + '/particles');
+
+                    particles.once("value", function(data) {
+
+                        var groupParticles = data.val();
+
+                        //if group exists and is not null, then filter down
+                        //otherwise, get all particles
+                        if(group) {
+                            groupParticles = _.filter(data.val(), function(item) {
+                                return item.group === group
+                            });
+                        }
+
+                        return callback(null, groupParticles);
+
+                    }, function (error) {
+                        return callback(error, null);
+                    });
+                });
+            });
+
         }
 
     }

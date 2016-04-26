@@ -6,7 +6,7 @@ app.config(function($interpolateProvider){
 
 app.controller('particlesController', function($scope, $window, $firebaseArray) {
 
-    var ref = new Firebase("https://amber-heat-6552.firebaseio.com/particle-io/rbluff");
+    var ref = new Firebase("https://amber-heat-6552.firebaseio.com/particle-io/bbdddda9-723e-49eb-9639-8545003c237c/particles");
     var fbData = [];
     $scope.user = {};
     $scope.particles = [];
@@ -29,6 +29,7 @@ app.controller('particlesController', function($scope, $window, $firebaseArray) 
     ref.onAuth(function(authData) {
         if (authData) {
             console.log("User " + authData.uid + " is logged in with " + authData.provider);
+            //console.log(authData);
             $scope.particles = $firebaseArray(ref);
 
         } else {
