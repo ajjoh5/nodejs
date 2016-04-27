@@ -24,8 +24,20 @@ var zzGenericController = function(app) {
         request.get(newUrl, function(error, response, body) {
 
             var json = {};
+
+            // var particle = {
+            //     "type": "info",
+            //     "group": "red leader",
+            //     "data": {
+            //         "cartype": "gokart",
+            //         "cylinders": "1"
+            //     },
+            //     "name": "big daddy"
+            // };
+
             var logEntry = {
-                sourceType : 'zzGeneric',
+                type: 'info',
+                group: 'apiproxy.get',
                 request : {}
             };
 
@@ -40,10 +52,10 @@ var zzGenericController = function(app) {
                 if(contentType.indexOf('application/json') > -1) {
                     var json = JSON.parse(body);
                     var message = (!json.ResponseMessage) ? '' : json.ResponseMessage;
-                    logEntry.request = { level : 'Info', date : dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT'), type : 'GET', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : message };
+                    logEntry.request = { handler : 'zzGeneric', type : 'GET', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : message };
 
                     var hookOptions = {
-                        url: 'https://zapier.com/hooks/catch/294068/ubqxjb',
+                        url: 'https://162.243.104.143/api/particles/new',
                         method: 'POST',
                         body : JSON.stringify(logEntry.request)
                     };
@@ -51,10 +63,11 @@ var zzGenericController = function(app) {
                 }
             }
             else {
-                logEntry.request = { level : 'Error', date : dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT'), type : 'GET', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : error };
+                logEntry.type = 'error';
+                logEntry.request = { handler : 'zzGeneric', type : 'GET', httpStatusCode : response.statusCode, path : urlPath, exTime : responseTime, message : error };
 
                 var hookOptions = {
-                    url: 'https://zapier.com/hooks/catch/294068/ubqxjb',
+                    url: 'https://162.243.104.143/api/particles/new',
                     method: 'POST',
                     body : JSON.stringify(logEntry.request)
                 };
