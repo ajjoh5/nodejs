@@ -37,7 +37,7 @@ var ParticleFirebase = function(options) {
             }
 
             if(!keytoken) {
-                return callback('keytoken was null.', null);
+                return callback('Unauthorised.', null);
             }
 
             //Setup particle
@@ -79,7 +79,7 @@ var ParticleFirebase = function(options) {
         getParticlesByGroup : function(keytoken, group, callback) {
 
             if(!keytoken) {
-                return callback('keytoken was null.', null);
+                return callback('Unauthorised.', null);
             }
 
             db.init(function(err, ref) {

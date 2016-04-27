@@ -47,6 +47,12 @@ var particleController = function(app) {
             return res.status(200).send(data);
         });
     });
+
+    //url eg. /api/Particle
+    app.get('*?', function(req, res) {
+
+        res.status(404).send('Not found');
+    });
 };
 
 module.exports = particleController;
