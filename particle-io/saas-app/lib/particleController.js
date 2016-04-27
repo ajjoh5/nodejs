@@ -16,7 +16,7 @@ var particleController = function(app) {
         res.send('Particle.io - Hello!');
     });
 
-    //url eg. /api/Particle
+    //url eg. /api/particles/new -> with json object sent
     app.post('/api/particles/new', function(req, res) {
 
         var particle = (!req.body) ? {} : req.body;
@@ -33,7 +33,22 @@ var particleController = function(app) {
         });
     });
 
-    //url eg. /api/Particle
+    //count how many logs in a group
+    app.get('/api/particles/count/:group?', function(req, res) {
+
+        var group = (!req.params.group) ? null : req.params.group;
+
+        db.getParticlesByGroup(req.token, group, function(err, data) {
+
+            if(err) {
+                return res.status(500).send(err);
+            }
+
+            return res.status(200).send('Count: ' + data.length);
+        });
+    });
+
+    //url eg. /api/particles/new.group.searched, /api/particles/group2
     app.get('/api/particles/:group?', function(req, res) {
 
         var group = (!req.params.group) ? null : req.params.group;

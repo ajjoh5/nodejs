@@ -96,13 +96,18 @@ var ParticleFirebase = function(options) {
 
                     particles.once("value", function(data) {
 
-                        var groupParticles = data.val();
+                        var groupParticles = [];
 
                         //if group exists and is not null, then filter down
                         //otherwise, get all particles
                         if(group) {
                             groupParticles = _.filter(data.val(), function(item) {
                                 return item.group === group
+                            });
+                        }
+                        else {
+                            groupParticles = _.filter(data.val(), function(item) {
+                                return item != null
                             });
                         }
 
