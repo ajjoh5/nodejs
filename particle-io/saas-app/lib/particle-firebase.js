@@ -37,13 +37,13 @@ var ParticleFirebase = function(options) {
             }
 
             if(!keytoken) {
-                return callback('Unauthorised.', null);
+                return callback('unauthorised.', null);
             }
 
             //Setup particle
             var newParticle = {
                 group : (!particle.group) ? 'default' : particle.group,
-                created : dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT'),
+                created : (!particle.created) ? dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT') : particle.created,
                 type : (!particle.type) ? 'info' : particle.type,
                 particle : particle
             };
