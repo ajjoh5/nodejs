@@ -5,6 +5,15 @@ var ParticleFirebase = function(options) {
     var _ = require('underscore');
     var db = require('./FirebaseDB.js').createDB();
 
+    var particleTemplate = {
+        __id : '',
+        __group : 'default',
+        __created : '',
+        __type : 'info',
+
+        particle : {}
+    };
+
     var getUserByKeytoken = function(keytoken, ref, callback) {
 
         var users = ref.child('users');
@@ -28,6 +37,40 @@ var ParticleFirebase = function(options) {
 
     };
 
+    var processHooks = function(newParticle, userid, hooksRef) {
+
+        //hooksRef = userid + '/hooks'
+        hooksRef.once("value", function(data) {
+
+            var allHooks = data.val();
+
+            //Go through all hooks, and return the first one that matches __id, __type, __group
+            var hook = _.find(allHooks, function(item) {
+                // return item.keytoken == keytoken
+
+                //if newParticle contains the field, and that field contains the hook value, run hook
+                if(newParticle[item.field] && newParticle[item.field] == item.hookValue) {
+
+                    var requireFile = __base + '/hooks/' + userid + '/' + item.runFile;
+
+                    delete require.cache[require.resolve(requireFile)];
+                    var hook = require(requireFile).create({ insert : newParticle });
+
+                    hook.execute(function(err, data) {
+                        //TODO: Log hook & log errors
+                        // console.log(err);
+                        // console.log(data);
+                    });
+                }
+
+            });
+
+        }, function (error) {
+            //throw error
+        });
+
+    };
+
     return {
 
         insertParticle : function(keytoken, particle, callback) {
@@ -40,16 +83,24 @@ var ParticleFirebase = function(options) {
                 return callback('unauthorised.', null);
             }
 
-            //Setup particle
-            var newParticle = {
-                group : (!particle.group) ? 'default' : particle.group,
-                created : (!particle.created) ? dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT') : particle.created,
-                type : (!particle.type) ? 'info' : particle.type,
-                particle : particle
-            };
+            //Setup particle from particle template
+            var newParticle = particleTemplate;
 
-            delete newParticle.particle.group;
-            delete newParticle.particle.type;
+            //If not overriden, use current UTC system date/time
+            newParticle.__created = (!particle.__created) ? dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT') : particle.__created;
+
+            //Setup all default values of new particle from template
+            newParticle.__group = (!particle.__group) ? particleTemplate.__group : particle.__group;
+            newParticle.__type = (!particle.__type) ? particleTemplate.__type : particle.__type;
+            newParticle.__id = (!particle.__id) ? particleTemplate.__id : particle.__id;
+            newParticle.particle = particle;
+
+            //Delete any override fields from posted particle object
+            //because we want clean particle (only data of particle, not override fields contained within db save)
+            delete newParticle.particle.__created;
+            delete newParticle.particle.__group;
+            delete newParticle.particle.__type;
+            delete newParticle.particle.__id;
 
             db.init(function(err, ref) {
 
@@ -65,6 +116,9 @@ var ParticleFirebase = function(options) {
 
                     particles.push(newParticle, function(error) {
                         if(!error) {
+                            //Process hooks
+                            processHooks(newParticle, user.userid, ref.child(user.userid + '/hooks'));
+
                             return callback(null, newParticle);
                         }
                         else {

@@ -63,8 +63,10 @@ app.all('/?*', function(req, res) {
         }
     }
 
-    // Here we load in dynamically any override routes from our configuration
+    //TODO: Allow a "proxy.beforeProxy" event to be run
+
     //TODO: Check if we have created dynamic URL routing files, delete require cache, hot swap the file and reload latest
+    // Here we load in dynamically any override routes from our configuration
     if (urlPath == '/CreateNew') {
         console.log('CreateNew');
         delete require.cache[require.resolve(__base + '/controllers/test.js')];
@@ -74,6 +76,8 @@ app.all('/?*', function(req, res) {
 
     //Send out request (GET, POST, PUT, DEL, etc)
     request(options, function(error, response, body) {
+
+        //TODO: Allow a "proxy.afterProxy" event to be run
 
         res.set(response.headers);
         res.send(body);

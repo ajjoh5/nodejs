@@ -18,7 +18,7 @@ process.env.NODE_ENV = 'development';
 var app = express();
 
 console.log('Booting Controllers...');
-require(__base + "/lib/particleController")(app);
+require(__base + "/controllers/particleController")(app);
 
 //Create server on configured port
 app.listen(appSettings.port, function() {
