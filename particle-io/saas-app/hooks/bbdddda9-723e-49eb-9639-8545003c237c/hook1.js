@@ -3,16 +3,22 @@ var hook1 = function(options) {
     var insert = options.insert;
     var _ = require('underscore');
     var format = require('string-format');
-    var api_key = 'key-74bcec52b1dd582c2989aec6022ce95d';
-    var domain = 'sandbox65ed4cdf4db643d2bf73f1bb9ee348c4.mailgun.org';
+    var api_key = 'key-';
+    var domain = '.mailgun.org';
     var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-    
+    // Twilio Credentials
+    var accountSid = '';
+    var authToken = '';
+
+    //require the Twilio module and create a REST client
+    var client = require('twilio')(accountSid, authToken);
+
     return {
 
         execute : function(callback) {
             try {
 
-                if(insert.__type == 'error') {
+                if(insert.particle.item.priority == 1) {
                     var text = format('* Lead with details not submitted. *\n\nCreated: {0}\nLead:\n{1}',
                         insert.__created,
                         JSON.stringify(insert.particle.lead, null, '\t'));
@@ -26,6 +32,14 @@ var hook1 = function(options) {
 
                     mailgun.messages().send(data, function (error, body) {
                         console.log(body);
+                    });
+
+                    client.messages.create({
+                        to: "+61419301453",
+                        from: "+61427075003",
+                        body: "Heart Ornament Priority Shipping! Click here to dispatch [https://igenius.agilecrm.com/#contacts]",
+                    }, function(err, message) {
+                        console.log(message.sid);
                     });
                 }
 
