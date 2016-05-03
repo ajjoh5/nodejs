@@ -63,6 +63,23 @@ var particleController = function(app) {
         });
     });
 
+    //url eg. /api/hooks/new -> with json object sent
+    // json => { name : 'hook1', field: '__type', hookValue : 'error', file: 'javascript contents here' }
+
+    app.post('/api/hooks/new', function(req, res) {
+
+        var hook = (!req.body) ? {} : req.body;
+
+        db.insertHook(req.token, hook, function(err, data) {
+
+            if(err) {
+                return res.status(500).send(err);
+            }
+
+            return res.status(200).send(data);
+        });
+    });
+
     //url eg. /api/Particle
     app.get('*?', function(req, res) {
 

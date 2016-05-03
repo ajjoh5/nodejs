@@ -1,0 +1,15 @@
+{
+  "firebase" : {
+    "url" : "https://amber-heat-6552.firebaseio.com/particle-io",
+    "email": "ajjoh5@gmail.com",
+    "password": "jabronie"
+  },
+  "mailgun" : {
+    "apiKey" : "key-74bcec52b1dd582c2989aec6022ce95d",
+    "domain" : "sandbox65ed4cdf4db643d2bf73f1bb9ee348c4.mailgun.org"
+  },
+  "twilio" : {
+    "accountSid" : "ACe4f5f98e41f89d37eca78a2b155b2692",
+    "authToken" : "73f9d64c9aaebc28224bb367a982e9e6"
+  }
+}

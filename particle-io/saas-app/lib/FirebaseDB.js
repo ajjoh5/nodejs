@@ -1,13 +1,13 @@
 var FirebaseDB = function(options) {
 
     var Firebase = require('firebase');
-    var firebaseURL = 'https://amber-heat-6552.firebaseio.com/particle-io';
+    var firebaseURL = global.__settings.firebase.url;
     var ref = new Firebase(firebaseURL);
     var authData = ref.getAuth();
 
     var user = {
-        email: 'ajjoh5@gmail.com',
-        password: 'jabronie'
+        email: global.__settings.firebase.email,
+        password: global.__settings.firebase.password
     };
 
     var isAuthDataExpired = function() {

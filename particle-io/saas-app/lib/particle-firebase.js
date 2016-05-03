@@ -3,6 +3,7 @@ var ParticleFirebase = function(options) {
     //init plugins
     var dateFormat = require('dateformat');
     var _ = require('underscore');
+    var fs = require('fs-extra');
     var db = require('./FirebaseDB.js').createDB();
 
     var particleTemplate = {
@@ -12,6 +13,13 @@ var ParticleFirebase = function(options) {
         __type : 'info',
 
         particle : {}
+    };
+
+    var hookTemplate = {
+        __created : '',
+        name : '',
+        field : '__type',
+        hookValue : 'error'
     };
 
     var getUserByKeytoken = function(keytoken, ref, callback) {
@@ -51,7 +59,7 @@ var ParticleFirebase = function(options) {
                 //if newParticle contains the field, and that field contains the hook value, run hook
                 if(newParticle[item.field] && newParticle[item.field] == item.hookValue) {
 
-                    var requireFile = __base + '/hooks/' + userid + '/' + item.runFile;
+                    var requireFile = __base + '/hooks/' + userid + '/' + item.name + '.js';
 
                     delete require.cache[require.resolve(requireFile)];
                     var hook = require(requireFile).create({ insert : newParticle });
@@ -169,6 +177,75 @@ var ParticleFirebase = function(options) {
 
                     }, function (error) {
                         return callback(error, null);
+                    });
+                });
+            });
+
+        },
+
+
+        insertHook : function(keytoken, hook, callback) {
+
+            if(!hook) {
+                return callback('hook was null.', null);
+            }
+
+            if(!hook.file) {
+                return callback('hook file contents was null.', null);
+            }
+
+            if(!keytoken) {
+                return callback('unauthorised.', null);
+            }
+
+            //Setup particle from particle template
+            var newHook = hookTemplate;
+
+            //If not overriden, use current UTC system date/time
+            //don't include "file" either, not saving this to database
+            newHook.__created = dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT');
+            newHook.name = hook.name;
+            newHook.field = hook.field;
+            newHook.hookValue = hook.hookValue;
+
+            db.init(function(err, ref) {
+
+                //TODO: Make the get user by keytoken < 10ms (without this 10 x runs in 3.5 secs, with it 10 x runs in 7 secs)
+                //Ensure user keytoken is valid
+                getUserByKeytoken(keytoken, ref, function(err, user) {
+
+                    if(err) {
+                        return callback(err, null);
+                    }
+
+                    //Get path to file in user "hooks" directory
+                    var hookFile = __base + '/hooks/' + user.userid + '/' + newHook.name + '.js';
+                    var hookTemplateFile = __base + '/hooks/hookTemplate.js';
+
+                    //push hook into database, then create hook file
+                    var hooks = ref.child(user.userid + '/hooks');
+                    hooks.push(newHook, function(error) {
+                        if(!error) {
+
+                            //write hook file, using hook template file, then put in the javascript
+                            fs.readFile(hookTemplateFile, 'utf8', function (err, data) {
+                                var hookFileContents = data;
+
+                                //remove an harmful requires (no nasty injections)
+                                hook.file = hook.file.replace('require', 'unrequire');
+
+                                //inject javascript into template
+                                hookFileContents = hookFileContents.replace('[jsFile]', hook.file);
+
+                                fs.outputFile(hookFile, hookFileContents, function (err) {
+                                    console.log(err);
+                                });
+                            });
+                            return callback(null, newHook);
+                        }
+                        else {
+                            return callback(error, null);
+                        }
                     });
                 });
             });

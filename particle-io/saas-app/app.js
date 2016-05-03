@@ -7,6 +7,7 @@ var art = require('ascii-art');
 //init variables
 var appDir = path.dirname(require.main.filename);
 global.__base = appDir + '/';
+global.__settings = require('./settings.json');
 var appSettings = {
     port: 5555
 };
