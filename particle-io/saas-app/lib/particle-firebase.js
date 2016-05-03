@@ -79,6 +79,13 @@ var ParticleFirebase = function(options) {
 
     };
 
+    //get a unique particle id
+    var getPID = function(name) {
+        var retval = (!name) ? '-' : '-' + name;
+        var time = (new Date).getTime();
+        return retval + time;
+    };
+
     return {
 
         insertParticle : function(keytoken, particle, callback) {
@@ -200,6 +207,7 @@ var ParticleFirebase = function(options) {
 
             //Setup particle from particle template
             var newHook = hookTemplate;
+            var hookID = (!hook.id) ? getPID('hook-') : hook.id;
 
             //If not overriden, use current UTC system date/time
             //don't include "file" either, not saving this to database
@@ -223,8 +231,9 @@ var ParticleFirebase = function(options) {
                     var hookTemplateFile = __base + '/hooks/hookTemplate.js';
 
                     //push hook into database, then create hook file
-                    var hooks = ref.child(user.userid + '/hooks');
-                    hooks.push(newHook, function(error) {
+                    var hooks = ref.child(user.userid + '/hooks/' + hookID);
+
+                    hooks.set(newHook, function(error) {
                         if(!error) {
 
                             //write hook file, using hook template file, then put in the javascript
@@ -238,7 +247,7 @@ var ParticleFirebase = function(options) {
                                 hookFileContents = hookFileContents.replace('[jsFile]', hook.file);
 
                                 fs.outputFile(hookFile, hookFileContents, function (err) {
-                                    console.log(err);
+                                    //console.log(err);
                                 });
                             });
                             return callback(null, newHook);

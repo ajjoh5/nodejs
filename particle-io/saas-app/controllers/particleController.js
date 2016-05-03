@@ -64,8 +64,8 @@ var particleController = function(app) {
     });
 
     //url eg. /api/hooks/new -> with json object sent
+    // if override existing hook - supply 'id' in the fields with the hook's ID
     // json => { name : 'hook1', field: '__type', hookValue : 'error', file: 'javascript contents here' }
-
     app.post('/api/hooks/new', function(req, res) {
 
         var hook = (!req.body) ? {} : req.body;

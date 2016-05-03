@@ -13,6 +13,7 @@ global.__base = path.dirname(require.main.filename) + '/';
 var Datastore = require('nedb');
 var db = {};
 db['fail-logs'] = new Datastore({ filename: __base + '/logs/fail-logs.db', autoload: true});
+db['custom-routes'] = new Datastore({ filename: __base + '/data/custom-routes.db', autoload: true});
 
 //Create particle DB reference
 var particleDB = require('./lib/particle-io').create({ authtoken : 'ff1bc4174529248c949e04d601fecc2f7c7dde5a32367ebff5f559b0fcf2615a'});
@@ -63,21 +64,21 @@ app.all('/?*', function(req, res) {
         }
     }
 
-    //TODO: Allow a "proxy.beforeProxy" event to be run
-
-    //TODO: Check if we have created dynamic URL routing files, delete require cache, hot swap the file and reload latest
+    //TODO: Go to DB and load custom routes that map to controller files / require them on the fly
     // Here we load in dynamically any override routes from our configuration
-    if (urlPath == '/CreateNew') {
-        console.log('CreateNew');
-        delete require.cache[require.resolve(__base + '/controllers/test.js')];
-        var test = require(__base + '/controllers/test.js').create({});
-        req = test.execute(req);
-    }
+    db['custom-routes'].findOne({ url : urlPath}, function (err, doc) {
+        if(!err && docs) {
+            console.log('Custom Route...');
+            console.log(docs);
+            var customControllerFile = __base + '/controllers/' + doc.file;
+            delete require.cache[require.resolve(customControllerFile)];
+            var c = require(customControllerFile).create({});
+            req = c.execute(req);
+        }
+    });
 
     //Send out request (GET, POST, PUT, DEL, etc)
     request(options, function(error, response, body) {
-
-        //TODO: Allow a "proxy.afterProxy" event to be run
 
         res.set(response.headers);
         res.send(body);

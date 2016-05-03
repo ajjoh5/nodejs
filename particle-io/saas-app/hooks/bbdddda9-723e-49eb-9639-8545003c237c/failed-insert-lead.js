@@ -25,28 +25,7 @@ var hook = function(options) {
         execute : function(callback) {
             try {
 
-                var text = format('* Lead with details not submitted. *\n\nCreated: {0}\nLead:\n{1}',
-                    insert.__created,
-                    JSON.stringify(insert.particle.lead, null, '\t'));
-
-                var data = {
-                    from: 'Particle.io ALerts <noreply@samples.mailgun.org>',
-                    to: 'ajjoh5@gmail.com',
-                    subject: 'Particle.io - Lead Insert Error',
-                    text: text
-                };
-
-                mailgun.messages().send(data, function (error, body) {
-                    console.log(body);
-                });
-
-                client.messages.create({
-                    to: "+61419301453",
-                    from: "+61427075003",
-                    body: "Lead insert error. Lead details [http://p-io?id=176523asd]"
-                }, function(err, message) {
-                    console.log(message.sid);
-                });
+                if(insert.__type == 'error') { console.log('error inserting lead');}
 
                 return callback(null, true);
             }
