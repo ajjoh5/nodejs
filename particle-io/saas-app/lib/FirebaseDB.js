@@ -4,12 +4,33 @@ var FirebaseDB = function(options) {
     var firebaseURL = 'https://amber-heat-6552.firebaseio.com/particle-io';
     var ref = new Firebase(firebaseURL);
     var authData = ref.getAuth();
+
     var user = {
         email: 'ajjoh5@gmail.com',
         password: 'jabronie'
     };
 
+    var isAuthDataExpired = function() {
+        var retval = false;
+        //Get current epoch time, with no milliseconds (divide by 1000 to get this)
+        //to make number the same format as firebase
+        var currentTime = Math.floor(Date.now() / 1000);
+
+        //Check if token is expired (or about to expire in 10 seconds.. hence the 10)
+        if(authData && authData.expires < (currentTime + 10)) {
+            retval = true;
+        }
+
+        return retval;
+    };
+
     var initDB = function(callback) {
+
+        //If auth data is expired - reset and get another token
+        if(isAuthDataExpired()) {
+            authData = null;
+        }
+
         //Get auth on db & set session
         if (authData) {
             //console.log("ALREADY LOGGED IN - User " + authData.uid + " is logged in with " + authData.provider);
