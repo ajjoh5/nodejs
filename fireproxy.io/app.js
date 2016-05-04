@@ -14,6 +14,7 @@ global.__base = path.dirname(require.main.filename) + '/';
 var Datastore = require('nedb');
 var db = {};
 db['fail-logs'] = new Datastore({ filename: __base + '/logs/fail-logs.db', autoload: true});
+db['custom-routes'] = new Datastore({ filename: __base + '/data/custom-routes.db'});
 
 //Create particle DB reference
 var particleDB = require('./lib/particle-io').create({ authtoken : 'ff1bc4174529248c949e04d601fecc2f7c7dde5a32367ebff5f559b0fcf2615a'});
@@ -68,28 +69,25 @@ app.all('/?*', function(req, res) {
         }
     }
 
-    //TODO: Go to DB and load custom routes that map to controller files / require them on the fly
-    // Here we load in dynamically any override routes from our configuration
-    //Send log entry to particle.io
-    particleDB.findByGroup('custom.routes', function(err, data) {
-        if(!err && data) {
-            console.log('Custom Route: ' + urlParts.pathname);
-            var route = _.find(data, function(item) {
-                if(typeof item.particle.route.url !== 'undefined') {
-                    return item.particle.route.url == urlParts.pathname
+    //Handle any custom routes
+    db['custom-routes'].loadDatabase(function (err) {
+        db['custom-routes'].findOne({ url : urlParts.pathname}, function (err, doc) {
+            try {
+                if(!err && doc) {
+                    //console.log('Custom Route: ' + urlParts.pathname);
+                    var customControllerFile = __base + '/controllers/' + doc.file;
+                    delete require.cache[require.resolve(customControllerFile)];
+                    var c = require(customControllerFile).create({});
+                    c.execute(req, db);
                 }
-            });
-
-            if(route) {
-                var customControllerFile = __base + '/controllers/' + route.file;
-                delete require.cache[require.resolve(customControllerFile)];
-                var c = require(customControllerFile).create({});
-                req = c.execute(req);
+                else {
+                    //console.log('Generic Route: ' + urlParts.pathname);
+                }
             }
-        }
-        else {
-            console.log('Generic Route: ' + urlParts.pathname);
-        }
+            catch(ex) {
+                console.log(ex);
+            }
+        });
     });
 
     //Send out request (GET, POST, PUT, DEL, etc)
@@ -106,21 +104,17 @@ app.all('/?*', function(req, res) {
             message = (!body.ResponseMessage) ? '' : body.ResponseMessage;
         }
 
-        var logEntry = req.logEntry;
-
-        if(!logEntry) {
-            logEntry = {
-                __type: 'info',
-                __group: 'fireproxy-io.' + reqMethod,
-                __id: new Date().getTime(),
-                handler : 'zzGeneric',
-                httpMethod : reqMethod.toUpperCase(),
-                httpStatusCode : response.statusCode,
-                path : urlPath,
-                exTime : responseTime,
-                message : message
-            };
-        }
+        var logEntry = {
+            __type: 'info',
+            __group: 'fireproxy-io.' + reqMethod,
+            __id: new Date().getTime(),
+            handler : 'zzGeneric',
+            httpMethod : reqMethod.toUpperCase(),
+            httpStatusCode : response.statusCode,
+            path : urlPath,
+            exTime : responseTime,
+            message : message
+        };
 
         //Send log entry to particle.io
         particleDB.new(logEntry, function(err, data) {

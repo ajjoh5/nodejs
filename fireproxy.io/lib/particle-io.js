@@ -42,7 +42,7 @@ var ParticleIO = function(options) {
             request(options, function(error, response, body) {
                 //If we had an error logging, then write file log
                 if(response.statusCode == 200) {
-                    return callback(null, body);
+                    return callback(null, JSON.parse(body));
                 }
                 else {
                     var err = error;

@@ -4,7 +4,7 @@ var test = function(options) {
 
         execute : function(req, db) {
 
-            console.log('test.js');
+            console.log('leads.js');
 
             //Create particle DB reference
             var particleDB = require('../lib/particle-io').create({ authtoken : 'ff1bc4174529248c949e04d601fecc2f7c7dde5a32367ebff5f559b0fcf2615a'});
@@ -17,8 +17,8 @@ var test = function(options) {
 
             var logEntry = {
                 __type: 'info',
-                __group: 'manual.lead-2',
-                handler : 'test.js',
+                __group: 'newlead',
+                handler : 'leads.js',
                 httpMethod : 'post',
                 httpStatusCode : 200,
                 path : urlPath,
