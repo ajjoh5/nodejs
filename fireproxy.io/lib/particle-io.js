@@ -28,6 +28,28 @@ var ParticleIO = function(options) {
                     return callback(err, null);
                 }
             });
+        },
+
+        findByGroup : function(group, callback) {
+            var options = {
+                url: 'http://162.243.104.143/api/particles/' + group,
+                method: 'GET',
+                headers : {
+                    'authorization' : 'Bearer ' + authtoken
+                }
+            };
+
+            request(options, function(error, response, body) {
+                //If we had an error logging, then write file log
+                if(response.statusCode == 200) {
+                    return callback(null, body);
+                }
+                else {
+                    var err = error;
+                    if(body) {err = body}
+                    return callback(err, null);
+                }
+            });
         }
 
     }

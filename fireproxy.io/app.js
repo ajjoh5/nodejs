@@ -5,6 +5,7 @@ var art = require('ascii-art');
 var url = require('url');
 var request = require('request');
 var dateFormat = require('dateformat');
+var _ = require('underscore');
 
 //Create global var __base for root path
 global.__base = path.dirname(require.main.filename) + '/';
@@ -13,7 +14,6 @@ global.__base = path.dirname(require.main.filename) + '/';
 var Datastore = require('nedb');
 var db = {};
 db['fail-logs'] = new Datastore({ filename: __base + '/logs/fail-logs.db', autoload: true});
-db['custom-routes'] = new Datastore({ filename: __base + '/data/custom-routes.db', autoload: true});
 
 //Create particle DB reference
 var particleDB = require('./lib/particle-io').create({ authtoken : 'ff1bc4174529248c949e04d601fecc2f7c7dde5a32367ebff5f559b0fcf2615a'});
@@ -33,6 +33,10 @@ app.use(bodyParser.json());
 
 // console.log('Booting Controllers...');
 // require(__base + "/controllers/leadsController.js")(app);
+
+app.get('/favicon.ico', function(req, res) {
+   res.status(404).send('No favicon.');
+});
 
 app.all('/?*', function(req, res) {
     var start = new Date();
@@ -66,16 +70,25 @@ app.all('/?*', function(req, res) {
 
     //TODO: Go to DB and load custom routes that map to controller files / require them on the fly
     // Here we load in dynamically any override routes from our configuration
-    db['custom-routes'].findOne({ url : urlParts.pathname}, function (err, doc) {
-        if(!err && doc) {
-            //console.log('Custom Route: ' + urlParts.pathname);
-            var customControllerFile = __base + '/controllers/' + doc.file;
-            delete require.cache[require.resolve(customControllerFile)];
-            var c = require(customControllerFile).create({});
-            req = c.execute(req);
+    //Send log entry to particle.io
+    particleDB.findByGroup('custom.routes', function(err, data) {
+        if(!err && data) {
+            console.log('Custom Route: ' + urlParts.pathname);
+            var route = _.find(data, function(item) {
+                if(typeof item.particle.route.url !== 'undefined') {
+                    return item.particle.route.url == urlParts.pathname
+                }
+            });
+
+            if(route) {
+                var customControllerFile = __base + '/controllers/' + route.file;
+                delete require.cache[require.resolve(customControllerFile)];
+                var c = require(customControllerFile).create({});
+                req = c.execute(req);
+            }
         }
         else {
-            //console.log('Generic Route: ' + urlParts.pathname);
+            console.log('Generic Route: ' + urlParts.pathname);
         }
     });
 
@@ -89,7 +102,7 @@ app.all('/?*', function(req, res) {
         var responseTime = new Date() - start;
         var message = '';
 
-        if (response.headers['content-type'].indexOf('application/json') > -1) {
+        if (response.headers['content-type'] && response.headers['content-type'].indexOf('application/json') > -1) {
             message = (!body.ResponseMessage) ? '' : body.ResponseMessage;
         }
 

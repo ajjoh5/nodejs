@@ -164,7 +164,7 @@ var ParticleFirebase = function(options) {
                         //otherwise, get all particles
                         if(group) {
                             groupParticles = _.filter(data.val(), function(item) {
-                                return item.group === group
+                                return item.__group === group
                             });
                         }
                         else {
