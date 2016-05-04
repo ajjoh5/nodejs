@@ -67,9 +67,9 @@ app.all('/?*', function(req, res) {
     //TODO: Go to DB and load custom routes that map to controller files / require them on the fly
     // Here we load in dynamically any override routes from our configuration
     db['custom-routes'].findOne({ url : urlPath}, function (err, doc) {
-        if(!err && docs) {
+        if(!err && doc) {
             console.log('Custom Route...');
-            console.log(docs);
+            console.log(doc);
             var customControllerFile = __base + '/controllers/' + doc.file;
             delete require.cache[require.resolve(customControllerFile)];
             var c = require(customControllerFile).create({});

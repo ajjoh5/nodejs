@@ -6,22 +6,6 @@ var ParticleFirebase = function(options) {
     var fs = require('fs-extra');
     var db = require('./FirebaseDB.js').createDB();
 
-    var particleTemplate = {
-        __id : '',
-        __group : 'default',
-        __created : '',
-        __type : 'info',
-
-        particle : {}
-    };
-
-    var hookTemplate = {
-        __created : '',
-        name : '',
-        field : '__type',
-        hookValue : 'error'
-    };
-
     var getUserByKeytoken = function(keytoken, ref, callback) {
 
         var users = ref.child('users');
@@ -89,6 +73,15 @@ var ParticleFirebase = function(options) {
     return {
 
         insertParticle : function(keytoken, particle, callback) {
+
+            var particleTemplate = {
+                __id : '',
+                __group : 'default',
+                __created : '',
+                __type : 'info',
+
+                particle : {}
+            };
 
             if(!particle) {
                 return callback('particle was null.', null);
@@ -205,6 +198,13 @@ var ParticleFirebase = function(options) {
                 return callback('unauthorised.', null);
             }
 
+            var hookTemplate = {
+                __created : '',
+                name : '',
+                field : '__type',
+                hookValue : 'error'
+            };
+            
             //Setup particle from particle template
             var newHook = hookTemplate;
             var hookID = (!hook.id) ? getPID('hook-') : hook.id;
