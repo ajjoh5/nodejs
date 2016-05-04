@@ -66,14 +66,16 @@ app.all('/?*', function(req, res) {
 
     //TODO: Go to DB and load custom routes that map to controller files / require them on the fly
     // Here we load in dynamically any override routes from our configuration
-    db['custom-routes'].findOne({ url : urlPath}, function (err, doc) {
+    db['custom-routes'].findOne({ url : urlParts.pathname}, function (err, doc) {
         if(!err && doc) {
-            console.log('Custom Route...');
-            console.log(doc);
+            //console.log('Custom Route: ' + urlParts.pathname);
             var customControllerFile = __base + '/controllers/' + doc.file;
             delete require.cache[require.resolve(customControllerFile)];
             var c = require(customControllerFile).create({});
             req = c.execute(req);
+        }
+        else {
+            //console.log('Generic Route: ' + urlParts.pathname);
         }
     });
 
@@ -95,8 +97,9 @@ app.all('/?*', function(req, res) {
 
         if(!logEntry) {
             logEntry = {
-                type: 'info',
-                group: 'fireproxy-io.' + reqMethod,
+                __type: 'info',
+                __group: 'fireproxy-io.' + reqMethod,
+                __id: new Date().getTime(),
                 handler : 'zzGeneric',
                 httpMethod : reqMethod.toUpperCase(),
                 httpStatusCode : response.statusCode,

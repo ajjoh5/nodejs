@@ -4,7 +4,6 @@ var test = function(options) {
 
         execute : function(req) {
 
-            console.log('execute');
             var url = require('url');
             var urlParts = url.parse(req.url, true);
             var urlPath = urlParts.path;
@@ -13,8 +12,8 @@ var test = function(options) {
 
             var logEntry = {
                 type: 'info',
-                group: 'manual.lead-1',
-                handler : 'leadsController',
+                group: 'manual.lead-2',
+                handler : 'test.js',
                 httpMethod : 'post',
                 httpStatusCode : 200,
                 path : urlPath,
@@ -24,8 +23,6 @@ var test = function(options) {
             };
 
             req.logEntry = logEntry;
-
-            console.log(logEntry);
 
             return req;
         }
