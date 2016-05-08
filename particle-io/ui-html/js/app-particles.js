@@ -21,7 +21,48 @@ function($routeProvider) {
     });
 }]);
 
-app.controller('particlesController', function($scope, $firebaseObject, _) {
+
+app.filter('typeFilter', function() {
+    return function(items, selectedType) {
+
+        var filtered = [];
+
+        if(!selectedType || selectedType == '' || selectedType == '_total') {
+            filtered = items;
+            return filtered;
+        }
+
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (item.__type == selectedType) {
+                filtered.push(item);
+            }
+        }
+        return filtered;
+    }
+});
+
+app.filter('groupFilter', function() {
+    return function(items, selectedGroup) {
+
+        var filtered = [];
+
+        if(!selectedGroup || selectedGroup == '' || selectedGroup == '_total') {
+            filtered = items;
+            return filtered;
+        }
+
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (item.__group == selectedGroup) {
+                filtered.push(item);
+            }
+        }
+        return filtered;
+    }
+});
+
+app.controller('particlesController', function($scope, $location, $firebaseObject, _) {
 
     var ref = new Firebase("https://amber-heat-6552.firebaseio.com/particle-io/0bb951aa-985e-453a-bab4-b2dca6f5b50d/particles");
     var fbData = [];
@@ -32,13 +73,38 @@ app.controller('particlesController', function($scope, $firebaseObject, _) {
     };
     $scope.particles = [];
 
+    $scope.hdReportRange = '';
+    $scope.totalTypeData = {};
+    $scope.totalGroupData = {};
+    $scope.selectedType = '_total';
+    $scope.selectedGroup = '_total';
+
     ref.authWithPassword($scope.user, function(authData) {
         console.log('finished auth: ' + authData);
     });
 
+    $scope.updateReport = function() {
+        getLatestParticles(true);
+    };
+
+    $scope.filterTypeBy = function(key) {
+        $scope.selectedType = key;
+    };
+
+    $scope.filterGroupBy = function(key) {
+        $scope.selectedGroup = key;
+    };
+
     function getLatestParticles(isReverse) {
 
-        ref.on("value", function(data) {
+        //console.log('getLatestParticles');
+
+        var startDate = parseInt(localStorage['reportStartUTC']);
+        var endDate = parseInt(localStorage['reportEndUTC']);
+        var groupCounts = {};
+
+        //ref.orderByChild("__createdutc").startAt(1462600000000).endAt(1462699540988).on("value", function(data) {
+        ref.orderByChild("__createdutc").startAt(startDate).endAt(endDate).on("value", function(data) {
 
             var particles = [];
             if(isReverse) {
@@ -54,14 +120,71 @@ app.controller('particlesController', function($scope, $firebaseObject, _) {
                 });
             }
 
+            var countTypeData = _.countBy(particles, function(item){
+                return item['__type'];
+            });
+            countTypeData._total = particles.length;
+            $scope.totalTypeData = countTypeData;
+
+            var countGroupData = _.countBy(particles, function(item){
+                return item['__group'];
+            });
+            countGroupData._total = particles.length;
+            $scope.totalGroupData = countGroupData;
+
             $scope.particles = particles;
         });
 
         //hook up event now to listen for only datas loaded
-        ref.limitToLast(1).on('child_added', function(data, prevChild) {
-            // all records after the last continue to invoke this function
-            console.log(data.key(), data.val());
-        });
+        // ref.limitToLast(1).on('child_added', function(data, prevChild) {
+        //     // all records after the last continue to invoke this function
+        //     console.log(data.key(), data.val());
+        // });
+
+        // var zCount = 0;
+        //
+        // ref.on('child_added', function(data, prevChild) {
+        //
+        //     var itemData = data.val();
+        //
+        //
+        //     //delete all utc dates
+        //
+        //     // if(itemData.__createdutc) {
+        //     //     zCount++;
+        //     //     console.log(zCount);
+        //     //
+        //     //     delete itemData.__createdutc;
+        //     //
+        //     //     var itemRef = ref.child(data.key());
+        //     //     var path = itemRef.toString();
+        //     //     console.log(path);
+        //     //
+        //     //     itemRef.set(itemData);
+        //     // }
+        //
+        //
+        //     //Update the UTC date
+        //     // if(!itemData.__createdutc) {
+        //     //     zCount++;
+        //     //     console.log(zCount);
+        //     //
+        //     //     var stringDate = itemData.__created;
+        //     //     var t = stringDate.split('-');
+        //     //
+        //     //     var newStringDate = t[1] + '-' + t[0] + '-' + t[2];
+        //     //
+        //     //     var d = Date.parse(newStringDate);
+        //     //     itemData.__createdutc = d + 36000000;
+        //     //
+        //     //     var itemRef = ref.child(data.key());
+        //     //     var path = itemRef.toString();
+        //     //     console.log(path);
+        //     //
+        //     //     itemRef.set(itemData);
+        //     //
+        //     // }
+        // });
 
         $firebaseObject(ref);
     }

@@ -1,8 +1,9 @@
 <div class="row">
     <div class="col-md-6">
-        <h1 class="page-header-nounderline">Dashboard</h1>
+        <h1 class="page-header-nounderline">Particle.io Dashboard</h1>
     </div>
     <div class="col-md-6">
+        <input id="hdUpdateReport" type="text" value="" ng-model="hdUpdateReport" ng-change="updateReport()" style="display: none" />
         <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 250px;">
             <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
             <span></span> <b class="caret"></b>
@@ -14,7 +15,25 @@
 <!--{{ particles | json }}-->
 <!--</pre>-->
 
-<h2 class="sub-header">Raw Particles</h2>
+<div class="row">
+    <div ng-repeat="(key, value) in totalTypeData" class="col-md-3">
+        <div ng-click="filterTypeBy(key)" class="metric text-center" ng-class="{'bg-danger' : key == 'error', 'selected' : key == selectedType}">
+            {{ value }}
+        </div>
+        <p class="text-center" style="font-size: 2em;">{{ key.replace('_', '') }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div ng-repeat="(key, value) in totalGroupData" class="col-md-3">
+        <div ng-click="filterGroupBy(key)" class="metric text-center" ng-class="{'bg-danger' : key == 'error', 'selected' : key == selectedGroup}">
+            {{ value }}
+        </div>
+        <p class="text-center" style="font-size: 1em;">{{ key.replace('_', '') }}</p>
+    </div>
+</div>
+
+<h2 class="sub-header">Raw Particles <span ng-cloak class="badge">Type: {{ totalTypeData[selectedType] }}</span> <span ng-cloak class="badge">Group: {{ totalGroupData[selectedGroup] }}</span></h2>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -26,8 +45,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="p in particles" ng-class="{'danger' : p.__type == 'error'}">
-                <td>{{ (!p.__createdutc) ? p.__created : p.__createdutc | date:'dd-MM-yyyy h:mm:ss a' }}</td>
+            <tr ng-repeat="p in particles | typeFilter:selectedType | groupFilter:selectedGroup" ng-class="{'danger' : p.__type == 'error'}">
+                <td style="white-space: nowrap;">{{ (!p.__createdutc) ? '' : p.__createdutc | date:'dd-MM-yyyy h:mm:ss a' }}</td>
                 <td>{{ p.__group }}</td>
                 <td>{{ p.__type }}</td>
                 <td>{{ p.particle | json }}</td>
@@ -39,15 +58,36 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        function cb(start, end) {
-            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-//            alert(start);
-//            alert(end);
+        //Remove local storage
+        localStorage.removeItem('reportStartUTC');
+        localStorage.removeItem('reportEndUTC');
+
+        function shortID(length)
+        {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for( var i=0; i < length; i++ )
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return text;
         }
 
-        cb(moment().subtract(29, 'days'), moment());
+        function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+
+            localStorage['reportStartUTC'] = start.valueOf();
+            localStorage['reportEndUTC'] = end.valueOf();
+            $('#hdUpdateReport').val(shortID(10));
+            $('#hdUpdateReport').change();
+        }
+
+        cb(moment().startOf('day'), moment().endOf('day'));
 
         $('#reportrange').daterangepicker({
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
             ranges: {
                 'Today': [moment(), moment()],
                 'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],

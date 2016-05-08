@@ -115,3 +115,18 @@ body {
 #reportrange {
     margin-top: 5px;
 }
+
+.metric {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px;
+    font-size: 5em;
+}
+
+.metric:hover {
+    cursor: pointer;
+}
+
+div.selected {
+    border: 1px solid #222;
+}
