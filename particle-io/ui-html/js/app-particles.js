@@ -58,7 +58,7 @@ app.controller('particlesController', function($scope, $firebaseObject, _) {
 
         ref.on("child_added", function(data, prevChild) {
             var json = data.val();
-            console.log('Added: ' + JSON.stringify(json));
+            //console.log('Added: ' + JSON.stringify(json));
         });
 
         $firebaseObject(ref);

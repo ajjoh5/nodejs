@@ -27,7 +27,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="p in particles" >
-                <td>{{ p.__created }}</td>
+                <td>{{ (!p.__createdutc) ? '' : p.__createdutc | date:'dd-mm-yyyy h:MM:ss TT' }}</td>
                 <td>{{ p.__group }}</td>
                 <td>{{ p.__type }}</td>
                 <td>{{ p.particle | json }}</td>

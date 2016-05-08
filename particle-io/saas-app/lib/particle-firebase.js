@@ -95,7 +95,7 @@ var ParticleFirebase = function(options) {
             var newParticle = particleTemplate;
 
             //If not overriden, use current UTC system date/time
-            newParticle.__createdutc = Math.floor((new Date).getTime()/1000);
+            newParticle.__createdutc = (new Date).getTime();
             newParticle.__created = (!particle.__created) ? dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT') : particle.__created;
 
             //Setup all default values of new particle from template
