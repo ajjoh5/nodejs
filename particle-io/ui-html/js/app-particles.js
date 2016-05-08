@@ -79,8 +79,44 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
     $scope.selectedType = '_total';
     $scope.selectedGroup = '_total';
 
-    ref.authWithPassword($scope.user, function(authData) {
-        console.log('finished auth: ' + authData);
+    var isAuthDataExpired = function() {
+        var retval = false;
+        //Get current epoch time, with no milliseconds (divide by 1000 to get this)
+        //to make number the same format as firebase
+        var currentTime = Math.floor(Date.now() / 1000);
+
+        //Check if token is expired (or about to expire in 10 seconds.. hence the 10)
+        if(authData && authData.expires < (currentTime + 10)) {
+            retval = true;
+        }
+
+        return retval;
+    };
+
+    //Start firebase auth process
+    var authData = ref.getAuth();
+    if(isAuthDataExpired()) {
+        authData = null;
+    }
+
+    if (authData) {
+        console.log("ALREADY LOGGED IN - User " + authData.uid + " is logged in with " + authData.provider);
+    }
+    else {
+        ref.authWithPassword($scope.user, function(authData) {
+            console.log('finished auth: ' + authData);
+        });
+    }
+
+    //On auth (success or fail) get records
+    ref.onAuth(function(authData) {
+        if (authData) {
+            console.log("User " + authData.uid + " is logged in with " + authData.provider);
+            getLatestParticles(true);
+
+        } else {
+            console.log("User is logged out");
+        }
     });
 
     $scope.updateReport = function() {
@@ -104,7 +140,7 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
         var groupCounts = {};
 
         //ref.orderByChild("__createdutc").startAt(1462600000000).endAt(1462699540988).on("value", function(data) {
-        ref.orderByChild("__createdutc").startAt(startDate).endAt(endDate).on("value", function(data) {
+        ref.orderByChild("__createdutc").startAt(startDate).endAt(endDate).once("value", function(data) {
 
             var particles = [];
             if(isReverse) {
@@ -136,10 +172,12 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
         });
 
         //hook up event now to listen for only datas loaded
-        // ref.limitToLast(1).on('child_added', function(data, prevChild) {
-        //     // all records after the last continue to invoke this function
-        //     console.log(data.key(), data.val());
-        // });
+        ref.limitToLast(1).on('child_added', function(data, prevChild) {
+            // all records after the last continue to invoke this function
+            //console.log(data.key(), data.val());
+
+            $scope.particles.splice(0,0,data.val());
+        });
 
         // var zCount = 0;
         //
@@ -202,17 +240,6 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
     // $scope.logout = function() {
     //     ref.unauth();
     // };
-
-    //On auth (success or fail) get records
-    ref.onAuth(function(authData) {
-        if (authData) {
-            console.log("User " + authData.uid + " is logged in with " + authData.provider);
-            getLatestParticles(true);
-
-        } else {
-            console.log("User is logged out");
-        }
-    });
 
     $scope.test = 'Adamj';
 
