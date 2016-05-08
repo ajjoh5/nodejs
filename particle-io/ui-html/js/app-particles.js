@@ -176,7 +176,20 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
             // all records after the last continue to invoke this function
             //console.log(data.key(), data.val());
 
-            $scope.particles.splice(0,0,data.val());
+            var particles = $scope.particles;
+            particles.splice(0,0,data.val());
+
+            var countTypeData = _.countBy(particles, function(item){
+                return item['__type'];
+            });
+            countTypeData._total = particles.length;
+            $scope.totalTypeData = countTypeData;
+
+            var countGroupData = _.countBy(particles, function(item){
+                return item['__group'];
+            });
+            countGroupData._total = particles.length;
+            $scope.totalGroupData = countGroupData;
         });
 
         // var zCount = 0;
