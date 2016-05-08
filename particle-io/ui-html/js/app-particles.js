@@ -25,6 +25,7 @@ app.controller('particlesController', function($scope, $firebaseObject, _) {
 
     var ref = new Firebase("https://amber-heat-6552.firebaseio.com/particle-io/0bb951aa-985e-453a-bab4-b2dca6f5b50d/particles");
     var fbData = [];
+
     $scope.user = {
         email: 'ajjoh5@gmail.com',
         password: 'jabronie'
@@ -56,9 +57,10 @@ app.controller('particlesController', function($scope, $firebaseObject, _) {
             $scope.particles = particles;
         });
 
-        ref.on("child_added", function(data, prevChild) {
-            var json = data.val();
-            //console.log('Added: ' + JSON.stringify(json));
+        //hook up event now to listen for only datas loaded
+        ref.limitToLast(1).on('child_added', function(data, prevChild) {
+            // all records after the last continue to invoke this function
+            console.log(data.key(), data.val());
         });
 
         $firebaseObject(ref);

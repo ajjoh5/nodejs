@@ -51,11 +51,38 @@ var zzGenericController = function(app) {
 
 
         request(options)
+        .on('error', function(err) {
+            //capture and log errors
+            var responseTime = new Date() - start;
+
+            var logEntry = {
+                __type: 'error',
+                __group: 'fireproxy-io.' + reqMethod,
+                __id: new Date().getTime(),
+                handler : 'zzGeneric',
+                httpMethod : reqMethod.toUpperCase(),
+                httpStatusCode : response.statusCode,
+                path : urlPath,
+                message : err,
+                exTime : responseTime
+            };
+
+            //Send log entry to particle.io
+            particleDB.new(logEntry, function(err, data) {
+                if(err) {
+                    logEntry.created = dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT');
+                    db['fail-logs'].insert(logEntry);
+                }
+            });
+        })
         .on('response', function(response) {
             var body = '';
-            // response.on('data', function (chunk) {
-            // body += chunk;
-            // });
+
+            //get body in case we need it later
+            response.on('data', function (chunk) {
+                body += chunk;
+            });
+
             response.on('end', function () {
                 //body will now contain full result (chunked)
                 //Intercept the response + log the results
@@ -80,6 +107,12 @@ var zzGenericController = function(app) {
                     };
                 }
 
+                //handle non status code 200 responses, and add in response body to track error
+                if(response.statusCode != 200) {
+                    logEntry.__type = 'error';
+                    logEntry.message = (!body) ? message : body;
+                }
+
                 //always add the elapsed time
                 logEntry.exTime = responseTime;
 
@@ -93,47 +126,6 @@ var zzGenericController = function(app) {
             });
         })
         .pipe(res);
-
-        // //Send out request (GET, POST, PUT, DEL, etc)
-        // request(options, function(error, response, body) {
-
-        // var headers = response.headers;
-        // res.set(headers);
-        // res.send(body);
-
-        // //Intercept the response + log the results
-        // var responseTime = new Date() - start;
-        // var message = '';
-
-        // if (response.headers['content-type'] && response.headers['content-type'].indexOf('application/json') > -1) {
-        // message = (!body.ResponseMessage) ? '' : body.ResponseMessage;
-        // }
-
-        // var logEntry = req.logEntry;
-        // if(!logEntry) {
-        // logEntry = {
-        // __type: 'info',
-        // __group: 'fireproxy-io.' + reqMethod,
-        // __id: new Date().getTime(),
-        // handler : 'zzGeneric',
-        // httpMethod : reqMethod.toUpperCase(),
-        // httpStatusCode : response.statusCode,
-        // path : urlPath,
-        // message : message
-        // };
-        // }
-
-        // //always add the elapsed time
-        // logEntry.exTime = responseTime;
-
-        // //Send log entry to particle.io
-        // particleDB.new(logEntry, function(err, data) {
-        // if(err) {
-        // logEntry.created = dateFormat(new Date(), 'dd-mm-yyyy h:MM:ss TT');
-        // db['fail-logs'].insert(logEntry);
-        // }
-        // });
-        // });
 
     });
 };
