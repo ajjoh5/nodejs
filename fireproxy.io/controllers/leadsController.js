@@ -24,6 +24,7 @@ var leadsController = function(app) {
         };
 
         req.logEntry = logEntry;
+        req.proxyURL = 'http://webapi.henley.com.au/v1/' + urlPath;
 
         next();
     });

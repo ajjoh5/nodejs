@@ -24,7 +24,13 @@ var zzGenericController = function(app) {
 
         var urlParts = url.parse(req.url, true);
         var urlPath = urlParts.path;
-        var proxyUrl = 'http://localhost:5050' + urlPath;
+
+        //Ability to change proxy URL from override controllers
+        var proxyURL = req.proxyURL;
+        if (!proxyURL) {
+            proxyUrl = 'http://localhost:5050' + urlPath;
+        }
+
         var reqMethod = req.method.toLowerCase();
 
         var options = {
