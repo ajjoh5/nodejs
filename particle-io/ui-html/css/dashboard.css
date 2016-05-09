@@ -121,6 +121,7 @@ body {
     border-radius: 3px;
     padding: 10px;
     font-size: 5em;
+    color: #444;
 }
 
 .metric:hover {
@@ -129,4 +130,5 @@ body {
 
 div.selected {
     border: 1px solid #222;
+    color: #111;
 }
