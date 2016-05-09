@@ -131,6 +131,26 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
         $scope.selectedGroup = key;
     };
 
+    function monitorNewRow(data, prevChild) {
+        // all records after the last continue to invoke this function
+        //console.log(data.key(), data.val());
+
+        var particles = $scope.particles;
+        particles.splice(0,0,data.val());
+
+        var countTypeData = _.countBy(particles, function(item){
+            return item['__type'];
+        });
+        countTypeData._total = particles.length;
+        $scope.totalTypeData = countTypeData;
+
+        var countGroupData = _.countBy(particles, function(item){
+            return item['__group'];
+        });
+        countGroupData._total = particles.length;
+        $scope.totalGroupData = countGroupData;
+    };
+
     function getLatestParticles(isReverse) {
 
         //console.log('getLatestParticles');
@@ -171,71 +191,10 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
             $scope.particles = particles;
         });
 
+        ref.off('child_added', monitorNewRow);
+
         //hook up event now to listen for only datas loaded
-        ref.limitToLast(1).on('child_added', function(data, prevChild) {
-            // all records after the last continue to invoke this function
-            //console.log(data.key(), data.val());
-
-            var particles = $scope.particles;
-            particles.splice(0,0,data.val());
-
-            var countTypeData = _.countBy(particles, function(item){
-                return item['__type'];
-            });
-            countTypeData._total = particles.length;
-            $scope.totalTypeData = countTypeData;
-
-            var countGroupData = _.countBy(particles, function(item){
-                return item['__group'];
-            });
-            countGroupData._total = particles.length;
-            $scope.totalGroupData = countGroupData;
-        });
-
-        // var zCount = 0;
-        //
-        // ref.on('child_added', function(data, prevChild) {
-        //
-        //     var itemData = data.val();
-        //
-        //
-        //     //delete all utc dates
-        //
-        //     // if(itemData.__createdutc) {
-        //     //     zCount++;
-        //     //     console.log(zCount);
-        //     //
-        //     //     delete itemData.__createdutc;
-        //     //
-        //     //     var itemRef = ref.child(data.key());
-        //     //     var path = itemRef.toString();
-        //     //     console.log(path);
-        //     //
-        //     //     itemRef.set(itemData);
-        //     // }
-        //
-        //
-        //     //Update the UTC date
-        //     // if(!itemData.__createdutc) {
-        //     //     zCount++;
-        //     //     console.log(zCount);
-        //     //
-        //     //     var stringDate = itemData.__created;
-        //     //     var t = stringDate.split('-');
-        //     //
-        //     //     var newStringDate = t[1] + '-' + t[0] + '-' + t[2];
-        //     //
-        //     //     var d = Date.parse(newStringDate);
-        //     //     itemData.__createdutc = d + 36000000;
-        //     //
-        //     //     var itemRef = ref.child(data.key());
-        //     //     var path = itemRef.toString();
-        //     //     console.log(path);
-        //     //
-        //     //     itemRef.set(itemData);
-        //     //
-        //     // }
-        // });
+        ref.limitToLast(1).on('child_added', monitorNewRow);
 
         $firebaseObject(ref);
     }

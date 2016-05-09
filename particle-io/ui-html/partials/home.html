@@ -41,6 +41,7 @@
                 <th>Created</th>
                 <th>Group</th>
                 <th>Type</th>
+                <th>E/T</th>
                 <th>Particle</th>
             </tr>
         </thead>
@@ -49,6 +50,7 @@
                 <td style="white-space: nowrap;">{{ (!p.__createdutc) ? '' : p.__createdutc | date:'dd-MM-yyyy h:mm:ss a' }}</td>
                 <td>{{ p.__group }}</td>
                 <td>{{ p.__type }}</td>
+                <td>{{ p.particle.exTime }}</td>
                 <td>{{ p.particle | json }}</td>
             </tr>
         </tbody>
