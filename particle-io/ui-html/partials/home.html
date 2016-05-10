@@ -16,16 +16,16 @@
 <!--</pre>-->
 
 <div class="row">
-    <div ng-repeat="(key, value) in totalTypeData" class="col-md-3">
+    <div ng-repeat="(key, value) in totalTypeData" class="col-md-2">
         <div ng-click="filterTypeBy(key)" class="metric text-center" ng-class="{'bg-danger' : key == 'error', 'selected' : key == selectedType}">
             {{ value }}
         </div>
-        <p class="text-center" style="font-size: 2em;">{{ key.replace('_', '') }}</p>
+        <p class="text-center" style="font-size: 1.5em;">{{ key.replace('_', '') }}</p>
     </div>
 </div>
 
 <div class="row">
-    <div ng-repeat="(key, value) in totalGroupData" class="col-md-3">
+    <div ng-repeat="(key, value) in totalGroupData" class="col-md-2">
         <div ng-click="filterGroupBy(key)" class="metric text-center" ng-class="{'bg-danger' : key == 'error', 'selected' : key == selectedGroup}">
             {{ value }}
         </div>
@@ -33,7 +33,9 @@
     </div>
 </div>
 
-<h2 class="sub-header">Raw Particles <span ng-cloak class="badge">Type: {{ totalTypeData[selectedType] }}</span> <span ng-cloak class="badge">Group: {{ totalGroupData[selectedGroup] }}</span></h2>
+<h2 class="sub-header">Raw Particles&nbsp;<span ng-cloak class="badge">Type: {{ totalTypeData[selectedType] }}</span>&nbsp;<span ng-cloak class="badge">Group: {{ totalGroupData[selectedGroup] }}</span></h2>
+<input id="inputSearch" ng-model="searchText" class="form-control" placeholder="input search here..." style="margin-bottom: 10px;" />
+
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -46,7 +48,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="p in particles | typeFilter:selectedType | groupFilter:selectedGroup" ng-class="{'danger' : p.__type == 'error'}">
+            <tr ng-repeat="p in particles | typeFilter:selectedType | groupFilter:selectedGroup | filter:searchText" ng-class="{'danger' : p.__type == 'error'}">
                 <td style="white-space: nowrap;">{{ (!p.__createdutc) ? '' : p.__createdutc | date:'dd-MM-yyyy h:mm:ss a' }}</td>
                 <td>{{ p.__group }}</td>
                 <td>{{ p.__type }}</td>

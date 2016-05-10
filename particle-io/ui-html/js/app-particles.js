@@ -78,6 +78,7 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
     $scope.totalGroupData = {};
     $scope.selectedType = '_total';
     $scope.selectedGroup = '_total';
+    $scope.searchText = '';
 
     var isAuthDataExpired = function() {
         var retval = false;
@@ -135,20 +136,36 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
         // all records after the last continue to invoke this function
         //console.log(data.key(), data.val());
 
-        var particles = $scope.particles;
-        particles.splice(0,0,data.val());
+        var newRow = data.val();
 
-        var countTypeData = _.countBy(particles, function(item){
-            return item['__type'];
-        });
-        countTypeData._total = particles.length;
-        $scope.totalTypeData = countTypeData;
+        var startDate = parseInt(localStorage['reportStartUTC']);
+        var endDate = parseInt(localStorage['reportEndUTC']);
 
-        var countGroupData = _.countBy(particles, function(item){
-            return item['__group'];
-        });
-        countGroupData._total = particles.length;
-        $scope.totalGroupData = countGroupData;
+        if (newRow.__createdutc) {
+            if (startDate <= newRow.__createdutc && endDate >= newRow.__createdutc) {
+
+                //If we are within the date ranges of the new records "created date" then
+                //add it to the array and update the counts.
+                //Otherwise, ignore, because we are looking at historical or future non existant data
+
+                var particles = $scope.particles;
+                particles.splice(0,0,data.val());
+
+                var countTypeData = _.countBy(particles, function(item){
+                    return item['__type'];
+                });
+                countTypeData._total = particles.length;
+                $scope.totalTypeData = countTypeData;
+
+                var countGroupData = _.countBy(particles, function(item){
+                    return item['__group'];
+                });
+                countGroupData._total = particles.length;
+                $scope.totalGroupData = countGroupData;
+            }
+        }
+
+
     };
 
     function getLatestParticles(isReverse) {
