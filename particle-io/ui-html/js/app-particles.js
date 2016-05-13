@@ -79,6 +79,13 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
     $scope.selectedType = '_total';
     $scope.selectedGroup = '_total';
     $scope.searchText = '';
+    $scope.limitAmount = 20;
+    $scope.totalDisplayed = $scope.limitAmount;
+    $scope.dataLoaded = false;
+
+    $scope.loadMore = function () {
+        $scope.totalDisplayed += $scope.limitAmount;
+    };
 
     var isAuthDataExpired = function() {
         var retval = false;
@@ -125,10 +132,12 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
     };
 
     $scope.filterTypeBy = function(key) {
+        $scope.totalDisplayed = $scope.limitAmount;
         $scope.selectedType = key;
     };
 
     $scope.filterGroupBy = function(key) {
+        $scope.totalDisplayed = $scope.limitAmount;
         $scope.selectedGroup = key;
     };
 
@@ -166,10 +175,12 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
         }
 
 
-    };
+    }
 
     function getLatestParticles(isReverse) {
 
+        $scope.dataLoaded = false;
+        console.time('getLatestParticles()');
         //console.log('getLatestParticles');
 
         var startDate = parseInt(localStorage['reportStartUTC']);
@@ -206,6 +217,10 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
             $scope.totalGroupData = countGroupData;
 
             $scope.particles = particles;
+
+            //Loaded all particles, set loaded = true
+            console.timeEnd('getLatestParticles()');
+            $scope.dataLoaded = true;
         });
 
         ref.off('child_added', monitorNewRow);
