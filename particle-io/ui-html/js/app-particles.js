@@ -24,7 +24,6 @@ function($routeProvider) {
 
 app.filter('typeFilter', function() {
     return function(items, selectedType) {
-
         var filtered = [];
 
         if(!selectedType || selectedType == '' || selectedType == '_total') {
@@ -44,7 +43,6 @@ app.filter('typeFilter', function() {
 
 app.filter('groupFilter', function() {
     return function(items, selectedGroup) {
-
         var filtered = [];
 
         if(!selectedGroup || selectedGroup == '' || selectedGroup == '_total') {
@@ -63,9 +61,9 @@ app.filter('groupFilter', function() {
 });
 
 app.controller('particlesController', function($scope, $location, $firebaseObject, _) {
-
-    var ref = new Firebase("https://amber-heat-6552.firebaseio.com/particle-io/0bb951aa-985e-453a-bab4-b2dca6f5b50d/particles");
+    //var ref = new Firebase("https://amber-heat-6552.firebaseio.com/particle-io/0bb951aa-985e-453a-bab4-b2dca6f5b50d/particles");
     var fbData = [];
+    var authData = {};
 
     $scope.user = {
         email: 'ajjoh5@gmail.com',
@@ -101,31 +99,37 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
         return retval;
     };
 
-    //Start firebase auth process
-    var authData = ref.getAuth();
-    if(isAuthDataExpired()) {
-        authData = null;
-    }
+    function initAuth() {
+        var ref = new Firebase("https://amber-heat-6552.firebaseio.com/particle-io/0bb951aa-985e-453a-bab4-b2dca6f5b50d/particles");
 
-    if (authData) {
-        console.log("ALREADY LOGGED IN - User " + authData.uid + " is logged in with " + authData.provider);
-    }
-    else {
-        ref.authWithPassword($scope.user, function(authData) {
-            console.log('finished auth: ' + authData);
+        //Start firebase auth process
+        authData = ref.getAuth();
+        if(isAuthDataExpired()) {
+            authData = null;
+        }
+
+        if (authData) {
+            console.log("ALREADY LOGGED IN - User " + authData.uid + " is logged in with " + authData.provider);
+        }
+        else {
+            ref.authWithPassword($scope.user, function(authData) {
+                console.log('finished auth: ' + authData);
+            });
+        }
+
+        //On auth (success or fail) get records
+        ref.onAuth(function(authData) {
+            if (authData) {
+                console.log("User " + authData.uid + " is logged in with " + authData.provider);
+                getLatestParticles(true);
+
+            } else {
+                console.log("User is logged out");
+            }
         });
     }
 
-    //On auth (success or fail) get records
-    ref.onAuth(function(authData) {
-        if (authData) {
-            console.log("User " + authData.uid + " is logged in with " + authData.provider);
-            getLatestParticles(true);
-
-        } else {
-            console.log("User is logged out");
-        }
-    });
+    initAuth();
 
     $scope.updateReport = function() {
         getLatestParticles(true);
@@ -171,6 +175,10 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
                 });
                 countGroupData._total = particles.length;
                 $scope.totalGroupData = countGroupData;
+
+                //Run scope digest after each new row insertion manually
+                //this also decreases hangs and blips
+                $scope.$apply();
             }
         }
 
@@ -179,9 +187,11 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
 
     function getLatestParticles(isReverse) {
 
+        var ref = new Firebase("https://amber-heat-6552.firebaseio.com/particle-io/0bb951aa-985e-453a-bab4-b2dca6f5b50d/particles");
+
         $scope.dataLoaded = false;
-        console.time('getLatestParticles()');
         //console.log('getLatestParticles');
+        console.time('getLatestParticles()');
 
         var startDate = parseInt(localStorage['reportStartUTC']);
         var endDate = parseInt(localStorage['reportEndUTC']);
@@ -219,8 +229,9 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
             $scope.particles = particles;
 
             //Loaded all particles, set loaded = true
-            console.timeEnd('getLatestParticles()');
             $scope.dataLoaded = true;
+            $scope.$apply();
+            console.timeEnd('getLatestParticles()');
         });
 
         ref.off('child_added', monitorNewRow);
@@ -228,7 +239,11 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
         //hook up event now to listen for only datas loaded
         ref.limitToLast(1).on('child_added', monitorNewRow);
 
-        $firebaseObject(ref);
+        var obj = $firebaseObject(ref);
+        obj.$loaded().then(function() {
+            //destroy the firebase object binding and watchers
+            obj.$destroy();
+        });
     }
 
     // $scope.login = function() {
@@ -245,61 +260,4 @@ app.controller('particlesController', function($scope, $location, $firebaseObjec
     //     ref.unauth();
     // };
 
-    $scope.test = 'Adamj';
-
-    $scope.addParticle = function() {
-        console.log('Add Particle');
-
-        $scope.particles.$add({
-            particle : {
-                message : "Just added me!!"
-            }
-        });
-    };
 });
-
-// app.controller('particlesController', function($scope, $window, $firebaseArray) {
-//
-//     var ref = new Firebase("https://amber-heat-6552.firebaseio.com/particle-io/bbdddda9-723e-49eb-9639-8545003c237c/particles");
-//     var fbData = [];
-//     $scope.user = {};
-//     $scope.particles = [];
-//
-//     $scope.login = function() {
-//         console.log('Login user');
-//         console.log($scope.user);
-//
-//         //Authenticate with AngularJS
-//         ref.authWithPassword($scope.user, function(authData) {
-//             console.log('finished auth');
-//         });
-//     };
-//
-//     $scope.logout = function() {
-//         ref.unauth();
-//     };
-//
-//     //On auth (success or fail) get records
-//     ref.onAuth(function(authData) {
-//         if (authData) {
-//             console.log("User " + authData.uid + " is logged in with " + authData.provider);
-//             //console.log(authData);
-//             $scope.particles = $firebaseArray(ref);
-//
-//         } else {
-//             console.log("User is logged out");
-//         }
-//     });
-//
-//     $scope.test = 'Adamj';
-//
-//     $scope.addParticle = function() {
-//         console.log('Add Particle');
-//
-//         $scope.particles.$add({
-//             particle : {
-//                 message : "Just added me!!"
-//             }
-//         });
-//     };
-// });
