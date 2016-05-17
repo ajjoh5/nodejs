@@ -15,6 +15,10 @@
 <!--{{ particles | json }}-->
 <!--</pre>-->
 
+<div ng-show="!dashboardLoaded" class="bg-info" style="padding: 20px; border-radius: 5px;">
+    <p style="font-size: 2em; text-align: center;">Loading Dashboard...</p>
+</div>
+
 <div class="row">
     <div ng-repeat="(key, value) in totalTypeData" class="col-md-2">
         <div ng-click="filterTypeBy(key)" class="metric text-center" ng-class="{'bg-danger' : key == 'error', 'selected' : key == selectedType}">
@@ -36,14 +40,16 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <h2 class="sub-header">Raw Particles&nbsp;<span ng-cloak class="badge">Type: {{ totalTypeData[selectedType] }}</span>&nbsp;<span ng-cloak class="badge">Group: {{ totalGroupData[selectedGroup] }}</span></h2>
+        <h2 class="sub-header">Raw Particles&nbsp;<span ng-cloak class="badge">{{ totalDisplayed }}</span></h2>
         <input id="inputSearch" ng-model="searchText" class="form-control" placeholder="input search here..." style="margin-bottom: 10px;" />
 
-        <div ng-show="!dataLoaded" class="bg-danger" style="padding: 20px; border-radius: 5px;">
-            <p style="font-size: 2em; text-align: center;"><img src="./images/magnify.svg" width="100" />&nbsp;Loading particles...</p>
+        <div ng-show="!dataLoaded" class="bg-info" style="padding: 20px; border-radius: 5px;">
+            <p style="font-size: 2em; text-align: center;">
+                <!--<img src="./images/magnify.svg" width="100" />&nbsp;-->
+                Loading particles...</p>
         </div>
 
-        <div ng-show="dataLoaded" class="">
+        <div ng-show="dataLoaded" class="table-responsive">
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -55,12 +61,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="p in particles | typeFilter:selectedType | groupFilter:selectedGroup | filter:searchText | limitTo:totalDisplayed" ng-class="{'danger' : p.__type == 'error'}">
+                <tr ng-repeat="p in particles | filter:searchText" ng-class="{'danger' : p.__type == 'error'}">
                     <td style="white-space: nowrap;">{{ (!p.__createdutc) ? '' : p.__createdutc | date:'dd-MM-yyyy h:mm:ss a' }}</td>
                     <td>{{ p.__group }}</td>
                     <td>{{ p.__type }}</td>
                     <td>{{ p.particle.exTime }}</td>
-                    <td>{{ p.particle | json }}</td>
+                    <td>{{ p.particle | json : spacing }}</td>
                 </tr>
                 </tbody>
             </table>
