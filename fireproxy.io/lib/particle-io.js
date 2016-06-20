@@ -3,9 +3,15 @@ var ParticleIO = function(options) {
     var request = require('request');
     var authtoken = (!options.authtoken) ? '' : options.authtoken;
 
+    //File based winston logging
+    var logger = require('../lib/winston-logger.js');
+
     return {
 
         new : function(particle, callback) {
+
+            var logType = (!particle.__type) ? 'info' : particle.__type;
+            logger.log(logType, '', { particle : particle });
 
             var options = {
                 url: 'http://162.243.104.143/api/particles/new',

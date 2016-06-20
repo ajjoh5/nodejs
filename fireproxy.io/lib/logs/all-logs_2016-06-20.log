@@ -1,0 +1,2 @@
+{"seriously":true,"level":"info","message":"This is a test log","timestamp":"2016-06-20T07:44:23.577Z"}
+{"particle":{"__type":"error","__group":"fireproxy-io.get","__id":1466408663588,"handler":"zzGeneric","httpMethod":"GET","httpStatusCode":200,"path":"/jobapi/Jobs/303090?keytoken=123456","message":"","exTime":1532},"level":"error","message":"","timestamp":"2016-06-20T07:44:23.588Z"}
