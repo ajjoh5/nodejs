@@ -16,7 +16,7 @@ var particleDB = require('./lib/particle-io').create({ authtoken : 'ff1bc4174529
 
 //init variables
 var appSettings = {
-    port: 8888
+    port: 8887
 };
 
 //Setup environment variable

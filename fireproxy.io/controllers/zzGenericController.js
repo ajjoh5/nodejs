@@ -28,17 +28,20 @@ var zzGenericController = function(app) {
         //Ability to change proxy URL from override controllers
         var proxyUrl = req.proxyUrl;
         if (!proxyUrl) {
-            proxyUrl = 'http://localhost:5050' + urlPath;
+            proxyUrl = 'http://127.0.0.1:8011' + urlPath;
         }
 
         var reqMethod = req.method.toLowerCase();
+		//var cookieJar = request.jar();
 
         var options = {
             url: proxyUrl,
+			//jar: cookieJar, 
             method: req.method,
             headers: {
                 'X-Forwarded-By': 'fireproxy.io'
-            }
+            },
+			followAllRedirects: true
         };
 
         if(reqMethod === 'post') {
@@ -54,13 +57,44 @@ var zzGenericController = function(app) {
                 }
             }
         }
+		
+		if(urlParts.query.debug) {
+			console.log('Exiting because of debug');
+			
+			var logEntry = req.logEntry;
+			if(!logEntry) {
+				logEntry = {
+					__type: 'info',
+					__group: 'fireproxy-io.' + reqMethod,
+					__id: new Date().getTime(),
+					handler : 'zzGeneric',
+					httpMethod : reqMethod.toUpperCase(),
+					httpStatusCode : 200,
+					path : urlPath,
+					message : ''
+				};
+			}
+			
+			console.log(logEntry);
 
-
+			//Send log entry to particle.io
+			particleDB.new(logEntry, function(err, data) {
+				if(err) {
+					//handle errors
+				}
+				
+				res.send([]);
+				return;
+			});
+			
+			return;
+		};
+		
         request(options)
         .on('error', function(err) {
             //capture and log errors
             var responseTime = new Date() - start;
-
+			
             var logEntry = {
                 __type: 'error',
                 __group: 'fireproxy-io.' + reqMethod,
@@ -113,10 +147,10 @@ var zzGenericController = function(app) {
                     };
                 }
 
-                //handle non status code 200 responses, and add in response body to track error
+                //handle non status code 200 responses, and add in response body to track error (first 400 characters)
                 if(response.statusCode != 200) {
                     logEntry.__type = 'error';
-                    logEntry.message = (!body) ? message : body;
+                    logEntry.message = (!body) ? message : body.substr(0, 400);
                 }
 
                 //always add the elapsed time
