@@ -1,0 +1,26 @@
+[
+  {
+    "name": "workflow-01",
+    "states": {
+      "initial": {
+        "send-email": {"to":"to@email.com", "from":"from@email.com","subject":"[NEW EMAIL] New email received","body":"Body of email here."},
+        "create-task": {"assigned":"to@email.com,to2@email.com","title":"New Task","options":"submit,reject,reject to"}
+      },
+      "offshore check": {},
+      "it mgr check": {},
+      "final": {}
+    }
+  },
+  {
+    "name": "workflow-02",
+    "states": {
+      "initial": {
+        "send-email": {"to":"to@email.com", "from":"from@email.com","subject":"[NEW EMAIL] New email received","body":"Body of email here."},
+        "create-task": {"assigned":"to@email.com,to2@email.com","title":"New Task","options":"submit,reject,reject to"}
+      },
+      "offshore check": {},
+      "it mgr check": {},
+      "final": {}
+    }
+  }
+]

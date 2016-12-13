@@ -1,0 +1,19 @@
+{
+  "name": "stableflow-io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "appendable-cli-menu": "^2.0.0",
+    "inquirer-menu": "^1.0.0",
+    "inquirer-question": "^1.2.1",
+    "node-schedule": "^1.2.0",
+    "readline-sync": "^1.4.5",
+    "underscore": "^1.8.3"
+  }
+}
