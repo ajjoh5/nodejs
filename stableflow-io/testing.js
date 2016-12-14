@@ -1,7 +1,7 @@
 var schedule = require('node-schedule');
 var fs = require('fs');
 var _ = require('underscore');
-
+const inquirer = require('inquirer-question');
 
 function displayTime() {
     var timeNow = new Date();
@@ -21,7 +21,6 @@ _.each(states, function(item) {
 //     displayTime();
 // });
 
-const inquirer = require('inquirer-question');
 
 function MainMenu() {
     inquirer.prompt({
@@ -35,7 +34,6 @@ function MainMenu() {
         if(result == 1) {
             WorkflowsMenu();
         }
-        //console.log(result); //=> 1 or 2
     });
 }
 
@@ -52,7 +50,7 @@ function WorkflowsMenu() {
         message: '1. Workflows',
         choices: choiceOptions
     }).then(function(result) {
-        //console.log(result); //=> 1 or 2
+        console.log(result);
     });
 }
 

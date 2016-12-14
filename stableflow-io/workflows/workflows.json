@@ -1,5 +1,6 @@
 [
   {
+    "id": "5vR9aZqMFF",
     "name": "workflow-01",
     "states": {
       "initial": {
@@ -12,6 +13,7 @@
     }
   },
   {
+    "id": "z72AXbsoQW",
     "name": "workflow-02",
     "states": {
       "initial": {
