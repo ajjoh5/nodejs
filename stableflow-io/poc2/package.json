@@ -1,0 +1,16 @@
+{
+  "name": "stableflow-io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "rethinkdb": "^2.3.3",
+    "winston": "^2.3.0",
+    "winston-daily-rotate-file": "^1.4.0"
+  }
+}
