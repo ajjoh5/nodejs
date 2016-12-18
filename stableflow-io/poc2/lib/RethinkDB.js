@@ -3,8 +3,19 @@ var RethinkDB = function(options) {
     //RethinkDB libary
     var r = require('rethinkdb');
 
+    //Bluebird promises
+    var Promise = require('bluebird');
+
     //File based winston logging
     var logger = require('../lib/winston-logger.js');
+
+    //Other libraries
+    var _ = require('underscore');
+
+    //Init vars
+    var isDBInit = false;
+    var dbConn = {};
+
 
     //If no options supplied use defaults
     if (!options) {
@@ -13,9 +24,9 @@ var RethinkDB = function(options) {
     }
 
     function initDB(callback) {
-        r.connect( {host: options.host, port: options.port}, function(err, conn) {
+        r.connect({ host: options.host, port: options.port, db: options.db }, function(err, conn) {
             if (err) { callback(err, null); }
-            else { callback(null, conn); }
+            else { isDBInit = true; dbConn = conn; callback(null, conn); }
         });
     }
 

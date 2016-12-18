@@ -5,20 +5,28 @@ var path = require('path');
 global.__base = path.dirname(require.main.filename) + '/';
 
 //Create RethinkDB handle
-var rethinkDB = require('./lib/RethinkDB').create({});
+var sfQueue = require('./lib/stableflow-queue').create({}, function() {
 
-rethinkDB.getDB(function(err, conn, r) {
+    var wf = {
+        "name": "workflow-01",
+        "states": {
+            "initial": {
+                "send-email": {"to":"to@email.com", "from":"from@email.com","subject":"[NEW EMAIL] New email received","body":"Body of email here."},
+                "create-task": {"assigned":"to@email.com,to2@email.com","title":"New Task","options":"submit,reject,reject to"}
+            },
+            "offshore check": {},
+            "it mgr check": {},
+            "final": {}
+        }
+    };
 
-    //If error in db init, exit
-    if(err) { return console.log(err); }
-
-    //query authors of table
-    r.table('authors').run(conn, function(err, cursor) {
-        if (err) throw err;
-        cursor.toArray(function(err, result) {
-            if (err) throw err;
-            console.log(JSON.stringify(result, null, 2));
-        });
+    //add wf to queue
+    sfQueue.addQ(wf)
+    .then(function(data) {
+        return sfQueue.getQ()
+    })
+    //get queue data count()
+    .then(function(data) {
+        console.log(data);
     });
-
 });
