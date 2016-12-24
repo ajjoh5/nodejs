@@ -82,7 +82,7 @@ var StableflowQueue = function(options, ready) {
             });
         },
 
-        getQ: function() {
+        listQ: function() {
 
             return new Promise(function(resolve, reject) {
 
@@ -94,7 +94,27 @@ var StableflowQueue = function(options, ready) {
                         cursor.toArray(function(err, result) {
                             if (err) throw err;
                             //resolve(JSON.stringify(result, null, 2));
-                            resolve(JSON.stringify(result));
+                            resolve(result);
+                        });
+                    });
+                });
+
+            });
+        },
+
+        listQByStatus: function(status) {
+
+            return new Promise(function(resolve, reject) {
+
+                rethinkDB.getDB(function(err, conn, r) {
+                    r.table(config.workflowTable).filter({"_status": status}).run(conn)
+                    .error(function(err) { reject(err); })
+                    .then(function(cursor) {
+                        if (err) throw err;
+                        cursor.toArray(function(err, result) {
+                            if (err) throw err;
+                            //resolve(JSON.stringify(result, null, 2));
+                            resolve(result);
                         });
                     });
                 });
@@ -109,8 +129,26 @@ var StableflowQueue = function(options, ready) {
 
                 rethinkDB.getDB(function(err, conn, r){
 
+                    wf._status = 'add';
+
                     //insert workflow into table
                     r.table(config.workflowTable).insert(wf).run(conn)
+                    .error(function(err) { reject(err); })
+                    .then(function(result) { resolve(result); })
+                });
+
+            });
+
+        },
+
+        clearQ: function() {
+
+            return new Promise(function(resolve, reject) {
+
+                rethinkDB.getDB(function(err, conn, r){
+
+                    //insert workflow into table
+                    r.table(config.workflowTable).delete().run(conn)
                     .error(function(err) { reject(err); })
                     .then(function(result) { resolve(result); })
                 });
