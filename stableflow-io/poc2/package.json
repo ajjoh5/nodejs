@@ -10,7 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.4.6",
+    "nodemailer": "^2.7.0",
     "rethinkdb": "^2.3.3",
+    "time-stamp": "^1.0.1",
+    "timestamp": "0.0.1",
     "underscore": "^1.8.3",
     "winston": "^2.3.0",
     "winston-daily-rotate-file": "^1.4.0"

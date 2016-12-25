@@ -13,26 +13,49 @@ var sfQueue = require('./lib/stableflow-queue').create({}, function() {
     sfQueue.listQByStatus('add')
     .then(function(data) {
 
+        //Process all workflows in status 'add'
         _.each(data, function(wf) {
 
-            //process each workflow
+            //process first state in workflow
             console.log('Running wf: ' + wf.name);
             var wfStates = _.keys(wf.states);
 
-            _.each(wfStates, function(field) {
+            //set the state to the first (at position 0)
+            //set the command to the first (at position 0, in the state at position 0)
+            wf._properties.wfState = wfStates[0];
+            wf._properties.status = "add";  //TODO: change this to 'init'
 
-                console.log(field);
+            var stateCommands = wf.states[wf._properties.wfState];
+            var commandList = _.keys(wf.states[wf._properties.wfState]);
 
-                var stateCommands =_.keys(wf.states[field]);
-                _.each(stateCommands, function(c) {
-                    //process each command
-                    var command = wf.states[field][c];
+            wf._properties.wfStateCommand = commandList[0];
 
-                    console.log(c);
-                    console.log(command);
+            //Update the queue with the new wf properties
+            sfQueue.updateQProperties(wf.id, wf._properties)
+            .then(function(data) {
+
+                sfQueue.runWorkflowState(wf)
+                .then(function(data) {
+
                 });
-
+                
             });
+            
+
+            // _.each(wfStates, function(field) {
+            //
+            //     console.log(field);
+            //
+            //     var stateCommands =_.keys(wf.states[field]);
+            //     _.each(stateCommands, function(c) {
+            //         //process each command
+            //         var command = wf.states[field][c];
+            //
+            //         console.log('- ' + c);
+            //         console.log(command);
+            //     });
+            //
+            // });
         });
 
     });
