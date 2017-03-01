@@ -1,0 +1,6 @@
+Penny (the Bluemix assistant):
+--------------------------------------
+- To book in meetings for you - https://conversation-demo.mybluemix.net
+- To use the text to speech expressive modules to make you feel awesome - https://text-to-speech-demo.mybluemix.net
+- Login to mail servers and read emails - help here - https://gist.github.com/bergie/1226809
+-
